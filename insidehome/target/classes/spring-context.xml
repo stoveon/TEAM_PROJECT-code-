@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+  http://www.springframework.org/schema/beans/spring-beans.xsd
+  http://www.springframework.org/schema/context
+  http://www.springframework.org/schema/context/spring-context-3.0.xsd
+  http://www.springframework.org/schema/mvc
+  http://www.springframework.org/schema/mvc/spring-mvc.xsd
+  http://www.springframework.org/schema/tx
+  http://www.springframework.org/schema/tx/spring-tx-4.1.xsd">
+
+
+  
+  <tx:annotation-driven
+		transaction-manager="transactionManager" />
+  
+<context:component-scan base-package="home.inside.common.util"/>
+<context:component-scan base-package="home.inside.common.interceptor"/>
+<context:component-scan base-package="home.inside.common.vo"/>
+<context:component-scan base-package="home.inside.common.repository"/>
+<context:component-scan base-package="home.inside.common.service"/>
+<context:component-scan base-package="home.inside.common.controller"/>
+<context:component-scan base-package="home.inside.member.vo"/>
+<context:component-scan base-package="home.inside.member.repository"/>
+<context:component-scan base-package="home.inside.member.service"/>
+<context:component-scan base-package="home.inside.member.controller"/>
+<context:component-scan base-package="home.inside.board.vo"/>
+<context:component-scan base-package="home.inside.board.repository"/>
+<context:component-scan base-package="home.inside.board.service"/>
+<context:component-scan base-package="home.inside.board.controller"/>
+<context:component-scan base-package="home.inside.goods.vo"/>
+<context:component-scan base-package="home.inside.goods.repository"/>
+<context:component-scan base-package="home.inside.goods.service"/>
+<context:component-scan base-package="home.inside.goods.controller"/>
+<context:component-scan base-package="home.inside.supporter.vo"/>
+<context:component-scan base-package="home.inside.supporter.repository"/>
+<context:component-scan base-package="home.inside.supporter.service"/>
+<context:component-scan base-package="home.inside.supporter.controller"/>
+  
+</beans>

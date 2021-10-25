@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC  "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<!-- mybatis 작동규칙 정의 -->
+	<settings>
+		<setting name="cacheEnabled" value="false"/>
+		<setting name="useGeneratedKeys" value="false"/>
+		<setting name="mapUnderscoreToCamelCase" value="true"/>
+	</settings>
+	<typeAliases>
+		<typeAlias alias="memberVo" type="home.inside.member.vo.MemberVo"/>
+		<typeAlias alias="memberAutoVo" type="home.inside.member.vo.MemberAutoVo"/>
+		<typeAlias alias="memberAddrVo" type="home.inside.member.vo.MemberAddrVo"/>
+		<typeAlias alias="goodsVo" type="home.inside.goods.vo.GoodsVo"/>
+		<typeAlias alias="goodsImageVo" type="home.inside.goods.vo.GoodsImageVo"/>
+		<typeAlias alias="goodsSalesVo" type="home.inside.goods.vo.GoodsSalesVo"/>
+		<typeAlias alias="boardVo" type="home.inside.board.vo.BoardVo"/>
+		<typeAlias alias="boardImageVo" type="home.inside.board.vo.BoardImageVo"/>
+		<typeAlias alias="boardRefVo" type="home.inside.board.vo.BoardRefVo"/>
+		<typeAlias alias="boardTermVo" type="home.inside.board.vo.BoardTermVo"/>
+		<typeAlias alias="pointVo" type="home.inside.common.vo.PointVo"/>
+		<typeAlias alias="questionVo" type="home.inside.supporter.vo.QuestionVo"/>
+		<typeAlias alias="warningVo" type="home.inside.supporter.vo.WarningVo"/>
+		<typeAlias alias="talkVo" type="home.inside.supporter.vo.TalkVo"/>
+		<typeAlias alias="talkKeywordVo" type="home.inside.supporter.vo.TalkKeywordVo"/>
+	</typeAliases>
+</configuration>
