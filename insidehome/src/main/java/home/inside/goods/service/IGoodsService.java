@@ -9,7 +9,7 @@ import home.inside.goods.vo.GoodsVo;
 
 public interface IGoodsService {
 	public void insert(GoodsVo goodsVo, List<String> iamgeNames) throws Exception;
-	public void update(GoodsVo goodsVo, List<String> iamgeNames) throws Exception;
+	public void update(GoodsVo goodsVo, List<String> iamgeNames, String[] deleteFile) throws Exception;
 	public void updateHeart(String type, String goodsCode) throws Exception;
 	public void deleteGoods(String goodsCode) throws Exception;
 	public List<GoodsVo> selectAll(String type) throws Exception;

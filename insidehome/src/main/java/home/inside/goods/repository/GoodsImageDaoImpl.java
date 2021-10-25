@@ -11,7 +11,7 @@ import home.inside.goods.vo.GoodsImageVo;
 @Repository
 public class GoodsImageDaoImpl implements IGoodsImageDao {
 	@Autowired
-	private static SqlSessionTemplate sqlSessionTemplate;
+	private SqlSessionTemplate sqlSessionTemplate;
 	
 	@Override
 	public void insert(GoodsImageVo goodsImageVo) throws Exception {
@@ -31,6 +31,11 @@ public class GoodsImageDaoImpl implements IGoodsImageDao {
 	@Override
 	public List<String> selectImage() throws Exception {
 		return sqlSessionTemplate.selectList("selectGoodsImageList");
+	}
+
+	@Override
+	public void editGoodsImage(String saveName) throws Exception {
+		sqlSessionTemplate.delete("editGoodsImage", saveName);
 	}
 
 }

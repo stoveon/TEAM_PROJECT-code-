@@ -12,7 +12,7 @@ import home.inside.goods.vo.GoodsVo;
 @Repository
 public class GoodsDaoImpl implements IGoodsDao {
 	@Autowired
-	private static SqlSessionTemplate sqlSessionTemplate;
+	private SqlSessionTemplate sqlSessionTemplate;
 
 	@Override
 	public void insert(GoodsVo goodsVo) throws Exception {

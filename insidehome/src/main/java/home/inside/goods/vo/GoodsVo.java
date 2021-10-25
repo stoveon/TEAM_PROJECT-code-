@@ -1,11 +1,14 @@
 package home.inside.goods.vo;
 
+import java.util.Date;
+
 public class GoodsVo {
 	private int num ;
 	private String goodsCode ;
 	private String goodsName ;
 	private String content ;
 	private int price ;
+	private Date regdate;
 	private String heart ;
 	private int stock ;
 	public int getNum() {
@@ -50,6 +53,11 @@ public class GoodsVo {
 	public void setStock(int stock) {
 		this.stock = stock;
 	}
+	public Date getRegdate() {
+		return regdate;
+	}
+	public void setRegdate(Date regdate) {
+		this.regdate = regdate;
+	}
 
-	
 }

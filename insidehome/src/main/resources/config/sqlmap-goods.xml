@@ -25,7 +25,7 @@
 	</delete>
 	
 	<select id="selectGoodsList" resultType="goodsVo">
-		select GOODSCODE, GOODSNAME, REGDATE, STOCK from GOODS order by 
+		select GOODSCODE, GOODSNAME, REGDATE, HEART, STOCK from GOODS order by HEART desc, REGDATE desc
 	</select>
 	
 	<select id="selectGoodsOne" parameterType="String" resultType="goodsVo">

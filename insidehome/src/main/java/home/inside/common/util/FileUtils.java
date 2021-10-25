@@ -7,9 +7,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+@Component
 public class FileUtils {
 	
 	//저장경로
@@ -68,5 +70,17 @@ public class FileUtils {
 		}
 		
 		return saveNames;
+	}
+	
+	//이미지 수정에서 삭제
+	public void goodsFileDelete(String goodsCode, String[] fileName) {
+		String filePath = path + "GOODS\\" + goodsCode + "\\";
+		for(String str : fileName) {
+			File delFile = new File(filePath + goodsCode + "_" + str);
+			
+			if(delFile.exists()) {
+				delFile.delete();
+			}
+		}
 	}
 }

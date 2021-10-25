@@ -29,6 +29,7 @@
 <context:component-scan base-package="home.inside.member.repository"/>
 <context:component-scan base-package="home.inside.member.service"/>
 <context:component-scan base-package="home.inside.member.controller"/>
+<context:component-scan base-package="home.inside.member.util"/>
 <context:component-scan base-package="home.inside.board.vo"/>
 <context:component-scan base-package="home.inside.board.repository"/>
 <context:component-scan base-package="home.inside.board.service"/>

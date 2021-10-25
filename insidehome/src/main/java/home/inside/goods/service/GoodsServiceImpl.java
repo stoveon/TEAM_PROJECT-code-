@@ -37,9 +37,18 @@ public class GoodsServiceImpl implements IGoodsService {
 	}
 
 	@Override
-	public void update(GoodsVo goodsVo, List<String> iamgeNames) throws Exception {
-		// TODO Auto-generated method stub
-
+	public void update(GoodsVo goodsVo, List<String> iamgeNames, String[] deleteFile) throws Exception {
+		goodsDao.update(goodsVo);
+		
+		for(String str : iamgeNames) {
+			GoodsImageVo tmp = new GoodsImageVo(goodsVo.getGoodsCode(), str);
+			goodsImageDao.insert(tmp);
+		}
+		
+		for(String str2 : deleteFile) {
+			goodsImageDao.editGoodsImage(goodsVo.getGoodsCode() + "_" + str2);
+		}
+		
 	}
 
 	@Override
@@ -50,14 +59,14 @@ public class GoodsServiceImpl implements IGoodsService {
 
 	@Override
 	public void deleteGoods(String goodsCode) throws Exception {
-		// TODO Auto-generated method stub
-
+		goodsDao.deleteGoods(goodsCode);
+		goodsImageDao.deleteGoodsImage(goodsCode);
 	}
 
 	@Override
 	public List<GoodsVo> selectAll(String type) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		return goodsDao.selectAll(type);
 	}
 
 	@Override
@@ -84,13 +93,11 @@ public class GoodsServiceImpl implements IGoodsService {
 
 	@Override
 	public void insertGoodsSales(GoodsSalesVo goodsSalesVo) throws Exception {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void deleteGoodsSales(String nickname) throws Exception {
-		// TODO Auto-generated method stub
 
 	}
 

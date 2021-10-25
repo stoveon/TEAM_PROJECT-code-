@@ -24,7 +24,7 @@
 		</tr>
 		<tr>
 			<c:forEach items="goodsList" var="goodsOne">
-				<input tyn" name="goodsCode" value="${goodsOne.goodsCode}">
+				<input type="text" name="goodsCode" value="${goodsOne.goodsCode}">
 				<td><input type="checkbox" name="selectHeart" /></td>
 				<td>${goodsOne.heart}</td>
 				<td><a href="<c:url value="/manager/goods/updateGoods.do" />">${goodsOne.goodsName}</a></td>

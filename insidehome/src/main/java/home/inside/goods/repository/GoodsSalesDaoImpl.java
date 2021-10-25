@@ -9,8 +9,7 @@ import home.inside.goods.vo.GoodsSalesVo;
 @Repository
 public class GoodsSalesDaoImpl implements IGoodsSalesDao {
 	@Autowired
-
-	private static SqlSessionTemplate sqlSessionTemplate;
+	private SqlSessionTemplate sqlSessionTemplate;
 	
 	@Override
 	public void insertGoodsSales(GoodsSalesVo goodsSalesVo) throws Exception {
