@@ -8,6 +8,6 @@ public interface IGoodsImageDao {
 	public void insert(GoodsImageVo goodsImageVo) throws Exception;
 	public void deleteGoodsImage(String goodsCode) throws Exception;
 	public List<String> selectImage(String goodsCode) throws Exception;
-	public List<String> selectImage() throws Exception;
+	public List<GoodsImageVo> selectImage() throws Exception;
 	public void editGoodsImage(String saveName) throws Exception;
 }

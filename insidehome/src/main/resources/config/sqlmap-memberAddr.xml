@@ -2,3 +2,22 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="memberAddrDao">
+	<insert id="insertAddrInfo" parameterType="memberAddrVo">
+		insert into MEMBER_ADDR values 
+		(MEMBER_ADDR_SEQ.nextval, #{nickname}, #{phone1}, #{phone2}, 
+		#{addrNum}, #{addr}, #{addrSub})
+	</insert>
+	<select id="selectAddrInfo" parameterType="String" resultType="memberAddrVo">
+		select * from MEMBER_ADDR where NICKNAME=#{nickname}
+	</select>
+	<update id="updateAddrInfo" parameterType="memberAddrVo">
+		update MEMBER_ADDR set PHONE1=#{phone1}, PHONE2=#{phone2}, 
+		ADDRNUM=#{addrNum}, ADDR=#{addr}, ADDRSUB=#{addrSub}
+		where NICKNAME=#{nickname}
+	</update>
+	<delete id="deleteAddrInfo" parameterType="String">
+		delete from MEMBER_ADDR where NICKNAME=#{nickname}
+	</delete>
+</mapper>

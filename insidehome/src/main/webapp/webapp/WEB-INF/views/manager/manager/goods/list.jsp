@@ -8,15 +8,15 @@
 <title>Insert title here</title>
 </head>
 <body>
-<form action="/member/goods/heartGoods.do" method="post">
+<form action="/manager/goods/deleteGoods.do" method="post">
 	<table>
 		<tr>
 			<td>상품관리</td>
 			<td>
 				<input type="button" value="상품등록" onclick="location.href='<c:url value="/manager/goods/insertGoods.do" />'" />
-				<input type="button" value="상품삭제" onclick="location.href='<c:url value="/manager/goods/deleteGoods.do" />'" />
-				<input type="submit" value="추천등록" />
-				<input type="button" value="추천취소" onclick="location.href='<c:url value="/manager/goods/unHeartGoods.do" />'" />
+				<input type="submit" value="상품삭제" />
+				<input type="button" value="추천취소" onclick="location.href='<c:url value="/manager/goods/heartUpdate.do?type='recommand'" />'" />
+				<input type="button" value="추천취소" onclick="location.href='<c:url value="/manager/goods/heartUpdate.do?type='cancle'" />'" />
 			</td>
 		</tr>
 		<tr>
@@ -24,17 +24,20 @@
 		</tr>
 		<tr>
 			<c:forEach items="goodsList" var="goodsOne">
-				<input type="text" name="goodsCode" value="${goodsOne.goodsCode}">
-				<td><input type="checkbox" name="selectHeart" /></td>
-				<td>${goodsOne.heart}</td>
+				<td><input type="checkbox" name="selectGoods" value="${goodsOne.goodsCode}"/></td>
+				<td><c:if test="${goodsOne.heart} en 'yes'">
+						<c:set var="heart" value="select" />
+					</c:if>
+					<c:out value="${heart}" />
+				</td>
 				<td><a href="<c:url value="/manager/goods/updateGoods.do" />">${goodsOne.goodsName}</a></td>
+								<input type="hidden" name="goodsCode" value="${goodsOne.goodsCode}" />
 				<td>${goodsOne.regdate}</td>
-				<td>${sales}</td>
+				<td>${goodsOne.sales}</td>
 				<td>${goodsOne.stock}</td>
 			</c:forEach>
 		</tr>
 	</table>
-
 </form>
 </body>
 </html>

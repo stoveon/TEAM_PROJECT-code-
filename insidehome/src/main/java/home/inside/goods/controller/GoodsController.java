@@ -1,6 +1,7 @@
 package home.inside.goods.controller;
 
-import java.util.ArrayList;
+import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -14,9 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import home.inside.common.util.FileUtils;
 import home.inside.goods.service.IGoodsService;
-import home.inside.goods.vo.GoodsImageVo;
 import home.inside.goods.vo.GoodsSalesVo;
 import home.inside.goods.vo.GoodsVo;
 
@@ -28,9 +27,7 @@ public class GoodsController {
 	private IGoodsService goodsService;
 	//@Autowired
 	//private IPointService pointService;
-	@Autowired
-	private FileUtils util;
-	
+
 	@RequestMapping(value="/manager/goods/insertGoods.do", method = RequestMethod.GET)
 	public String insertGoodsForm() throws Exception {
 		System.out.println("insertGoodsForm.Get이당");
@@ -43,10 +40,7 @@ public class GoodsController {
 			model.addAttribute("goodsVo", goodsVo);
 			return "manager/goods/insertForm";
 		}
-		Map<String, Object> hm = util.goodsFileUpload(mpReq);
-		goodsVo.setGoodsCode((String) hm.get("goodsCode"));
-		List<String> imageList = (List<String>) hm.get("saveNames");
-		goodsService.insert(goodsVo, imageList);
+		goodsService.insert(goodsVo, mpReq);
 		
 		return "manager/goods/list";
 	}
@@ -54,7 +48,8 @@ public class GoodsController {
 	
 	@RequestMapping(value="/manager/goods/updateGoods.do", method = RequestMethod.GET)
 	public String updateGoodsForm(String goodsCodes, Model model) throws Exception {
-		Map<String, Object> hm = goodsService.selectOne(goodsCodes);
+		String type = "manager";
+		Map<String, Object> hm = goodsService.selectOne(type, goodsCodes);
 		GoodsVo goods = (GoodsVo) hm.get("goods");
 		List<String> goodsImages = (List<String>) hm.get("goodsImages");
 		model.addAttribute("goods", goods);	
@@ -64,11 +59,8 @@ public class GoodsController {
 	
 	@RequestMapping(value="/manager/goods/updateGoods.do", method = RequestMethod.POST)
 	public String updateGoodsSubmit(GoodsVo goodsVo, MultipartHttpServletRequest mpReq) throws Exception {
-		String[] deleteFile = mpReq.getParameterValues("deleteFile");
-		util.goodsFileDelete(goodsVo.getGoodsCode(), deleteFile);
-		List<String> nameList = util.goodsFileEdit(goodsVo.getGoodsCode(), mpReq);
-		
-		goodsService.update(goodsVo, nameList, deleteFile);
+
+		goodsService.update(goodsVo, mpReq);
 		
 		return "manager/goods/list";
 	}
@@ -76,32 +68,55 @@ public class GoodsController {
 	//관리자
 	//type = 삭제, 추천, 리스트인지에 따라 페이지 변경
 	@RequestMapping(value="/manager/goods/list.do")
-	public String editGoodsList(@RequestParam(defaultValue = "list") String type, Model model, String[] goodsCodes) throws Exception {
-		
-		return "";
+	public String editGoodsList(Model model) throws Exception {
+		List<HashMap<String, Object>> goodsList = goodsService.selectAll();
+		model.addAttribute("goodsList", goodsList);
+		return "manager/goods/list";
 	}
 	
 	//가격/등록일 내림차순/오름차순
-	//@RequestMapping(value="")
+	@RequestMapping(value="/goods/list.do")
 	public String selectGoodsList(@RequestParam(name="type", defaultValue = "dateDesc") String type, Model model, HttpSession session) throws Exception {
 		
-		return "";
+		return "user/goods/list";
 	}
 	
-	//@RequestMapping(value="")
+	@RequestMapping(value="/goods/detail.do")
 	public String selectGoodsDetail(String goodsCode, Model model) throws Exception {
+		String type = "user";
+		Map<String, Object> hm = goodsService.selectOne(type, goodsCode);
+		GoodsVo goods = (GoodsVo) hm.get("goods");
+		List<String> goodsImages = (List<String>) hm.get("goodsImages");
+
+		URL fileUrl = new URL(goodsCode);
 		
-		return "";
+		model.addAttribute("goods", goods);
+		model.addAttribute("goodsImages", goodsImages);
+		return "user/goods/detail";
 	}
 	
-	//@RequestMapping(value="")
+	@RequestMapping(value="/goods/orderForm.do", method=RequestMethod.GET)
 	public String orderGoodsForm(String goodsCode, Model model, HttpSession session) throws Exception {
-		
+
+		return "user/goods/orderForm";
+	}
+	
+	@RequestMapping(value="/goods/orderForm.do", method = RequestMethod.POST)
+	public String orderGoodsSubmit(GoodsSalesVo goodsSalesVo) throws Exception {
 		return "";
 	}
 	
-	//@RequestMapping(value="")
-	public String orderGoodsSubmit(GoodsSalesVo goodsSalesVo) throws Exception {
-		return null;
+	@RequestMapping(value="/manager/goods/deleteGoods.do")
+	public String deleteGoods(String[] selectGoods) throws Exception {
+		goodsService.deleteGoods(selectGoods);
+		return "manager/goods/list";
 	}
+	
+	@RequestMapping(value="/manager/goods/heartUpdate.do")
+	public String heartUpdate(String type, String[] selectGoods) throws Exception {
+		goodsService.updateHeart(type, selectGoods);
+		return "manager/goods/list";
+	}
+
+	
 }

@@ -8,6 +8,14 @@ public class MemberAddrVo {
 	private String addrNum;
 	private String addr;
 	private String addrSub;
+	
+	public MemberAddrVo() {}
+	
+	public MemberAddrVo(String nickname, String phone1, String phone2) {
+		this.nickname = nickname;
+		this.phone1 = phone1;
+		this.phone2 = phone2;
+	}
 	public int getNum() {
 		return num;
 	}
@@ -50,6 +58,11 @@ public class MemberAddrVo {
 	public void setAddrSub(String addrSub) {
 		this.addrSub = addrSub;
 	}
-
+	@Override
+	public String toString() {
+		return "MemberAddrVo [num=" + num + ", nickname=" + nickname + ", phone1=" + phone1 + ", phone2=" + phone2
+				+ ", addrNum=" + addrNum + ", addr=" + addr + ", addrSub=" + addrSub + "]";
+	}
+	
 	
 }

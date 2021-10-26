@@ -35,11 +35,15 @@ public class GoodsDaoImpl implements IGoodsDao {
 	}
 
 	@Override
-	public List<GoodsVo> selectAll(String type) throws Exception {
-		
-		return sqlSessionTemplate.selectList("selectGoodsAll", type);
+	public List<HashMap<String, Object>> editSelectAll() throws Exception {
+		return sqlSessionTemplate.selectList("elitGoodsList");
 	}
 
+	@Override
+	public List<GoodsVo> selectAll(String type) throws Exception {
+		return sqlSessionTemplate.selectList("elitGoodsList");
+	}
+	
 	@Override
 	public GoodsVo selectOne(String goodsCode) throws Exception {
 		return sqlSessionTemplate.selectOne("selectGoodsOne", goodsCode);
@@ -48,6 +52,11 @@ public class GoodsDaoImpl implements IGoodsDao {
 	@Override
 	public void updateStock(HashMap<String, Integer> hm) throws Exception {
 		sqlSessionTemplate.update("updateGoodsStock", hm);
+	}
+
+	@Override
+	public int insertCheck(String goodsCode) throws Exception {
+		return sqlSessionTemplate.selectOne("insertCheck", goodsCode);
 	}
 
 }

@@ -17,10 +17,8 @@ public class FileUtils {
 	//저장경로
 	private String path = "C:\\TeamProject\\UploadFile\\";
 	
-	private RandomString rs = new RandomString(8);
-	
-	public Map<String, Object> goodsFileUpload(MultipartHttpServletRequest mpReq) {
-		String goodsCode = rs.nextString();
+	public Map<String, Object> goodsFileUpload(String goodsCode, MultipartHttpServletRequest mpReq) {
+
 		String filePath = path + "GOODS\\" + goodsCode;
 		
 		List<MultipartFile> fileList = mpReq.getFiles("saveGoodsImages");
@@ -50,7 +48,7 @@ public class FileUtils {
 		return hm;
 	}
 	
-	//상품 이미지 수정
+	//상품 수정에서 이미지 추가
 	public List<String> goodsFileEdit(String goodsCode, MultipartHttpServletRequest mpReq) {
 		
 		String filePath = path + "GOODS\\" + goodsCode;
@@ -72,7 +70,7 @@ public class FileUtils {
 		return saveNames;
 	}
 	
-	//이미지 수정에서 삭제
+	//상품 수정에서 이미지 삭제
 	public void goodsFileDelete(String goodsCode, String[] fileName) {
 		String filePath = path + "GOODS\\" + goodsCode + "\\";
 		for(String str : fileName) {
@@ -83,4 +81,13 @@ public class FileUtils {
 			}
 		}
 	}
+	
+	//상품 삭제
+	public void goodsDelete(String goodsCode) {
+		File delFile = new File(path + "GOODS\\" + goodsCode);
+		if(delFile.exists()) {
+			delFile.delete();
+		}
+	}
+	
 }

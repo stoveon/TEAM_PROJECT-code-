@@ -1,37 +1,39 @@
 package home.inside.common.service;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import home.inside.common.repository.IPointDao;
+import home.inside.common.vo.PointVo;
 
 @Service
 public class PointServiceImpl implements IPointService {
 
 	@Autowired
-	private IPointDao pointDao;
-	//private IMemberDao memberDao;
+	private IPointDao pointDao;	
 	
-	public void insertPoint(String nickname, String type) throws Exception {
-		// TODO Auto-generated method stub
-
+	public void insertPoint(PointVo vo) throws Exception {
+		pointDao.insert(vo);
 	}
 
-	public void insertPoint(String nickname, int changePoint) throws Exception {
-		// TODO Auto-generated method stub
-
+	public int selectCheck(String nickname) throws Exception {
+		return pointDao.selectCheck(nickname);
 	}
-
-	public int selectCheck(String nickname, Date changeDate) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	
+	public List<PointVo> selectMonth(String nickname, int month) throws Exception {
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		hm.put("nickname", nickname);
+		hm.put("month", month);
+		return pointDao.selectMonth(hm);
 	}
 
 	public void deletePoint(String nickname) throws Exception {
-		// TODO Auto-generated method stub
-
+		pointDao.delete(nickname);
 	}
+
 
 }

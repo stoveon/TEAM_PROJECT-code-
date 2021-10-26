@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="memberDropDao">
+	<insert id="insertDropInfo" parameterType="memberDropVo">
+		insert into MEMBER_DROP(NUM, EMAIL, NICKNAME)
+		value (MEMBER_DROP_SEQ.nextval, #{email}, #{nickname}, #{warnCount})
+	</insert>
+	<select id="overlapChecckDrop" parameterType="HashMap" resultType="String">
+		select ${type} from MEMBER_DROP where ${type}=#{str}
+	</select>
+	<select id="selectDropList" parameterType="String" resultType="memberDropVo">
+		select * from MEMBER_DROP
+		<if test="nickname!=null">
+			where NICKNAME like '%'||#{nickname}||'%'
+		</if>
+	</select>
+</mapper>

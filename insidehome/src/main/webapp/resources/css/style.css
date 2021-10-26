@@ -1,0 +1,68 @@
+@font-face {
+	src: url("../font/Cafe24Ohsquare.ttf");
+	font-family: "24bold";
+}
+
+@font-face {
+	src: url("../font/Cafe24SsurroundAir.ttf");
+	font-family: "24normal";
+}
+
+h1 {
+	font-family: "24bold";
+}
+
+h2 {
+	font-family: "24normal";
+}
+
+.move-btn {
+	margin-left: 5px;
+	border: none;
+	color: #753422;
+	background: #FFE194;
+	font-size: 20px;
+	font-family: "24normal";
+}
+
+.move-btn:hover {
+	color: white;
+	background: #B8DFD8;
+	font-family: "24normal";
+}
+
+.head-list {
+	text-align: center;
+	text-decoration: none;
+	color: #C9D6DF;
+	font-family: "24bold";
+}
+
+.head-list:hover {
+	text-align: center;
+	text-decoration: none;
+	color: #B8DFD8;
+	font-family: "24bold";
+}
+
+.noDrag {
+	-ms-user-select: none;
+	-moz-user-select: -moz-none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	user-select: none;
+}
+
+.daylist {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	font-family: "24bold";
+}
+
+.day {
+	margin: 0 20px 0 0;
+	padding: 0 0 0 0;
+	border: 0;
+	float: left;
+}

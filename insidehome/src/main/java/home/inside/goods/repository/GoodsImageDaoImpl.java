@@ -29,7 +29,7 @@ public class GoodsImageDaoImpl implements IGoodsImageDao {
 	}
 
 	@Override
-	public List<String> selectImage() throws Exception {
+	public List<GoodsImageVo> selectImage() throws Exception {
 		return sqlSessionTemplate.selectList("selectGoodsImageList");
 	}
 

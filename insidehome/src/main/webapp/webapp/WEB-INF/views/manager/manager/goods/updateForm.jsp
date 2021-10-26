@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<script type="text/javascript" src="resources/js/goodsjs"></script>
+<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/goodsjs.js"></script>
 <form action="<c: url value="/manager/goods/updateGoods.do" />" method="post" enctype="multipart/form-data" onsubmit="return checkForm()">
 	<table>
 		<tr><td>상품 수정</td>
@@ -27,14 +27,14 @@
 			<td><textarea id="essential" rows="10" cols="100" name="content">${goods.content}</textarea></td>
 		</tr>
 		<tr><td>파일 추가</td>
-			<td id="fileBox">
-			<c:forEach items="goodsImages" var="fileName">
-			<input type="checkbox" name="deleteFile" value="${fileName}" />${fileName}<br>
-			</c:forEach>
-			<input type="file" name="plusGoodsImages" accept=".jpg,.jpeg,.png,.gif" />
-			<input type="button" value="추가" onClick="add_file()">
-			<input type="hidden" name="goodsCode" value="${goods.goodsCode}" />
-			</td>
+		<td id="fileBox">
+		<c:forEach items="goodsImages" var="fileName">
+		<input type="checkbox" name="deleteFile" value="${fileName}" />${fileName}<br>
+		</c:forEach>
+		<input type="file" name="plusGoodsImages" accept=".jpg,.jpeg,.png,.gif" />
+		<input type="button" value="추가" onClick="add_file()">
+		<input type="hidden" name="goodsCode" value="${goods.goodsCode}" />
+		</td>
 		</tr>
 	</table>
 </form>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="memberSubDao">
+	<insert id="insertSubInfo" parameterType="HashMap">
+		insert into MEMBER_SUB(NUM, NICKNAME, NAME,STOREDATE)
+		values(MEMBER_SUB_SEQ.nextval, #{nickname}, #{name}, #{gender}, 
+		(select sysdate + interval #{storedate} year from dual))
+	</insert>
+	<select id="selectSubInfo" parameterType="String" resultType="memberSubVo">
+		select * from MEMBER_SUB where NICKNAME=#{nickname}
+	</select>
+	<update id="updateSubInfo" parameterType="memberSubVo">
+		update MEMBER_SUB set GENDER=#{gender}, 
+		STOREDATE=(select sysdate + interval #{storedate} year from dual)) 
+		where NICKNAME=#{nickname}
+	</update>
+	<delete id="deleteSubInfo" parameterType="String">
+		delete from MEMBER_SUB where NICKNAME=#{nickname}
+	</delete>
+	
+	
+	<select id="selectPointAndWarn" parameterType="String" resultType="HashMap">
+		select WARNCOUNT, POINT from MEMBER_SUB where NICKNAME=#{nickname}
+	</select>
+	<update id="updatePointOrWarn" parameterType="HashMap">
+		update MEMBER_SUB set 
+		<if test="point!=0">
+			POINT=POINT+#{point}
+		</if>
+		<if test="point==0">
+			WARNCOUNT=WARNCOUNT+1
+		</if>
+		where NICKNAME=#{nickname}
+	</update>
+</mapper>

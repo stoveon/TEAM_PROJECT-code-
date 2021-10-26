@@ -12,7 +12,7 @@
 	
 	<update id="updateGoods" parameterType="goodsVo">
 		update GOODS 
-		set GOODSNAME=#{goodsName}, CONTENT=#{content}, PRICE=#{price}, STOCK=#{stock}
+		set GOODSNAME=#{goodsName}, CONTENT=#{content}, PRICE=#{price}, STOCK=STOCK+#{stock}
 		where GOODSCODE=#{goodsCode}
 	</update>
 	
@@ -21,15 +21,28 @@
 	</update>
 	
 	<delete id="deleteGoods" parameterType="String">
-		delete GOODS where GOODSCODE=#{goodsCode}
+		delete from GOODS where GOODSCODE=#{goodsCode}
 	</delete>
 	
-	<select id="selectGoodsList" resultType="goodsVo">
-		select GOODSCODE, GOODSNAME, REGDATE, HEART, STOCK from GOODS order by HEART desc, REGDATE desc
+	<select id="elitGoodsList" resultType="HashMap">
+		select GMAIN.GOODSCODE, GMAIN.GOODSNAME GOODSNAME, GMAIN.HEART HEART, 
+			GMAIN.REGDATE REGDATE, SALES.TOTALSALES SALES
+		from GOODS GMAIN, 
+			(SELECT GOODSCODE, SUM(SALES) TOTALSALES from GOODS_SALES group by GOODSCODE) SALES
+		where GMAIN.GOODSCODE = SALES.GOODSCODE
+		order by GMAIN.HEART desc, GMAIN.REGDATE desc
+	</select>
+	
+	<select id="selectGoodsList" parameterType="String" resultType="goodsVo">
+		select GOODSCODE, GOODSNAME, REGDATE, HEART from GOODS order by HEART desc, REGDATE desc
 	</select>
 	
 	<select id="selectGoodsOne" parameterType="String" resultType="goodsVo">
-		select GOODSCODE, GOODSNAME, CONTENT, PRICE, HEART, STOCK from GOODS where GOODSCODE=#{goodsCode}
+		select GOODSCODE, GOODSNAME, CONTENT, PRICE, HEART from GOODS where GOODSCODE=#{goodsCode}
+	</select>
+	
+	<select id="insertCheck" parameterType="String" resultType="Integer">
+		select count(GOODSCODE) from GOODS where GOODSCODE=#{goodsCode}
 	</select>
 	
 	<update id="updateGoodsStock" parameterType="HashMap">
