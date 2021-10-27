@@ -59,5 +59,9 @@ public class GoodsVo {
 	public void setRegdate(Date regdate) {
 		this.regdate = regdate;
 	}
-
+	@Override
+	public String toString() {
+		return "GoodsVo [num=" + num + ", goodsCode=" + goodsCode + ", goodsName=" + goodsName + ", content=" + content
+				+ ", price=" + price + ", regdate=" + regdate + ", heart=" + heart + ", stock=" + stock + "]";
+	}
 }

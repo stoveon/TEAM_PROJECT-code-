@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -21,7 +22,7 @@ public class FileUtils {
 
 		String filePath = path + "GOODS\\" + goodsCode;
 		
-		List<MultipartFile> fileList = mpReq.getFiles("saveGoodsImages");
+		List<MultipartFile> fileList = mpReq.getFiles("saveGoodsImage");
 		List<String> saveNames = new ArrayList<String>();
 		
 		File folder = new File(filePath);
@@ -38,7 +39,15 @@ public class FileUtils {
 				e.printStackTrace();
 			}
 			
-			saveNames.add(tmpName);
+			if(!(tmpName.equals(goodsCode + "_"))) {
+				saveNames.add(tmpName);
+			}
+		}
+		
+		//파일이 잘못생겼을 경우 지우기 위한 처리
+		File noFile = new File(filePath + "\\" + goodsCode + "_");
+		if(noFile.exists()) {
+			noFile.delete();
 		}
 		
 		Map<String, Object> hm = new HashMap<String, Object>();
@@ -52,7 +61,13 @@ public class FileUtils {
 	public List<String> goodsFileEdit(String goodsCode, MultipartHttpServletRequest mpReq) {
 		
 		String filePath = path + "GOODS\\" + goodsCode;
-		List<MultipartFile> fileList = mpReq.getFiles("plusGoodsImages");
+		
+		File folder = new File(filePath);
+		if(!(folder.exists())) {
+			folder.mkdirs();
+		}
+		
+		List<MultipartFile> fileList = mpReq.getFiles("plusGoodsImage");
 		List<String> saveNames = new ArrayList<String>();
 		
 		for(MultipartFile mf : fileList) {
@@ -64,22 +79,34 @@ public class FileUtils {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			saveNames.add(tmpName);
+			
+			if(!(tmpName.equals(goodsCode + "_"))) {
+				saveNames.add(tmpName);
+			}
+		}
+		
+		//파일이 잘못생겼을 경우 지우기 위한 처리
+		File noFile = new File(filePath + "\\" + goodsCode + "_");
+		if(noFile.exists()) {
+			noFile.delete();
 		}
 		
 		return saveNames;
 	}
 	
 	//상품 수정에서 이미지 삭제
-	public void goodsFileDelete(String goodsCode, String[] fileName) {
+	public void goodsFileDelete(String goodsCode, MultipartHttpServletRequest mpReq) {
+		String[] fileName = mpReq.getParameterValues("deleteGoodsImage");
 		String filePath = path + "GOODS\\" + goodsCode + "\\";
 		for(String str : fileName) {
+			
 			File delFile = new File(filePath + goodsCode + "_" + str);
 			
 			if(delFile.exists()) {
 				delFile.delete();
 			}
 		}
+		
 	}
 	
 	//상품 삭제

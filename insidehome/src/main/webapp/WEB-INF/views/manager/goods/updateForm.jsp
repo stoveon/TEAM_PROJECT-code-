@@ -6,13 +6,14 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/goodsjs.js"></script>
 </head>
 <body>
 <script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/goodsjs.js"></script>
-<form action="<c: url value="/manager/goods/updateGoods.do" />" method="post" enctype="multipart/form-data" onsubmit="return checkForm()">
+<form action="<c:url value="/manager/goods/updateGoods.do/${goods.goodsCode}" />" method="post" enctype="multipart/form-data" onsubmit="return checkForm()">
 	<table>
-		<tr><td>상품 수정</td>
-			<td><input type="submit" value="상품수정"/>
+		<tr><td colspan="4">상품 수정</td>
+			<td colspan="1"><input type="submit" value="상품수정"/>
 			<input type="button" onClick="location.href='<c:url value="/manager/goods/list.do" />'" value="수정취소"/></td>
 		</tr>
 		<tr>
@@ -24,17 +25,26 @@
 			</td>
 		</tr>
 		<tr>
-			<td><textarea id="essential" rows="10" cols="100" name="content">${goods.content}</textarea></td>
+			<td colspan="5">
+				<textarea id="essential" rows="10" cols="100" name="content">${goods.content}</textarea>
+				<input type="hidden" name="goodsCode" value="${goods.goodsCode}" />
+			</td>
 		</tr>
-		<tr><td>파일 추가</td>
-		<td id="fileBox">
-		<c:forEach items="goodsImages" var="fileName">
-		<input type="checkbox" name="deleteFile" value="${fileName}" />${fileName}<br>
-		</c:forEach>
-		<input type="file" name="plusGoodsImages" accept=".jpg,.jpeg,.png,.gif" />
-		<input type="button" value="추가" onClick="add_file()">
-		<input type="hidden" name="goodsCode" value="${goods.goodsCode}" />
-		</td>
+		<tr>
+
+			<td rowspan="2">파일 추가</td>
+			<td  colspan="3">
+			<c:forEach items="${goodsImages}" var="fileName">
+			<input type="checkbox" name="deleteGoodsImage" value="${fileName}" /><c:out value="${fileName}" /><br>
+			</c:forEach>
+			</td>
+		</tr>
+		<tr><td>
+			<div id="fileBox">
+				<input type="file" name="plusGoodsImage" accept=".jpg,.jpeg,.png,.gif" />
+				<input type="button" value="추가" onClick="add_updateFile()">
+			</div>
+			</td>
 		</tr>
 	</table>
 </form>

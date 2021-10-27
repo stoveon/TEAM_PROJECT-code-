@@ -1,6 +1,8 @@
 package home.inside.goods.service;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +43,10 @@ public class GoodsServiceImpl implements IGoodsService {
 		goodsVo.setGoodsCode((String) hm.get("goodsCode"));
 		List<String> imageList = (List<String>) hm.get("saveNames");
 		
+		goodsVo.setHeart("no");
+		goodsVo.setStock(20);
+		
+		System.out.println("service.insert: " + goodsVo.toString());
 		goodsDao.insert(goodsVo);
 
 		for(String str : imageList) {
@@ -51,22 +57,24 @@ public class GoodsServiceImpl implements IGoodsService {
 	}
 
 	@Override
-	public void update(GoodsVo goodsVo, MultipartHttpServletRequest mpReq) throws Exception {
-
-		String[] deleteFile = mpReq.getParameterValues("deleteFile");
-		util.goodsFileDelete(goodsVo.getGoodsCode(), deleteFile);
-		List<String> nameList = util.goodsFileEdit(goodsVo.getGoodsCode(), mpReq);
-		
+	public void update(GoodsVo goodsVo, MultipartHttpServletRequest mpReq) throws Exception {		
+		if(mpReq.getParameterValues("deleteGoodsImage") != null) {
+			util.goodsFileDelete(goodsVo.getGoodsCode(), mpReq);
+			String[] deleteFile = mpReq.getParameterValues("deleteGoodsImage");
+			for(String str2 : deleteFile) {
+				goodsImageDao.editGoodsImage(goodsVo.getGoodsCode() + "_" + str2);
+				System.out.println(str2);
+			}
+		}
+		if(mpReq.getFiles("plusGoodsImage") != null) {
+			List<String> nameList = util.goodsFileEdit(goodsVo.getGoodsCode(), mpReq);
+			for(String str : nameList) {
+				GoodsImageVo tmp = new GoodsImageVo(goodsVo.getGoodsCode(), str);
+				goodsImageDao.insert(tmp);
+			}
+		}
+		System.out.println("updateSer: " + goodsVo.toString());
 		goodsDao.update(goodsVo);
-		
-		for(String str : nameList) {
-			GoodsImageVo tmp = new GoodsImageVo(goodsVo.getGoodsCode(), str);
-			goodsImageDao.insert(tmp);
-		}
-		
-		for(String str2 : deleteFile) {
-			goodsImageDao.editGoodsImage(goodsVo.getGoodsCode() + "_" + str2);
-		}
 		
 	}
 
@@ -100,7 +108,12 @@ public class GoodsServiceImpl implements IGoodsService {
 	//관리자 조회
 	@Override
 	public List<HashMap<String, Object>> selectAll() throws Exception {
-		return goodsDao.editSelectAll();
+		List<HashMap<String, Object>> tmp = goodsDao.editSelectAll();
+		for(HashMap<String, Object> hm : tmp) {
+			java.util.Date date = (Date) hm.get("REGDATE");
+			hm.put("REGDATE", dateType(date));
+		}
+		return tmp;
 	}
 
 	//회원 리스트
@@ -122,7 +135,20 @@ public class GoodsServiceImpl implements IGoodsService {
 		if(type.equals("manager")) {
 			for(String str : goodsImageDao.selectImage(goodsCode)) {
 				String[] tmp = str.split("_");
-				goodsImages.add(tmp[1]);
+				String result = "";
+				if(tmp.length > 2) {
+					StringBuffer name = new StringBuffer();
+					for(int i = 1; i <= tmp.length; i++) {
+						name.append(tmp[i]);
+						if(tmp.length != i) {
+							name.append("_");
+						}
+					}
+					result = String.valueOf(name);	
+				}else {
+					result = tmp[tmp.length-1];
+				}
+				goodsImages.add(result);
 			}
 		}else if(type.equals("user")) {
 			goodsImages = goodsImageDao.selectImage(goodsCode);
@@ -142,7 +168,13 @@ public class GoodsServiceImpl implements IGoodsService {
 		
 		goodsSalesDao.deleteGoodsSales(nickname);
 	}
-
+	
+	private static Date dateType(java.util.Date date) {
+		SimpleDateFormat after = new SimpleDateFormat("yyyy-MM-dd");
+		String trans = after.format(date);
+		Date result = java.sql.Date.valueOf(trans);
+		return result;
+	}
 
 
 }

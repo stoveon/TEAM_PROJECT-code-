@@ -9,11 +9,11 @@
 	</insert>
 	
 	<delete id="deleteGoodsImage" parameterType="String">
-		delete GOODS_IMAGE where GOODSCODE=#{goodsCode}
+		delete from GOODS_IMAGE where GOODSCODE=#{goodsCode}
 	</delete>
 	
 	<delete id="editGoodsImage" parameterType="String">
-		delete GOODS_IMAGE where SAVENAME=#{saveName}
+		delete from GOODS_IMAGE where SAVENAME=#{saveName}
 	</delete>
 	
 	<select id="selectGoodsImageDetail" parameterType="String" resultType="String">

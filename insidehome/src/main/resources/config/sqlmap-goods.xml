@@ -24,17 +24,25 @@
 		delete from GOODS where GOODSCODE=#{goodsCode}
 	</delete>
 	
-	<select id="elitGoodsList" resultType="HashMap">
-		select GMAIN.GOODSCODE, GMAIN.GOODSNAME GOODSNAME, GMAIN.HEART HEART, 
-			GMAIN.REGDATE REGDATE, SALES.TOTALSALES SALES
-		from GOODS GMAIN, 
-			(SELECT GOODSCODE, SUM(SALES) TOTALSALES from GOODS_SALES group by GOODSCODE) SALES
-		where GMAIN.GOODSCODE = SALES.GOODSCODE
-		order by GMAIN.HEART desc, GMAIN.REGDATE desc
+	<select id="editGoodsList" resultType="HashMap">
+		select GD.GOODSCODE GOODSCODE, GD.GOODSNAME GOODSNAME, GD.REGDATE REGDATE, GD.HEART HEART, 
+		GD.STOCK STOCK, nvl(SA.TOTALCNT,0) TOTALCNT from GOODS GD left outer join
+     		(select GOODSCODE, count(GOODSCODE) TOTALCNT from GOODS_SALES group by GOODSCODE) SA
+    	on GD.GOODSCODE = SA.GOODSCODE 
+    	order by GD.HEART desc, GD.REGDATE desc
+        
 	</select>
 	
 	<select id="selectGoodsList" parameterType="String" resultType="goodsVo">
-		select GOODSCODE, GOODSNAME, REGDATE, HEART from GOODS order by HEART desc, REGDATE desc
+	<if test="type == dateDesc">
+		select GOODSCODE, GOODSNAME, REGDATE, HEART, PRICE from GOODS order by HEART desc, REGDATE desc
+	</if>
+	<if test="type == priceDesc">
+		select GOODSCODE, GOODSNAME, REGDATE, HEART, PRICE from GOODS order by HEART desc, PRICE desc
+	</if>
+	<if test="type == priceAsc">
+		select GOODSCODE, GOODSNAME, REGDATE, HEART, PRICE from GOODS order by HEART desc, PRICE asc
+	</if>
 	</select>
 	
 	<select id="selectGoodsOne" parameterType="String" resultType="goodsVo">
