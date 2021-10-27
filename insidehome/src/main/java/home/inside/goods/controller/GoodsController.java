@@ -80,12 +80,11 @@ public class GoodsController {
 		return "manager/goods/list";
 	}
 	
-	
-	@RequestMapping(value="/goods/list.do/{type}")
+	@RequestMapping(value="/goods/list.do")
 	public String selectGoodsList(@RequestParam(name="type", defaultValue = "dateDesc") String type, Model model, HttpSession session) throws Exception {
-		List<GoodsVo> goods = goodsService.selectAll(type);
+		List<HashMap<String, Object>> goodsList = goodsService.selectAll(type);
 		model.addAttribute("type", type);
-		model.addAttribute("goods", goods);
+		model.addAttribute("goodsList", goodsList);
 		return "user/goods/list";
 	}
 	
@@ -132,15 +131,23 @@ public class GoodsController {
 	
 	//이미지 출력
 	@GetMapping("/display")
-	public ResponseEntity<byte[]> getImage(String goodsCode, String fileName){
-		File file = new File("C:\\TeamProject\\UploadFile\\GOODS\\" + goodsCode + "\\" + fileName);
+	public ResponseEntity<byte[]> getImage(@RequestParam(value = "goodsCode") String goodsCode, @RequestParam(value = "saveName") String saveName){
+		String path = "C:\\TeamProject\\UploadFile\\GOODS\\";
+		if(saveName != null) {
+			path += goodsCode + "\\" + saveName;
+		}else {
+			path += "noimage.gif";
+		}
+		System.out.println("display: "+path);
+		
+		File file = new File(path);
 		
 		ResponseEntity<byte[]> result = null;
-		HttpHeaders header = new HttpHeaders();
 		
 		try {
+			HttpHeaders header = new HttpHeaders();
 			header.add("Content-type", Files.probeContentType(file.toPath()));
-			result = new ResponseEntity<byte[]>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
+			result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -118,8 +118,10 @@ public class GoodsServiceImpl implements IGoodsService {
 
 	//회원 리스트
 	@Override
-	public List<GoodsVo> selectAll(String type) throws Exception {
-		return goodsDao.selectAll(type);
+	public List<HashMap<String, Object>> selectAll(String type) throws Exception {
+		HashMap<String, String> hm = new HashMap<String, String>();
+		hm.put("type", type);
+		return goodsDao.selectAll(hm);
 	}
 	
 	@Override

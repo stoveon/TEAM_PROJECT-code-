@@ -40,8 +40,8 @@ public class GoodsDaoImpl implements IGoodsDao {
 	}
 
 	@Override
-	public List<GoodsVo> selectAll(String type) throws Exception {
-		return sqlSessionTemplate.selectList("selectGoodsList", type);
+	public List<HashMap<String, Object>> selectAll(HashMap<String, String> hm) throws Exception {
+		return sqlSessionTemplate.selectList("selectGoodsList", hm);
 	}
 	
 	@Override

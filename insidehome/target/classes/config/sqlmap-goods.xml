@@ -25,23 +25,41 @@
 	</delete>
 	
 	<select id="editGoodsList" resultType="HashMap">
-		select GD.GOODSCODE GOODSCODE, GD.GOODSNAME GOODSNAME, GD.REGDATE REGDATE, GD.HEART HEART, 
-		GD.STOCK STOCK, nvl(SA.TOTALCNT,0) TOTALCNT from GOODS GD left outer join
+		select GD.GOODSCODE GOODSCODE,GD.GOODSNAME GOODSNAME,GD.REGDATE REGDATE,GD.HEART HEART, 
+		GD.STOCK STOCK,nvl(SA.TOTALCNT,0) TOTALCNT from GOODS GD left outer join
      		(select GOODSCODE, count(GOODSCODE) TOTALCNT from GOODS_SALES group by GOODSCODE) SA
     	on GD.GOODSCODE = SA.GOODSCODE 
     	order by GD.HEART desc, GD.REGDATE desc
         
 	</select>
 	
-	<select id="selectGoodsList" parameterType="String" resultType="goodsVo">
-	<if test="type == dateDesc">
-		select GOODSCODE, GOODSNAME, REGDATE, HEART, PRICE from GOODS order by HEART desc, REGDATE desc
+	<select id="selectGoodsList" parameterType="HashMap" resultType="HashMap">
+	<if test='type.equals("dateDesc")'>
+		select GD.GOODSCODE ,GD.GOODSNAME ,GD.REGDATE ,GD.HEART , GD.PRICE, nvl(FI.SAVENAME, null) SAVENAME 
+    	from GOODS GD left outer join
+    		 (select IMAGE.GOODSCODE , IMAGE.SAVENAME from GOODS_IMAGE IMAGE,
+    					(select GOODSCODE, min(NUM) MINI from GOODS_IMAGE group by GOODSCODE) IMSI
+   			 where IMAGE.NUM = IMSI.MINI) FI
+   		on GD.GOODSCODE = FI.GOODSCODE 
+    	order by GD.HEART desc, GD.REGDATE desc
 	</if>
-	<if test="type == priceDesc">
-		select GOODSCODE, GOODSNAME, REGDATE, HEART, PRICE from GOODS order by HEART desc, PRICE desc
+	<if test='type.equals("priceDesc")'>
+		select GD.GOODSCODE ,GD.GOODSNAME ,GD.REGDATE ,GD.HEART , GD.PRICE, nvl(FI.SAVENAME, null) SAVENAME 
+    	from GOODS GD left outer join
+    		 (select IMAGE.GOODSCODE , IMAGE.SAVENAME from GOODS_IMAGE IMAGE,
+    					(select GOODSCODE, min(NUM) MINI from GOODS_IMAGE group by GOODSCODE) IMSI
+   			 where IMAGE.NUM = IMSI.MINI) FI
+   		on GD.GOODSCODE = FI.GOODSCODE 
+    	order by GD.PRICE desc, GD.HEART desc
 	</if>
-	<if test="type == priceAsc">
-		select GOODSCODE, GOODSNAME, REGDATE, HEART, PRICE from GOODS order by HEART desc, PRICE asc
+	<if test="type.equals('priceAsc')">
+		select GD.GOODSCODE ,GD.GOODSNAME ,GD.REGDATE ,GD.HEART , GD.PRICE, nvl(FI.SAVENAME, null) SAVENAME 
+    	from GOODS GD left outer join
+    		 (select IMAGE.GOODSCODE , IMAGE.SAVENAME from GOODS_IMAGE IMAGE,
+    					(select GOODSCODE, min(NUM) MINI from GOODS_IMAGE group by GOODSCODE) IMSI
+   			 where IMAGE.NUM = IMSI.MINI) FI
+   		on GD.GOODSCODE = FI.GOODSCODE 
+    	order by GD.PRICE asc, GD.HEART desc
 	</if>
 	</select>
 	

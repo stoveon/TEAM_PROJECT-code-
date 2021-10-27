@@ -7,17 +7,24 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script type="text/javascript">
+var selectBoxChange = function(value){
+	var type = value;
+	window.location.href="<%=request.getContextPath()%>/goods/list.do?type=" + type;
+}
+
+</script>
 </head>
 <body>
 <table>
 	<tr>
-		<td colspan="3">
+		<td colspan="4">
 		상품목록 집밖은 위험해...
 		</td>
-		<td><select name="type">
-			<option value="dateDesc" onclick="<c:url value="/user/goods.list/${dateDesc}" />" <c:if test="${type eq 'dateDesc'}">selected="selected"</c:if>>최신순</option>
-			<option value="priceDesc" onclick="<c:url value="/user/goods.list/${priceDesc}" />" <c:if test="${type eq 'priceDesc'}">selected="selected"</c:if>>높은 가격순</option>
-			<option value="priceAsc" onclick="<c:url value="/user/goods.list/${priceAsc}" />" <c:if test="${type eq 'priceAsc'}">selected="selected"</c:if>>낮은 가격순</option>
+		<td><select name="type" onchange="selectBoxChange(this.value);">
+			<option value="dateDesc" <c:if test="${type eq 'dateDesc'}">selected="selected"</c:if>>최신순</option>
+			<option value="priceDesc" <c:if test="${type eq 'priceDesc'}">selected="selected"</c:if>>높은 가격순</option>
+			<option value="priceAsc" <c:if test="${type eq 'priceAsc'}">selected="selected"</c:if>>낮은 가격순</option>
 			</select>
 		</td>
 	</tr>
@@ -27,9 +34,12 @@
 	</tr><tr>
 	</c:if>
 			<td>
-				<p id="goodsImageResult">
-					<img alt="" src="/display">
-				</p>
+				<div id="goodsImageResult">
+					<img src="/display?goodsCode=${goodsOne.GOODSCODE}&saveName=${goodsOne.SAVENAME}"><br>
+					<c:out value="${goodsOne.GOODSNAME}"/><br>
+					<c:out value="${goodsOne.PRICE += ' point'}"/>
+					<input type="hidden" name="goodsCode" value="${goodsOne.GOODSCODE}" />
+				</div>
 			</td>
 	</c:forEach>
 	</tr>

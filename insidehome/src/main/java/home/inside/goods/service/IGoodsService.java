@@ -16,7 +16,7 @@ public interface IGoodsService {
 	public void updateHeart(String type, String[] selectGoods) throws Exception;
 	public void deleteGoods(String[] selectGoods) throws Exception;
 	public List<HashMap<String, Object>> selectAll() throws Exception;
-	public List<GoodsVo> selectAll(String type) throws Exception;
+	public List<HashMap<String, Object>> selectAll(String type) throws Exception;
 	public List<GoodsImageVo> selectAllImage() throws Exception;
 	public Map<String, Object> selectOne(String type, String goodsCode) throws Exception;
 	public void insertGoodsSales(GoodsSalesVo goodsSalesVo) throws Exception;
