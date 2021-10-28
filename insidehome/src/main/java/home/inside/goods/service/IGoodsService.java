@@ -21,5 +21,5 @@ public interface IGoodsService {
 	public Map<String, Object> selectOne(String type, String goodsCode) throws Exception;
 	public void insertGoodsSales(GoodsSalesVo goodsSalesVo) throws Exception;
 	public void deleteGoodsSales(String nickname) throws Exception;
-	
+	public void deleteNotExistImage(String goodsCode) throws Exception;
 }

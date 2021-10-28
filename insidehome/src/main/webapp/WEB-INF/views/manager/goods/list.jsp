@@ -3,23 +3,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<%@include file="/WEB-INF/views/manager/main/mgrHeader.jsp"%>
 <form name="form" method="post">
+	<h3>상품관리</h3>
 	<table>
-		<tr>
-			<td>상품관리</td>
-			<td>
+		<caption>
 				<input type="button" value="상품등록" onclick="location.href='<c:url value="/manager/goods/insertGoods.do" />'" />
 				<input type="submit" value="상품삭제" onclick="form.action= '<c:url value="/manager/goods/deleteGoods.do" />'" />
 				<input type="submit" value="추천등록" onclick="form.action= '<c:url value="/manager/goods/heartUpdate.do?type=recommand" />'" />
 				<input type="submit" value="추천취소" onclick="form.action= '<c:url value="/manager/goods/heartUpdate.do?type=cancle" />'" />
-			</td>
-		</tr>
+		</caption>
 		<tr>
 			<th></th><th>추천</th><th>상품명</th><th>등록일자</th><th>판매량</th><th>재고수량</th>
 		</tr>
@@ -45,5 +38,4 @@
 			</c:forEach>
 	</table>
 </form>
-</body>
-</html>
+<%@include file="/WEB-INF/views/manager/main/mgrFooter.jsp"%>

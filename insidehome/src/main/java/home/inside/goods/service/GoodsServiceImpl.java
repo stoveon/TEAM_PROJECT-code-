@@ -96,13 +96,11 @@ public class GoodsServiceImpl implements IGoodsService {
 
 	@Override
 	public void deleteGoods(String[] selectGoods) throws Exception {
-		
 		for(String str : selectGoods) {
 			util.goodsDelete(str);
 			goodsDao.deleteGoods(str);
 			goodsImageDao.deleteGoodsImage(str);
 		}
-
 	}
 
 	//관리자 조회
@@ -140,9 +138,9 @@ public class GoodsServiceImpl implements IGoodsService {
 				String result = "";
 				if(tmp.length > 2) {
 					StringBuffer name = new StringBuffer();
-					for(int i = 1; i <= tmp.length; i++) {
+					for(int i = 1; i <= tmp.length-1; i++) {
 						name.append(tmp[i]);
-						if(tmp.length != i) {
+						if(tmp.length-1 != i) {
 							name.append("_");
 						}
 					}
@@ -167,7 +165,6 @@ public class GoodsServiceImpl implements IGoodsService {
 
 	@Override
 	public void deleteGoodsSales(String nickname) throws Exception {
-		
 		goodsSalesDao.deleteGoodsSales(nickname);
 	}
 	
@@ -178,5 +175,10 @@ public class GoodsServiceImpl implements IGoodsService {
 		return result;
 	}
 
+	@Override
+	public void deleteNotExistImage(String goodsCode) throws Exception {
+		goodsImageDao.deleteGoodsImage(goodsCode);
+	}
 
+	
 }

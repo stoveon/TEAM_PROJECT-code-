@@ -2,14 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/goodsjs.js"></script>
-</head>
-<body>
-<script type="text/javascript" src="<%=request.getContextPath() %>/resources/js/goodsjs.js"></script>
+<%@include file="/WEB-INF/views/manager/main/mgrHeader.jsp"%>
 <form action="<c:url value="/manager/goods/updateGoods.do/${goods.goodsCode}" />" method="post" enctype="multipart/form-data" onsubmit="return checkForm()">
 	<table>
 		<tr><td colspan="4">상품 수정</td>
@@ -33,20 +26,24 @@
 		<tr>
 
 			<td rowspan="2">파일 추가</td>
-			<td  colspan="3">
+			<td  colspan="4">
+		<c:if test="${!empty goodsImages}">
 			<c:forEach items="${goodsImages}" var="fileName">
-			<input type="checkbox" name="deleteGoodsImage" value="${fileName}" /><c:out value="${fileName}" /><br>
+			<p><input type="checkbox" name="deleteGoodsImage" value="${fileName}" /><c:out value="${fileName}" /></p>
 			</c:forEach>
-			</td>
-		</tr>
-		<tr><td>
+		</c:if>
 			<div id="fileBox">
 				<input type="file" name="plusGoodsImage" accept=".jpg,.jpeg,.png,.gif" />
-				<input type="button" value="추가" onClick="add_updateFile()">
+				<input id="addBtn" type="button" value="추가" onClick="add_updateFile()">
 			</div>
 			</td>
 		</tr>
 	</table>
 </form>
-</body>
-</html>
+<script type="text/javascript" src="<c:url value="/resources/js/goodsjs.js"/>"></script>
+<script>
+window.onload = function(){
+		document.getElementById("addBtn").onclick = add_updateFile;
+}
+</script>
+<%@include file="/WEB-INF/views/manager/main/mgrFooter.jsp"%>

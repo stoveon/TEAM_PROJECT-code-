@@ -38,46 +38,17 @@ public class GoodsController {
 	private IGoodsService goodsService;
 	//@Autowired
 	//private IPointService pointService;
-
-	@RequestMapping(value="/manager/goods/insertGoods.do", method = RequestMethod.GET)
-	public String insertGoodsForm() throws Exception {
-		return "manager/goods/insertForm";
+	
+	@RequestMapping(value="/inside/main.do", method = RequestMethod.GET)
+	public String main(GoodsSalesVo goodsSalesVo, Model model) throws Exception {
+		
+		return "user/main/list";
 	}
 	
-	@RequestMapping(value="/manager/goods/insertGoods.do", method = RequestMethod.POST)
-	public String insertGoodsSubmit(Model model, GoodsVo goodsVo, MultipartHttpServletRequest mpReq) throws Exception {
-		if(goodsVo.getGoodsName() == null || goodsVo.getContent() == null) {
-			model.addAttribute("goodsVo", goodsVo);
-			return "manager/goods/insertForm";
-		}
-		goodsService.insert(goodsVo, mpReq);
-		return "redirect:/manager/goods/list.do";
-	}
-	
-	
-	@RequestMapping(value="/manager/goods/updateGoods.do/{goodsCode}", method = RequestMethod.GET)
-	public String updateGoodsForm(@PathVariable String goodsCode, Model model) throws Exception {
-		String type = "manager";
-		Map<String, Object> hm = goodsService.selectOne(type, goodsCode);
-		GoodsVo goods = (GoodsVo) hm.get("goods");
-		List<String> goodsImages = (List<String>) hm.get("goodsImages");
-		model.addAttribute("goods", goods);	
-		model.addAttribute("goodsImages", goodsImages);	
-		return "manager/goods/updateForm";
-	}
-	
-	@RequestMapping(value="/manager/goods/updateGoods.do/{goodsCode}", method = RequestMethod.POST)
-	public String updateGoodsSubmit(GoodsVo goodsVo, MultipartHttpServletRequest mpReq) throws Exception {
-		goodsService.update(goodsVo, mpReq);
-		return "redirect:/manager/goods/list.do";
-	}
-	
-	//상품관리 페이지
-	@RequestMapping(value="/manager/goods/list.do")
-	public String editGoodsList(Model model) throws Exception {
-		List<HashMap<String, Object>> goodsList = goodsService.selectAll();
-		model.addAttribute("goodsList", goodsList);
-		return "manager/goods/list";
+	@RequestMapping(value="/inside/main.do", method = RequestMethod.POST)
+	public String main2(GoodsSalesVo goodsSalesVo, Model model) throws Exception {
+		
+		return "redirect:user/main/list";
 	}
 	
 	@RequestMapping(value="/goods/list.do")
@@ -94,8 +65,6 @@ public class GoodsController {
 		Map<String, Object> hm = goodsService.selectOne(type, goodsCode);
 		GoodsVo goods = (GoodsVo) hm.get("goods");
 		List<String> goodsImages = (List<String>) hm.get("goodsImages");
-
-		URL fileUrl = new URL(goodsCode);
 		
 		model.addAttribute("goods", goods);
 		model.addAttribute("goodsImages", goodsImages);
@@ -117,30 +86,26 @@ public class GoodsController {
 		return "redirect:/goods/list";
 	}
 	
-	@RequestMapping(value="/manager/goods/deleteGoods.do")
-	public String deleteGoods(@RequestParam(value = "selectGoods") String[] selectGoods) throws Exception {
-		goodsService.deleteGoods(selectGoods);
-		return "redirect:/manager/goods/list.do";
-	}
-	
-	@RequestMapping(value="/manager/goods/heartUpdate.do")
-	public String heartUpdate(@RequestParam(value = "type") String type, @RequestParam(value = "selectGoods") String[] selectGoods) throws Exception {
-		goodsService.updateHeart(type, selectGoods);
-		return "redirect:/manager/goods/list.do";
-	}
-	
 	//이미지 출력
 	@GetMapping("/display")
 	public ResponseEntity<byte[]> getImage(@RequestParam(value = "goodsCode") String goodsCode, @RequestParam(value = "saveName") String saveName){
 		String path = "C:\\TeamProject\\UploadFile\\GOODS\\";
 		if(saveName != null) {
 			path += goodsCode + "\\" + saveName;
-		}else {
+		}else if(saveName == null){
 			path += "noimage.gif";
 		}
 		System.out.println("display: "+path);
 		
 		File file = new File(path);
+		if(!file.exists()) {
+			try {
+				goodsService.deleteNotExistImage(goodsCode);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 		ResponseEntity<byte[]> result = null;
 		

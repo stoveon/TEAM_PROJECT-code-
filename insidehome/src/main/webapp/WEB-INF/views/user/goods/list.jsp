@@ -14,6 +14,7 @@ var selectBoxChange = function(value){
 }
 
 </script>
+<link href="<c:url value="${pageContext.request.contextPath}/resources/css/*" />" rel="stylesheet" />
 </head>
 <body>
 <table>
@@ -34,12 +35,21 @@ var selectBoxChange = function(value){
 	</tr><tr>
 	</c:if>
 			<td>
-				<div id="goodsImageResult">
-					<img src="/display?goodsCode=${goodsOne.GOODSCODE}&saveName=${goodsOne.SAVENAME}"><br>
-					<c:out value="${goodsOne.GOODSNAME}"/><br>
-					<c:out value="${goodsOne.PRICE += ' point'}"/>
-					<input type="hidden" name="goodsCode" value="${goodsOne.GOODSCODE}" />
-				</div>
+				<div class="image-box">
+						<c:if test="${goodsOne.SAVENAME == null}">
+						<c:set var="imagePath" value="/resources/img/noGoods.gif" />
+						</c:if>
+						<c:if test="${goodsOne.SAVENAME != null}">
+						<c:set var="imagePath" value="/display?goodsCode=${goodsOne.GOODSCODE}&saveName=${goodsOne.SAVENAME}" />
+						</c:if>					
+						<a href="<c:url value="/goods/detail.do/${goodsOne.GOODSCODE}" />"><img class="image-goods" src="<c:url value="${imagePath}" />" /></a><br>
+					</div>
+						<c:out value="${goodsOne.GOODSNAME}"/><br>
+						<c:out value="${goodsOne.PRICE += ' point'}"/>
+					<div class="image-hidd">
+						
+					</div>
+
 			</td>
 	</c:forEach>
 	</tr>

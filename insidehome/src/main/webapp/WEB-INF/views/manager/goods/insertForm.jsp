@@ -2,12 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>상</title>
-</head>
-<body>
+<%@include file="/WEB-INF/views/manager/main/mgrHeader.jsp"%>
 <form action="<c:url value="/manager/goods/insertGoods.do" />" method="post" enctype="multipart/form-data"
 		 onsubmit="return checkForm()">
 	<table>
@@ -28,11 +23,16 @@
 			<td colspan="4">
 				<div id="fileBox">
 				<input class="#" type="file" name="saveGoodsImage" accept=".jpg,.jpeg,.png,.gif" />
-				<input type="button" value="추가" onClick="add_insertFile()" />
+				<input id="addBtn" type="button" value="추가"/>
 				</div>
 			</td>
 	</table>
 </form>
-<script src="<%=request.getContextPath() %>/resources/js/goodsjs.js"></script>
-</body>
-</html>
+
+<script src="<c:url value="/resources/js/goodsjs.js" />"></script>
+<script>
+window.onload = function(){
+	document.getElementById("addBtn").onclick=add_insertFile;
+}
+</script>
+<%@include file="/WEB-INF/views/manager/main/mgrFooter.jsp"%>

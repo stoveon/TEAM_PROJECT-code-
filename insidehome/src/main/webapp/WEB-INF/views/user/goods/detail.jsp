@@ -8,11 +8,16 @@
 <title>Insert title here</title>
 </head>
 <body>
-<div clss="image">
-	<img src="">
-	<img src="">
-	<img src="">
-	<img src="">
+<div class="image">
+	<c:if test="${empty goodsImages}">
+		<c:set var="imagePath" value="/resources/img/noGoods.gif" />
+	</c:if>
+	<c:if test="${!empty goodsImages}">
+		<c:set var="imagePath" value="/display?goodsCode=${goods.goodsCode}&saveName=${imageOne}" />
+	</c:if>
+	<c:forEach items="${goodsImages}" var="imageOne">
+	<img src="<c:url value="${imagePath}" />">
+	</c:forEach>
 </div>
 <div>
 	<ul >
