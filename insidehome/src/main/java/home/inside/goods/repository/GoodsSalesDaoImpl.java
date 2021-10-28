@@ -1,5 +1,8 @@
 package home.inside.goods.repository;
 
+import java.util.HashMap;
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -24,5 +27,15 @@ public class GoodsSalesDaoImpl implements IGoodsSalesDao {
 	@Override
 	public int salesCount(String nickname) throws Exception {
 		return sqlSessionTemplate.selectOne("salesCount", nickname);
+	}
+
+	@Override
+	public List<HashMap<String, Object>> orderList() throws Exception {
+		return sqlSessionTemplate.selectList("salesOrderList");
+	}
+
+	@Override
+	public void updateSaleState(HashMap<String, String> hm) throws Exception {
+		sqlSessionTemplate.update("updateOrderState", hm);
 	}
 }

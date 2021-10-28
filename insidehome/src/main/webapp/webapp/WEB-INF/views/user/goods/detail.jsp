@@ -8,9 +8,16 @@
 <title>Insert title here</title>
 </head>
 <body>
-<div>
-이미지 출력 예정쑤
-
+<div class="image">
+	<c:if test="${empty goodsImages}">
+		<c:set var="imagePath" value="/resources/img/noGoods.gif" />
+	</c:if>
+	<c:if test="${!empty goodsImages}">
+		<c:set var="imagePath" value="/display?goodsCode=${goods.goodsCode}&saveName=${imageOne}" />
+	</c:if>
+	<c:forEach items="${goodsImages}" var="imageOne">
+	<img src="<c:url value="${imagePath}" />">
+	</c:forEach>
 </div>
 <div>
 	<ul >

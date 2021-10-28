@@ -5,8 +5,8 @@
 
 <mapper namespace="goodsSalesVo">
 	<insert id="insertGoodsSales" parameterType="goodsSalesVo">
-		insert into GOODS_SALES(NUM, GOODSCODE, NICKNAME, SALES, ORDERDATE) 
-		values(GOODS_SALES_SEQ.nextval, #{goodsCode}, #{nickname}, #{sales}, sysdate)
+		insert into GOODS_SALES(NUM, GOODSCODE, NICKNAME, SALES, ORDERDATE, SENDSTATE) 
+		values(GOODS_SALES_SEQ.nextval, #{goodsCode}, #{nickname}, #{sales}, sysdate, #{sendState})
 	</insert>
 	
 	<delete id="deleteGoodsSales" parameterType="String">
@@ -16,8 +16,20 @@
 	<select id="salesCountNickname" parameterType="String" resultType="Integer">
 		select count(GOODSCODE) from GOODS_SALES where NICKNAME=#{nickname}
 	</select>
+	
 	<select id="salesCountCode" resultType="goodsSalesVo">
 		select GOODSCODE, count(GOODSCODE) from GOODS_SALES group by GOODSCODE
 	</select>
+	
+	<select id="salesOrderList" resultType="HashMap">
+		select SA.ORDERDATE, SA.GOODSCODE, GD.GOODSNAME, SA.SALES, SA.NICKNAME, SA.SENDSTATE
+		from GOODS_SALES SA, GOODS GD 
+		where SA.GOODSCODE = GD.GOODSCODE
+		order by SA.SENDSTATE desc, SA.ORDERDATE desc
+	</select>
+	
+	<update id="updateOrderState" parameterType="HashMap">
+		update GOODS_SALES set SENDSTATE=#{state} where GOODSCODE=#{goodsCode}
+	</update>
 	
 </mapper>

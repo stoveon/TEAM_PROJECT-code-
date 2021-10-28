@@ -3,11 +3,12 @@ package home.inside.goods.vo;
 import java.util.Date;
 
 public class GoodsSalesVo {
-	private int num ;
-	private String goodsCode ;
-	private String nickname ;
-	private int price ;
-	private Date orderdate ;
+	private int num;
+	private String goodsCode;
+	private String nickname;
+	private int price;
+	private Date orderdate;
+	private String sendSate;
 	public int getNum() {
 		return num;
 	}
@@ -38,6 +39,11 @@ public class GoodsSalesVo {
 	public void setOrderdate(Date orderdate) {
 		this.orderdate = orderdate;
 	}
-	
+	public String getSendSate() {
+		return sendSate;
+	}
+	public void setSendSate(String sendSate) {
+		this.sendSate = sendSate;
+	}
 	
 }

@@ -180,5 +180,18 @@ public class GoodsServiceImpl implements IGoodsService {
 		goodsImageDao.deleteGoodsImage(goodsCode);
 	}
 
+	@Override
+	public List<HashMap<String, Object>> orderAll() throws Exception {
+		return goodsSalesDao.orderList();
+	}
+
+	@Override
+	public void updateSales(String state, String goodsCode) throws Exception {
+		HashMap<String, String> hm = new HashMap<String, String>();
+		hm.put("state", state);
+		hm.put("goodsCode", goodsCode);
+		goodsSalesDao.updateSaleState(hm);
+	}
+
 	
 }

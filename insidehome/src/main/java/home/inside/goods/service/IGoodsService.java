@@ -22,4 +22,6 @@ public interface IGoodsService {
 	public void insertGoodsSales(GoodsSalesVo goodsSalesVo) throws Exception;
 	public void deleteGoodsSales(String nickname) throws Exception;
 	public void deleteNotExistImage(String goodsCode) throws Exception;
+	public List<HashMap<String, Object>> orderAll() throws Exception;
+	public void updateSales(String state, String goodsCode) throws Exception;
 }
