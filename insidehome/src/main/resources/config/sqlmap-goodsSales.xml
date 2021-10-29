@@ -17,10 +17,6 @@
 		select count(GOODSCODE) from GOODS_SALES where NICKNAME=#{nickname}
 	</select>
 	
-	<select id="salesCountCode" resultType="goodsSalesVo">
-		select GOODSCODE, count(GOODSCODE) from GOODS_SALES group by GOODSCODE
-	</select>
-	
 	<select id="salesOrderList" resultType="HashMap">
 		select SA.ORDERDATE, SA.GOODSCODE, GD.GOODSNAME, SA.SALES, SA.NICKNAME, SA.SENDSTATE
 		from GOODS_SALES SA, GOODS GD 

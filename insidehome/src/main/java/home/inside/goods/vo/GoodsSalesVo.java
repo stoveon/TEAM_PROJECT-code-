@@ -6,7 +6,7 @@ public class GoodsSalesVo {
 	private int num;
 	private String goodsCode;
 	private String nickname;
-	private int price;
+	private int sales;
 	private Date orderdate;
 	private String sendSate;
 	public int getNum() {
@@ -27,11 +27,11 @@ public class GoodsSalesVo {
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
-	public int getPrice() {
-		return price;
+	public int getSales() {
+		return sales;
 	}
-	public void setPrice(int price) {
-		this.price = price;
+	public void setSales(int sales) {
+		this.sales = sales;
 	}
 	public Date getOrderdate() {
 		return orderdate;

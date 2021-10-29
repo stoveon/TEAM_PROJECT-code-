@@ -3,10 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+<%@include file="/WEB-INF/views/user/main/userHeader.jsp"%>
 <script type="text/javascript">
 var selectBoxChange = function(value){
 	var type = value;
@@ -14,9 +11,7 @@ var selectBoxChange = function(value){
 }
 
 </script>
-<link href="<c:url value="${pageContext.request.contextPath}/resources/css/*" />" rel="stylesheet" />
-</head>
-<body>
+<link href="<c:url value="/resources/css/goodsMain.css" />" rel="stylesheet" />
 <table>
 	<tr>
 		<td colspan="4">
@@ -35,6 +30,7 @@ var selectBoxChange = function(value){
 	</tr><tr>
 	</c:if>
 			<td>
+			<div class="goods-box">
 				<div class="image-box">
 						<c:if test="${goodsOne.SAVENAME == null}">
 						<c:set var="imagePath" value="/resources/img/noGoods.gif" />
@@ -44,16 +40,14 @@ var selectBoxChange = function(value){
 						</c:if>					
 						<a href="<c:url value="/goods/detail.do/${goodsOne.GOODSCODE}" />"><img class="image-goods" src="<c:url value="${imagePath}" />" /></a><br>
 					</div>
-						<c:out value="${goodsOne.GOODSNAME}"/><br>
+						<a href="<c:url value="/goods/detail.do/${goodsOne.GOODSCODE}" />"><c:out value="${goodsOne.GOODSNAME}"/></a><br>
 						<c:out value="${goodsOne.PRICE += ' point'}"/>
 					<div class="image-hidd">
 						
 					</div>
-
+			</div>
 			</td>
 	</c:forEach>
 	</tr>
-</table>
-
-</body>
-</html>
+</table>     
+<%@include file="/WEB-INF/views/user/main/userFooter.jsp"%>

@@ -8,24 +8,38 @@
 <title>Insert title here</title>
 </head>
 <body>
-<div class="image">
-	<c:if test="${empty goodsImages}">
-		<c:set var="imagePath" value="/resources/img/noGoods.gif" />
-	</c:if>
-	<c:if test="${!empty goodsImages}">
-		<c:set var="imagePath" value="/display?goodsCode=${goods.goodsCode}&saveName=${imageOne}" />
-	</c:if>
-	<c:forEach items="${goodsImages}" var="imageOne">
-	<img src="<c:url value="${imagePath}" />">
-	</c:forEach>
+<link href="<c:url value="/resources/css/goodsDetail.css" />" rel="stylesheet" />
+
+<div class="detailbox">
+	<div class="image-box">
+		<c:if test="${empty goodsImages}">
+			<c:set var="imagePath" value="/resources/img/noGoods.gif" />
+		</c:if>
+		<c:if test="${!empty goodsImages}">
+			<c:set var="imagePath" value="/display?goodsCode=${goods.goodsCode}&saveName=${goodsImages[0]}" />
+		</c:if>
+		<img src="<c:url value="${imagePath}" />">
+	</div>
+	<div class="list-box">
+	<div class="list-img">
+		<c:forEach items="${goodsImages}" var="imageOne">
+		<img src="<c:url value="/display?goodsCode=${goods.goodsCode}&saveName=${imageOne}" />">
+		</c:forEach>
+	</div>
+	</div>
 </div>
-<div>
+<div class="detailbox">
+	<div class="info-box">
 	<ul >
 		<li>${goods.goodsName}</li>
 		<li>${goods.price}</li>
 		<li>${goods.content}</li>
-	</ul><br>
-	<button onclick="<c:url value="/goods/orderForm.do" />"></button>
+	</ul>
+	</div>
+	<div class="btn-box">
+		<button class="order-btn" onclick="location.href='<c:url value="/goods/order.do/${goods.goodsCode}" />'">
+		주문하기</button>
+	</div>
 </div>
 </body>
 </html>

@@ -20,16 +20,6 @@ public class GoodsSalesDaoImpl implements IGoodsSalesDao {
 	}
 
 	@Override
-	public void deleteGoodsSales(String nickname) throws Exception {
-		sqlSessionTemplate.insert("deleteGoodsSales", nickname);
-	}
-
-	@Override
-	public int salesCount(String nickname) throws Exception {
-		return sqlSessionTemplate.selectOne("salesCount", nickname);
-	}
-
-	@Override
 	public List<HashMap<String, Object>> orderList() throws Exception {
 		return sqlSessionTemplate.selectList("salesOrderList");
 	}
@@ -37,5 +27,15 @@ public class GoodsSalesDaoImpl implements IGoodsSalesDao {
 	@Override
 	public void updateSaleState(HashMap<String, String> hm) throws Exception {
 		sqlSessionTemplate.update("updateOrderState", hm);
+	}
+
+	@Override
+	public void deleteGoodsSales(String nickname) throws Exception {
+		sqlSessionTemplate.insert("deleteGoodsSales", nickname);
+	}
+
+	@Override
+	public int salesCount(String nickname) throws Exception {
+		return sqlSessionTemplate.selectOne("salesCountNickname", nickname);
 	}
 }

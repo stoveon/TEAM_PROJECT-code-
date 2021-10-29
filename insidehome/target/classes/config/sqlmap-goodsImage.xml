@@ -26,4 +26,10 @@
 			(select GOODSCODE, min(NUM) MINI from GOODS_IMAGE group by GOODSCODE) IMSI
 		where IMAGE.NUM = IMSI.MINI
 	</select>
+		
+	<select id="selectMainImage" parameterType="String" resultType="HashMap">
+		select image.GOODSCODE, image.SAVENAME from GOODS_IMAGE image, 
+     		(select GOODSCODE, min(NUM) mini from GOODS_IMAGE group by GOODSCODE) imsi
+		where image.NUM=imsi.mini and image.GOODSCODE=#{goodsCode}
+	</select>
 </mapper>

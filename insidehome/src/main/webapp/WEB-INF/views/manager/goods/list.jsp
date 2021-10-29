@@ -4,38 +4,53 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <%@include file="/WEB-INF/views/manager/main/mgrHeader.jsp"%>
-<form name="form" method="post">
+<script type="text/javascript">
+	var check = "<c:out value="${deleteOk}" />";
+	if(check == 'success'){
+		alert('상품이 삭제되었습니다.');
+	}
+	function removeCheck(){
+		if(confirm("상품을  삭제하시겠습니까?") == true){
+			document.goodsForm.action= '<c:url value="/manager/goods/deleteGoods.do" />'
+		}
+	}
+</script>
+<form name="goodsForm" method="post">
 	<h3>상품관리</h3>
 	<table>
 		<caption>
-				<input type="button" value="상품등록" onclick="location.href='<c:url value="/manager/goods/insertGoods.do" />'" />
-				<input type="submit" value="상품삭제" onclick="form.action= '<c:url value="/manager/goods/deleteGoods.do" />'" />
-				<input type="submit" value="추천등록" onclick="form.action= '<c:url value="/manager/goods/heartUpdate.do?type=recommand" />'" />
-				<input type="submit" value="추천취소" onclick="form.action= '<c:url value="/manager/goods/heartUpdate.do?type=cancle" />'" />
+			<button type="button" onclick="location.href='<c:url value="/manager/goods/insertGoods.do" />'">상품등록</button>
+			<button type="submit" onclick="removeCheck()">상품삭제</button>
+			<button type="submit" onclick="form.action= '<c:url value="/manager/goods/heartUpdate.do?type=recommand" />'" >추천등록</button>
+			<button type="submit" onclick="form.action= '<c:url value="/manager/goods/heartUpdate.do?type=cancle" />'" >추천취소</button>
 		</caption>
-		<tr>
-			<th></th><th>추천</th><th>상품명</th><th>등록일자</th><th>판매량</th><th>재고수량</th>
-		</tr>
-		<c:forEach items="${goodsList}" var="goodsOne" >
+		<thead>
 			<tr>
-				<td><input type="checkbox" name="selectGoods" value="${goodsOne.GOODSCODE}"/></td>
-				<td>
-					<c:if test="${goodsOne.HEART eq 'yes'}">
-						<c:set var="heart" value="SELECT" />
-					</c:if>
-					<c:if test="${goodsOne.HEART eq 'no'}">
-						<c:set var="heart" value="" />
-					</c:if>
-					<c:out value="${heart}" />
-				</td>
-				<td><a href="<c:url value="/manager/goods/updateGoods.do/${goodsOne.GOODSCODE}" />">
-				<c:out value="${goodsOne.GOODSNAME}"/></a></td>
-				<td>
-				<c:out value="${goodsOne.REGDATE}"/></td>
-				<td><c:out value="${goodsOne.TOTALCNT}"/></td>
-				<td><c:out value="${goodsOne.STOCK}"/></td>
+				<th></th><th>추천</th><th>상품명</th><th>등록일자</th><th>판매량</th><th>재고수량</th>
 			</tr>
+		</thead>
+		<tbody>
+			<c:forEach items="${goodsList}" var="goodsOne" >
+				<tr>
+					<td><input type="checkbox" name="selectGoods" value="${goodsOne.GOODSCODE}"/></td>
+					<td>
+						<c:if test="${goodsOne.HEART eq 'yes'}">
+							<c:set var="heart" value="SELECT" />
+						</c:if>
+						<c:if test="${goodsOne.HEART eq 'no'}">
+							<c:set var="heart" value="" />
+						</c:if>
+						<c:out value="${heart}" />
+					</td>
+					<td><a href="<c:url value="/manager/goods/updateGoods.do/${goodsOne.GOODSCODE}" />">
+					<c:out value="${goodsOne.GOODSNAME}"/></a></td>
+					<td>
+					<c:out value="${goodsOne.REGDATE}"/></td>
+					<td><c:out value="${goodsOne.TOTALCNT}"/></td>
+					<td><c:out value="${goodsOne.STOCK}"/></td>
+				</tr>
 			</c:forEach>
+		</tbody>
 	</table>
 </form>
 <%@include file="/WEB-INF/views/manager/main/mgrFooter.jsp"%>

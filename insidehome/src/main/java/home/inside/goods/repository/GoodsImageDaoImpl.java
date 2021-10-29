@@ -1,5 +1,6 @@
 package home.inside.goods.repository;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -36,6 +37,11 @@ public class GoodsImageDaoImpl implements IGoodsImageDao {
 	@Override
 	public void editGoodsImage(String saveName) throws Exception {
 		sqlSessionTemplate.delete("editGoodsImage", saveName);
+	}
+
+	@Override
+	public HashMap<String, String> orderMainImage(String goodsCode) throws Exception {
+		return sqlSessionTemplate.selectOne("selectMainImage", goodsCode);
 	}
 
 }

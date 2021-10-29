@@ -9,10 +9,9 @@
 </head>
 <body>
 <div>
-	<img src="resources/img/err.png" height="60%" alt="123"/>
+	<img src="<c:url value="/resources/img/err.png" />" height="60%" alt="123"/>
 </div>
-		<button onclick="location.href='main.inside'">메인페이지 이동</button><br>
-		<a href="<c:url value="/manager/goods/list.do" />">상품관리 페이지</a>
+		<button onclick="location.href='<c:url value="main.inside" />'">메인페이지 이동</button><br>
 </body>
 </html>
 
