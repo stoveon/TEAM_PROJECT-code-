@@ -1,5 +1,6 @@
 package home.inside.goods.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,12 +12,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.sun.istack.internal.logging.Logger;
+
 import home.inside.goods.service.IGoodsManagerService;
-import home.inside.goods.service.IGoodsUserService;
 import home.inside.goods.vo.GoodsVo;
 
 //세션이름: loginInside
@@ -28,6 +29,8 @@ public class GoodsManagerController {
 	private IGoodsManagerService goodsMangerService;
 	//@Autowired
 	//private IPointService pointService;
+	
+	private Logger log = Logger.getLogger(GoodsManagerController.class);
 
 	@RequestMapping(value="insertGoods.do", method = RequestMethod.GET)
 	public String insertGoodsForm() throws Exception {
@@ -47,12 +50,13 @@ public class GoodsManagerController {
 	
 	@RequestMapping(value="updateGoods.do/{goodsCode}", method = RequestMethod.GET)
 	public String updateGoodsForm(@PathVariable String goodsCode, Model model) throws Exception {
-		String type = "manager";
-		Map<String, Object> hm = goodsMangerService.selectOne(type, goodsCode);
+		Map<String, Object> hm = goodsMangerService.selectOne(goodsCode);
 		GoodsVo goods = (GoodsVo) hm.get("goods");
 		List<String> goodsImages = (List<String>)hm.get("goodsImages");
+		List<String> imgPath = (List<String>) hm.get("imgPath");
 		model.addAttribute("goods", goods);	
 		model.addAttribute("goodsImages", goodsImages);	
+		model.addAttribute("imgPath", imgPath);	
 		return "manager/goods/updateForm";
 	}
 	
@@ -79,8 +83,24 @@ public class GoodsManagerController {
 	}
 	
 	@RequestMapping(value="heartUpdate.do")
-	public String heartUpdate(@RequestParam(value = "type") String type, @RequestParam(value = "selectGoods") String[] selectGoods) throws Exception {
-		goodsMangerService.updateHeart(type, selectGoods);
+	public String heartUpdate(@RequestParam(value = "type") String type, @RequestParam(value = "selectGoods") String[] selectGoods, RedirectAttributes rttr) throws Exception {
+		String heartFail = "fail";
+		String chk = "";
+		if(type.equals("recommand")) {
+			chk = "yes";
+		}else if(type.equals("cancle")) {
+			chk ="no";
+		}
+		List<String> goodsCodes = new ArrayList<String>();
+		for(String str : selectGoods) {
+			String[] mod = str.split("&");
+			goodsCodes.add(mod[0]);
+			if(chk.equals(mod[1])) {
+				rttr.addFlashAttribute("heartFail", heartFail);
+				return "redirect:/manager/goods/list.do";
+			}
+		}
+		goodsMangerService.updateHeart(type, goodsCodes);
 		return "redirect:/manager/goods/list.do";
 	}
 	

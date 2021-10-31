@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.sun.istack.internal.logging.Logger;
+
 import home.inside.goods.service.IGoodsManagerService;
 import home.inside.goods.service.IGoodsUserService;
 import home.inside.goods.vo.GoodsSalesVo;
@@ -31,6 +33,8 @@ public class GoodsController {
 	//@Autowired
 	//private IPointService pointService;
 	
+	private Logger log = Logger.getLogger(GoodsController.class);
+	
 	@RequestMapping(value="list.do")
 	public String selectGoodsList(@RequestParam(name="type", defaultValue = "dateDesc") String type, Model model, HttpSession session) throws Exception {
 		List<HashMap<String, Object>> goodsList = goodsUserService.selectAll(type);
@@ -41,11 +45,9 @@ public class GoodsController {
 	
 	@RequestMapping(value="detail.do/{goodsCode}")
 	public String selectGoodsDetail(@PathVariable String goodsCode, Model model) throws Exception {
-		String type = "user";
-		Map<String, Object> hm = goodsManagerService.selectOne(type, goodsCode);
+		Map<String, Object> hm = goodsUserService.selectOne(goodsCode);
 		GoodsVo goods = (GoodsVo) hm.get("goods");
 		List<String> goodsImages = (List<String>) hm.get("goodsImages");
-		
 		model.addAttribute("goods", goods);
 		model.addAttribute("goodsImages", goodsImages);
 		return "user/goods/detail";
@@ -67,9 +69,10 @@ public class GoodsController {
 	}
 	
 	@RequestMapping(value="order.do", method = RequestMethod.POST)
-	public String orderGoodsSubmit(@RequestParam GoodsSalesVo goodsSalesVo) throws Exception {
+	public String orderGoodsSubmit(@RequestParam(value = "goodsCode") String goodsCode,@RequestParam(value = "nickname") String nickname,@RequestParam(value = "price") int price) throws Exception {
+		GoodsSalesVo goodsSalesVo = new GoodsSalesVo(goodsCode, nickname, price);
 		goodsUserService.insertGoodsSales(goodsSalesVo);
-		return "redirect:/goods/list";
+		return "redirect:/goods/list.do";
 	}
 	
 }

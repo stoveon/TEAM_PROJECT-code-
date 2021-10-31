@@ -14,13 +14,13 @@ public interface IGoodsManagerService {
 	//상품 수정
 	public void update(GoodsVo goodsVo, MultipartHttpServletRequest mpReq) throws Exception;
 	//추천상품 등록 or 해제
-	public void updateHeart(String type, String[] selectGoods) throws Exception;
+	public void updateHeart(String type, List<String> selectGoods) throws Exception;
 	//상품 삭제
 	public void deleteGoods(String[] selectGoods) throws Exception;
 	//상품관리 페이지 목록 출력
 	public List<HashMap<String, Object>> selectAll() throws Exception;
 	//관리자 상품 상세페이지
-	public Map<String, Object> selectOne(String type, String goodsCode) throws Exception;
+	public Map<String, Object> selectOne(String goodsCode) throws Exception;
 	//테이블에는 상품 이미지가 있지만 실제 파일이 없을 경우 삭제
 	public void deleteNotExistImage(String goodsCode) throws Exception;
 	//발송상태 변경

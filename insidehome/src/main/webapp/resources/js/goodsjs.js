@@ -15,8 +15,13 @@ const add_updateFile = () => {
 
 
 function checkForm() {
-	if (document.getElementById('essential') == "") {
+	if (document.getElementByClass('essential') == "") {
 		window.alert("상품에는 상품명, 상품가격, 상품설명 및 상품관련 이미지(1개 이상) (이)가 반드시 입력되어야 합니다.");
 		return false;
 	}
+}
+
+function openWindowPop(url, name){
+	var options = 'top=10, left=10, width=500, height=600, status=no, menubar=no, toolbar=no, resizable=no';
+	window.open(url, name, options);
 }

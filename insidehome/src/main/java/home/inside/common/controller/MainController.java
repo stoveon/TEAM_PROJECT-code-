@@ -41,9 +41,9 @@ public class MainController {
    }
    
 	@RequestMapping(value="manager/main/order.do")
-	public String order(@RequestParam(value = "state") String state, @RequestParam(value = "goodsCode") String goodsCode, RedirectAttributes rttr) throws Exception {
+	public String order(String state, @RequestParam(value = "goodsCode") String goodsCode) throws Exception {
+		System.out.println(state);
 		goodsManagerService.updateSales(state, goodsCode);
-		rttr.addFlashAttribute("sendChange", "success");
-		return "redirect:/manager/main.do";
+		return "redirect:/manager/inside/main.do";
 	}
 }

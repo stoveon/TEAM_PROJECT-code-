@@ -12,24 +12,27 @@ import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.sun.istack.internal.logging.Logger;
 
 import home.inside.goods.service.IGoodsManagerService;
+import sun.misc.ProxyGenerator;
 
 @Controller
 public class GoodsFileController {
 	@Autowired
 	private IGoodsManagerService goodsManagerService;
+
+	private static Logger logger = Logger.getLogger(GoodsFileController.class);
 	
 	//이미지 출력
+	@ResponseBody
 	@GetMapping("/display")
-	public ResponseEntity<byte[]> getImage(@RequestParam(value = "goodsCode") String goodsCode, @RequestParam(value = "saveName") String saveName){
-		String path = "C:\\TeamProject\\UploadFile\\GOODS\\";
-		if(saveName != null) {
-			path += goodsCode + "\\" + saveName;
-		}else if(saveName == null){
-			path += "noimage.gif";
-		}
-		System.out.println("display: "+path);
+	public ResponseEntity<byte[]> displayFile(@RequestParam(value = "goodsCode") String goodsCode, @RequestParam(value = "saveName") String saveName) throws Exception{
+		logger.info("disply File .....saveName={}");
+		
+		String path = "C:\\TeamProject\\UploadFile\\GOODS\\" + goodsCode + "\\" + saveName;
 		
 		File file = new File(path);
 		if(!file.exists()) {
@@ -49,6 +52,8 @@ public class GoodsFileController {
 			result = new ResponseEntity<>(FileCopyUtils.copyToByteArray(file), header, HttpStatus.OK);
 		} catch (IOException e) {
 			e.printStackTrace();
+		} catch(Exception e) {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
 		return result;

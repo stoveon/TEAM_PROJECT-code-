@@ -1,5 +1,6 @@
 package home.inside.goods.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,12 +24,21 @@ public class GoodsUserServiceImpl implements IGoodsUserService {
 	@Autowired
 	private IGoodsSalesDao goodsSalesDao;
 
-	//회원 리스트
 	@Override
 	public List<HashMap<String, Object>> selectAll(String type) throws Exception {
 		HashMap<String, String> hm = new HashMap<String, String>();
 		hm.put("type", type);
 		return goodsDao.selectAll(hm);
+	}
+	
+	@Override
+	public Map<String, Object> selectOne(String goodsCode) throws Exception {
+		Map<String, Object> hm = new HashMap<String, Object>();
+		GoodsVo goods = goodsDao.selectOne(goodsCode);
+		List<String> goodsImages =  goodsImageDao.selectImage(goodsCode);
+		hm.put("goods", goods);
+		hm.put("goodsImages", goodsImages);
+		return hm;
 	}
 	
 	@Override
@@ -48,7 +58,8 @@ public class GoodsUserServiceImpl implements IGoodsUserService {
 
 	@Override
 	public void insertGoodsSales(GoodsSalesVo goodsSalesVo) throws Exception {
-		
+		goodsSalesVo.setSendState("YET");
+		goodsSalesDao.insertGoodsSales(goodsSalesVo);
 	}
-	
+
 }

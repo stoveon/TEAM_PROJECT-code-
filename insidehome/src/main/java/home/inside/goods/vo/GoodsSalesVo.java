@@ -6,9 +6,9 @@ public class GoodsSalesVo {
 	private int num;
 	private String goodsCode;
 	private String nickname;
-	private int sales;
+	private int price;
 	private Date orderdate;
-	private String sendSate;
+	private String sendState;
 	public int getNum() {
 		return num;
 	}
@@ -27,11 +27,11 @@ public class GoodsSalesVo {
 	public void setNickname(String nickname) {
 		this.nickname = nickname;
 	}
-	public int getSales() {
-		return sales;
+	public int getPrice() {
+		return price;
 	}
-	public void setSales(int sales) {
-		this.sales = sales;
+	public void setPrice(int price) {
+		this.price = price;
 	}
 	public Date getOrderdate() {
 		return orderdate;
@@ -39,11 +39,16 @@ public class GoodsSalesVo {
 	public void setOrderdate(Date orderdate) {
 		this.orderdate = orderdate;
 	}
-	public String getSendSate() {
-		return sendSate;
+	public String getSendState() {
+		return sendState;
 	}
-	public void setSendSate(String sendSate) {
-		this.sendSate = sendSate;
+	public void setSendState(String sendState) {
+		this.sendState = sendState;
+	}
+	public GoodsSalesVo(String goodsCode, String nickname, int price) {
+		this.goodsCode = goodsCode;
+		this.nickname = nickname;
+		this.price = price;
 	}
 	
 }

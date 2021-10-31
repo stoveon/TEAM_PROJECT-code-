@@ -2,6 +2,7 @@ package home.inside.goods.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import home.inside.goods.vo.GoodsImageVo;
 import home.inside.goods.vo.GoodsSalesVo;
@@ -9,6 +10,8 @@ import home.inside.goods.vo.GoodsSalesVo;
 public interface IGoodsUserService {
 	//포인트몰 목록(type: 최신순, 가격 asc or desc)
 	public List<HashMap<String, Object>> selectAll(String type) throws Exception;
+	//포인트몰 상세페이지 상품 정보
+	public Map<String, Object> selectOne(String goodsCode) throws Exception;
 	//포인트몰 상세페이지에서 해당 상품 이미지 전부 불러옴
 	public List<GoodsImageVo> selectAllImage() throws Exception;
 	//주문 등록

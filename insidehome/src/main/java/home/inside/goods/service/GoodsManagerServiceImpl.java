@@ -78,7 +78,7 @@ public class GoodsManagerServiceImpl implements IGoodsManagerService {
 	}
 
 	@Override
-	public void updateHeart(String type, String[] selectGoods) throws Exception {
+	public void updateHeart(String type, List<String> selectGoods) throws Exception {
 		for(String str : selectGoods) {
 		HashMap<String, String> hm = new HashMap<String, String>();
 		if(type.equals("recommand")) {
@@ -114,33 +114,33 @@ public class GoodsManagerServiceImpl implements IGoodsManagerService {
 	}
 
 	@Override
-	public Map<String, Object> selectOne(String type, String goodsCode) throws Exception {
+	public Map<String, Object> selectOne(String goodsCode) throws Exception {
 		Map<String, Object> hm = new HashMap<String, Object>();
 		GoodsVo goods = goodsDao.selectOne(goodsCode);
 		List<String> goodsImages = new ArrayList<String>();
-		if(type.equals("manager")) {
-			for(String str : goodsImageDao.selectImage(goodsCode)) {
-				String[] tmp = str.split("_");
-				String result = "";
-				if(tmp.length > 2) {
-					StringBuffer name = new StringBuffer();
-					for(int i = 1; i <= tmp.length-1; i++) {
-						name.append(tmp[i]);
-						if(tmp.length-1 != i) {
-							name.append("_");
-						}
+		List<String> imgPath = new ArrayList<String>();
+		for(String str : goodsImageDao.selectImage(goodsCode)) {
+			String path = "C:\\TeamProject\\UploadFile\\GOODS\\" + goods.getGoodsCode() + "\\" + str;
+			imgPath.add(path);
+			String[] tmp = str.split("_");
+			String result = "";
+			if(tmp.length > 2) {
+				StringBuffer name = new StringBuffer();
+				for(int i = 1; i <= tmp.length-1; i++) {
+					name.append(tmp[i]);
+					if(tmp.length-1 != i) {
+						name.append("_");
 					}
-					result = String.valueOf(name);	
-				}else {
-					result = tmp[tmp.length-1];
 				}
-				goodsImages.add(result);
+				result = String.valueOf(name);	
+			}else {
+				result = tmp[tmp.length-1];
 			}
-		}else if(type.equals("user")) {
-			goodsImages = goodsImageDao.selectImage(goodsCode);
+			goodsImages.add(result);
 		}
 		hm.put("goods", goods);
 		hm.put("goodsImages", goodsImages);
+		hm.put("imgPath", imgPath);
 		return hm;
 	}
 

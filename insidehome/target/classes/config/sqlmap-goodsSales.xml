@@ -5,8 +5,8 @@
 
 <mapper namespace="goodsSalesVo">
 	<insert id="insertGoodsSales" parameterType="goodsSalesVo">
-		insert into GOODS_SALES(NUM, GOODSCODE, NICKNAME, SALES, ORDERDATE, SENDSTATE) 
-		values(GOODS_SALES_SEQ.nextval, #{goodsCode}, #{nickname}, #{sales}, sysdate, #{sendState})
+		insert into GOODS_SALES(NUM, GOODSCODE, NICKNAME, PRICE, ORDERDATE, SENDSTATE) 
+		values(GOODS_SALES_SEQ.nextval, #{goodsCode}, #{nickname}, #{price}, sysdate, #{sendState})
 	</insert>
 	
 	<delete id="deleteGoodsSales" parameterType="String">
@@ -18,7 +18,7 @@
 	</select>
 	
 	<select id="salesOrderList" resultType="HashMap">
-		select SA.ORDERDATE, SA.GOODSCODE, GD.GOODSNAME, SA.SALES, SA.NICKNAME, SA.SENDSTATE
+		select SA.ORDERDATE, SA.GOODSCODE, GD.GOODSNAME, SA.PRICE, SA.NICKNAME, SA.SENDSTATE
 		from GOODS_SALES SA, GOODS GD 
 		where SA.GOODSCODE = GD.GOODSCODE
 		order by SA.SENDSTATE desc, SA.ORDERDATE desc
