@@ -30,8 +30,6 @@ public class GoodsFileController {
 	@ResponseBody
 	@GetMapping("/display")
 	public ResponseEntity<byte[]> displayFile(@RequestParam(value = "goodsCode") String goodsCode, @RequestParam(value = "saveName") String saveName) throws Exception{
-		logger.info("disply File .....saveName={}");
-		
 		String path = "C:\\TeamProject\\UploadFile\\GOODS\\" + goodsCode + "\\" + saveName;
 		
 		File file = new File(path);

@@ -30,7 +30,6 @@
      		(select GOODSCODE, count(GOODSCODE) TOTALCNT from GOODS_SALES group by GOODSCODE) SA
     	on GD.GOODSCODE = SA.GOODSCODE 
     	order by GD.HEART desc, GD.REGDATE desc
-        
 	</select>
 	
 	<select id="selectGoodsList" parameterType="HashMap" resultType="HashMap">
@@ -74,5 +73,26 @@
 	<update id="updateGoodsStock" parameterType="HashMap">
 		update GOODS set STOCK=STOCK+#{stock} where GOODSCODE=#{goodsCode}
 	</update>
+	
+	<select id="selectMainLatest" resultType="HashMap">
+		select GD.GOODSCODE ,GD.GOODSNAME , GD.PRICE, nvl(FI.SAVENAME, null) SAVENAME 
+    	from (select ROWNUM, GOODSCODE, GOODSNAME, REGDATE, HEART, PRICE 
+    		  from (select * from GOODS order by REGDATE desc) 
+    		  where ROWNUM <![CDATA[<=]]> 10) GD left outer join
+    		 (select IMAGE.GOODSCODE , IMAGE.SAVENAME from GOODS_IMAGE IMAGE,
+    					(select GOODSCODE, min(NUM) MINI from GOODS_IMAGE group by GOODSCODE) IMSI
+   			 where IMAGE.NUM = IMSI.MINI) FI
+   		on GD.GOODSCODE = FI.GOODSCODE order by GD.REGDATE desc
+	</select>
+		
+	<select id="selectMainHeart" resultType="HashMap">
+		select GD.GOODSCODE ,GD.GOODSNAME , GD.PRICE, nvl(FI.SAVENAME, null) SAVENAME 
+    	from GOODS GD left outer join
+    		 (select IMAGE.GOODSCODE , IMAGE.SAVENAME from GOODS_IMAGE IMAGE,
+    					(select GOODSCODE, min(NUM) MINI from GOODS_IMAGE group by GOODSCODE) IMSI
+   			 where IMAGE.NUM = IMSI.MINI) FI
+   		on GD.GOODSCODE = FI.GOODSCODE 
+        where GD.HEART = 'yes' order by GD.REGDATE desc
+	</select>
 
 </mapper>

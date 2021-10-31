@@ -59,4 +59,14 @@ public class GoodsDaoImpl implements IGoodsDao {
 		return sqlSessionTemplate.selectOne("insertCheck", goodsCode);
 	}
 
+	@Override
+	public List<HashMap<String, String>> selectMainLatest() throws Exception {
+		return sqlSessionTemplate.selectList("selectMainLatest");
+	}
+
+	@Override
+	public List<HashMap<String, String>> selectMainHeart() throws Exception {
+		return sqlSessionTemplate.selectList("selectMainHeart");
+	}
+
 }

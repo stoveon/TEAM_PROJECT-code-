@@ -32,8 +32,8 @@ public class GoodsUserServiceImpl implements IGoodsUserService {
 	}
 	
 	@Override
-	public Map<String, Object> selectOne(String goodsCode) throws Exception {
-		Map<String, Object> hm = new HashMap<String, Object>();
+	public HashMap<String, Object> selectOne(String goodsCode) throws Exception {
+		HashMap<String, Object> hm = new HashMap<String, Object>();
 		GoodsVo goods = goodsDao.selectOne(goodsCode);
 		List<String> goodsImages =  goodsImageDao.selectImage(goodsCode);
 		hm.put("goods", goods);
@@ -60,6 +60,14 @@ public class GoodsUserServiceImpl implements IGoodsUserService {
 	public void insertGoodsSales(GoodsSalesVo goodsSalesVo) throws Exception {
 		goodsSalesVo.setSendState("YET");
 		goodsSalesDao.insertGoodsSales(goodsSalesVo);
+	}
+
+	@Override
+	public HashMap<String, Object> selectMain() throws Exception {
+		HashMap<String, Object> hm = new HashMap<String, Object>();
+		hm.put("mainLatest", goodsDao.selectMainLatest());
+		hm.put("mainHeart", goodsDao.selectMainHeart());
+		return hm;
 	}
 
 }

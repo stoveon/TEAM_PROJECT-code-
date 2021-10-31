@@ -34,9 +34,13 @@ public class MainController {
       return "manager/main/main";
    }
    
-   @RequestMapping("inside/main.do/{goodsCode}")
-   public String userView(@PathVariable(value = "goodsCode") String goodsCode) throws Exception{
-	   
+   @RequestMapping("inside/main.do")
+   public String userView(Model model) throws Exception{
+	   HashMap<String, Object> hm = goodsUserService.selectMain();
+	   List<HashMap<String, String>> mainHeart = (List<HashMap<String, String>>) hm.get("mainHeart");
+	   List<HashMap<String, String>> mainLatest = (List<HashMap<String, String>>) hm.get("mainLatest");
+	   model.addAttribute("mainHeart", mainHeart);
+	   model.addAttribute("mainLatest", mainLatest);
       return "user/main/main";
    }
    

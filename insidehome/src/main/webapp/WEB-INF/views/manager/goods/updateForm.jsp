@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <%@include file="/WEB-INF/views/manager/main/mgrHeader.jsp"%>
-<form action="<c:url value="/manager/goods/updateGoods.do/${goods.goodsCode}" />" method="post" enctype="multipart/form-data" onsubmit="return checkForm()">
+<form action="<c:url value="/manager/goods/updateGoods.do/${goods.goodsCode}" />" method="post" enctype="multipart/form-data" onsubmit="return checkForm();">
 	<h3>상품 수정</h3>
 	<table>
 		<caption>
@@ -33,7 +33,8 @@
 				<td  colspan="4">
 			<c:if test="${!empty goodsImages}">
 				<c:forEach items="${goodsImages}" var="fileName">
-				<p><input type="checkbox" name="deleteGoodsImage" value="${fileName}" /><c:out value="${fileName}" /></p>
+				<c:set var="saveFile" value="${goods.goodsCode += '_' += fileName}" />
+				<p><input type="checkbox" name="deleteGoodsImage" value="${fileName}" /><a href="<c:url value="/display?goodsCode=${goods.goodsCode}&saveName=${saveFile}" />" target="_blank"><c:out value="${fileName}" /></a></p>
 				</c:forEach>
 			</c:if>
 				<div id="fileBox">
@@ -49,6 +50,7 @@
 <script>
 window.onload = function(){
 		document.getElementById("addBtn").onclick = add_updateFile;
+
 }
 </script>
 <%@include file="/WEB-INF/views/manager/main/mgrFooter.jsp"%>

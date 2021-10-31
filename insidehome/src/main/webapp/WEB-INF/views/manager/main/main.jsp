@@ -5,11 +5,14 @@
 <!DOCTYPE html>
 <%@include file="/WEB-INF/views/manager/main/mgrHeader.jsp"%>
 <script>
-	console.log('<c:out value="${sendChange}"/>');
-	var result = "<c:out value='${sendChange}'/>";
-	if(result == 'success'){
-		window.location.reload(true);
-}
+	function sendChk(){
+		if(confirm("발송을  취소하시겠습니까?") == true){
+			return form.action='<c:url value="/manager/main/order.do?state=YET&goodsCode=${orderOne.GOODSCODE}" />';
+		}else if(confirm("발송이 완료 되었습니까?")){
+			return form.action='<c:url value="/manager/main/order.do?state=END&goodsCode=${orderOne.GOODSCODE}" />';
+		}else{
+			return false;
+		}
 </script>
 <h3>주문관리</h3>
 <form>
@@ -25,15 +28,26 @@
 		<fmt:formatNumber value="${orderOne.SALES}" pattern="#,###" var="sales"/>
 		<td>${sales}</td>
 		<td><a href="#">${orderOne.NICKNAME}</a></td>
-		<c:if test="${orderOne.SENDSTATE eq 'YET'}">
-			<td><button type="submit" onclick="location.href='<c:url value="/manager/goods/order.do?state=ING&goodsCode=${orderOne.GOODSCODE}" />'">발송</button></td>
+		<c:choose>
+			<c:when test="${orderOne.SENDSTATE eq 'YET'}">
+				<td><button type="submit" onclick="form.action='<c:url value="/manager/main/order.do?state=ING&goodsCode=${orderOne.GOODSCODE}" />'">발송</button></td>
+			</c:when>
+			<c:when test="${orderOne.SENDSTATE eq 'ING'}">
+				<td><button type="submit" onclick="form.action='<c:url value="/manager/main/order.do?state=YET" />'">발송취소</button></td>
+			</c:when>		
+			<c:when test="${orderOne.SENDSTATE eq 'END'}">
+				<td><c:out value="배송완료" /></td>
+			</c:when>
+		</c:choose>
+<%-- 		<c:if test="${orderOne.SENDSTATE eq 'YET'}">
+			<td><button type="submit" onclick="form.action='<c:url value="/manager/main/order.do?state=ING&goodsCode=${orderOne.GOODSCODE}" />'">발송</button></td>
 		</c:if>
 		<c:if test="${orderOne.SENDSTATE eq 'ING'}">
-			<td><button type="submit" onclick="location.href='<c:url value="/manager/goods/order.do?state=YET&goodsCode=${orderOne.GOODSCODE}" />'">발송취소</button></td>
+			<td><button type="submit" onclick="form.action='<c:url value="/manager/main/order.do?state=YET" />'">발송취소</button></td>
 		</c:if>
 		<c:if test="${orderOne.SENDSTATE eq 'END'}">
-			<td>배송완료</td>
-		</c:if>
+			<td><c:out value="배송완료" /></td>
+		</c:if> --%>
 	</tr>
 	</c:forEach>
 </table>

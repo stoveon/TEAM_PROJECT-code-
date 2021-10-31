@@ -2,7 +2,7 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
   <display-name>insidehome</display-name>
   <welcome-file-list>
-    <welcome-file>/WEB-INF/views/user/main/main.jsp</welcome-file>
+    <welcome-file>/WEB-INF/index.jsp</welcome-file>
   </welcome-file-list>
   <servlet>
     <servlet-name>dispatcher</servlet-name>
@@ -10,10 +10,10 @@
     <init-param>
       <param-name>contextConfigLocation</param-name>
       <param-value>
+        	classpath:log4j.xml
   			classpath:spring-context.xml
   			classpath:spring-mvc.xml
   			classpath:spring-db.xml
-  			/WEB-INF/root-context.xml
   		</param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>

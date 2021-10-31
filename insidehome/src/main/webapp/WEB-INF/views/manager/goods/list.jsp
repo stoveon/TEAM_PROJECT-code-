@@ -5,14 +5,20 @@
 <!DOCTYPE html>
 <%@include file="/WEB-INF/views/manager/main/mgrHeader.jsp"%>
 <script type="text/javascript">
-	var check = "<c:out value="${deleteOk}" />";
-	if(check == 'success'){
+function removeCheck(){
+	if(confirm("상품을  삭제하시겠습니까?") == true){
+		document.goodsForm.action= '<c:url value="/manager/goods/deleteGoods.do" />'
+	}else{
+		return false;
+	}
+}
+	var checkDel = "<c:out value="${deleteOk}" />";
+	if(checkDel == 'success'){
 		alert('상품이 삭제되었습니다.');
 	}
-	function removeCheck(){
-		if(confirm("상품을  삭제하시겠습니까?") == true){
-			document.goodsForm.action= '<c:url value="/manager/goods/deleteGoods.do" />'
-		}
+	var checkHeart = "<c:out value="${heartFail}" />";
+	if(checkHeart == 'fail'){
+		alert('잘못 선택하셨습니다.');
 	}
 </script>
 <form name="goodsForm" method="post">
@@ -32,7 +38,7 @@
 		<tbody>
 			<c:forEach items="${goodsList}" var="goodsOne" >
 				<tr>
-					<td><input type="checkbox" name="selectGoods" value="${goodsOne.GOODSCODE}"/></td>
+					<td><input type="checkbox" name="selectGoods" value="${goodsOne.GOODSCODE}&${goodsOne.HEART}"/></td>
 					<td>
 						<c:if test="${goodsOne.HEART eq 'yes'}">
 							<c:set var="heart" value="SELECT" />

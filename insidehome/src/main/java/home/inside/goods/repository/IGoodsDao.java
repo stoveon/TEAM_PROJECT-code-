@@ -24,4 +24,8 @@ public interface IGoodsDao {
 	public void updateStock(HashMap<String, Integer> hm) throws Exception;
 	//상품코드 중복 확인용
 	public int insertCheck(String goodsCode) throws Exception;
+	//메인에서 보여줄 최근에 등록된 상품 10개 출력
+	public List<HashMap<String, String>> selectMainLatest() throws Exception;
+	//메인에서 보여줄 추천상품
+	public List<HashMap<String, String>> selectMainHeart() throws Exception;
 }
