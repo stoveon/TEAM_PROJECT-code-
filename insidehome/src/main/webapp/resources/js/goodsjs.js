@@ -25,3 +25,23 @@ function openWindowPop(url, name){
 	var options = 'top=10, left=10, width=500, height=600, status=no, menubar=no, toolbar=no, resizable=no';
 	window.open(url, name, options);
 }
+
+const changeMainIma = () => {
+	
+}
+
+const changeMainIma = () => {
+	var bigPic = document.querySelector("#mimg");
+	var smallPics = document.querySelectorAll(".arimg");
+	for(var i = 0; i < smallPics.length; i++){
+		smallPics[i].addEventListener("click", changePic);	//이벤트 처리
+		/*
+		onclick으로 하면 하나의 요소에 하나의 이벤트만 사용 가능 > 여러 이벤트를 처리해야할 경우 사용 불가
+		smallPics[i].onclick = changePic;
+		 */
+	}
+	function changePic(){
+		var smallPicAttribute = this.getAttribute("src");
+		bigPic.setAttribute("src", smallPicAttribute);
+	}
+}

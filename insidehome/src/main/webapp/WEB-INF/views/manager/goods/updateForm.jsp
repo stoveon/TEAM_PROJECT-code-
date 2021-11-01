@@ -33,8 +33,8 @@
 				<td  colspan="4">
 			<c:if test="${!empty goodsImages}">
 				<c:forEach items="${goodsImages}" var="fileName">
-				<c:set var="saveFile" value="${goods.goodsCode += '_' += fileName}" />
-				<p><input type="checkbox" name="deleteGoodsImage" value="${fileName}" /><a href="<c:url value="/display?goodsCode=${goods.goodsCode}&saveName=${saveFile}" />" target="_blank"><c:out value="${fileName}" /></a></p>
+				<c:set var="saveFile" value="${fileName.imgPath}" />
+				<p><input type="checkbox" name="deleteGoodsImage" value="${fileName}" /><a href="<c:url value="/display?goodsCode=${goods.goodsCode}&saveName=${saveFile}" />" target="_blank"><c:out value="${fileName.saveName}" /></a></p>
 				</c:forEach>
 			</c:if>
 				<div id="fileBox">
