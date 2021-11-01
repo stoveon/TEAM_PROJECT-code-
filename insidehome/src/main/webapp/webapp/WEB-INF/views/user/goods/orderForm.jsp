@@ -4,15 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <%@include file="/WEB-INF/views/user/main/userHeader.jsp"%>
-<style type="text/css">
-.goods-tb{
-	border-collapse: collapse;
-	text-align: center;
-}
-.goods-tb tr, .goods-tb td{
-	border: 1px solid black;
-}
-</style>
+<link href="<c:url value="/resources/css/goodsDetail.css" />" rel="stylesheet" />
 <script type="text/javascript">
 function orderCheck(){
 	if(confirm("상품을  주문하시겠습니까?") == true){
@@ -22,10 +14,10 @@ function orderCheck(){
 	}
 }
 </script>
-	<h1>주문/결제</h1>
-<hr>
-	<div class="goods-box">
-		<table class="goods-tb">
+	<span class="order-title">주문/결제</span>
+<hr style="margin:10px 0 10px 0; text-align:left; width: 90%;">
+	<div class="order-goods-box">
+		<table class="order-goods-tb">
 		<c:set var="goodsCode" value="${goods.goodsCode}" />
 		<c:set var="nickname" value="#닉네임#" />
 		<c:set var="price" value="${goods.price}" />
@@ -38,7 +30,7 @@ function orderCheck(){
 			</thead>
 			<tbody>
 				<tr>
-					<td><c:if test="${empty goodsImage}">
+					<td class="order-goods-tb-img"><c:if test="${empty goodsImage}">
 							<c:set var="imagePath" value="/resources/img/noGoods.gif" />
 						</c:if>
 						<c:if test="${!empty goodsImage}">
@@ -46,58 +38,67 @@ function orderCheck(){
 						</c:if>
 						<img src="<c:url value="${imagePath}" />">
 					</td>
-					<td><c:out value="${goods.goodsName}" /></td>
-					<td><c:out value="1" /></td>
-					<td><fmt:formatNumber var="price" value="${goods.price}" pattern="#,###" />
+					<td class="order-goods-tb-name"><c:out value="${goods.goodsName}" /></td>
+					<td class="order-goods-tb-cnt"><c:out value="1" /></td>
+					<td class="order-goods-tb-price"><fmt:formatNumber var="price" value="${goods.price}" pattern="#,###" />
 					<c:out value="${price}" /></td>
 				</tr>
 			</tbody>
 		</table>
 	</div>
-<hr>
-	<div class="info-box">
-		<h3>주문자정보</h3>
+<hr style="margin:10px 0 10px 0; text-align:left; width: 90%;">
+	<div class="order-info-box">
+		<span class="order-sub-title">주문자정보</span>
 		<ul>
-			<li id="#">이름</li>
-			<li id="#">전화번호</li>
-			<li id="#">이메일</li>
+			<li class="order-info-li"><c:out value="이름"/></li>
+			<li class="order-info-li"><c:out value="전화번호"/></li>
+			<li class="order-info-li"><c:out value="이메일"/></li>
 		</ul>
 	</div>
-<hr>
-	<div class="addr-box">
-		<h3>배송지 정보</h3>
+<hr style="margin:10px 0 10px 0; text-align:left; width: 90%;">
+	<div class="order-addr-box">
+		<span class="order-sub-title">배송지 정보</span>&nbsp;
 		<button onclick="location.href=<c:url value="#"/>" >배송지  수정</button>
 		<ul>
-			<li id="#">이름&nbsp;전화번호</li>
-			<li id="#">(우편번호)&nbsp;주소&nbsp;상세주소</li>
+			<li  class="order-addr-li"><c:out value="이름"/>&nbsp;<c:out value="전화번호"/></li>
+			<li class="order-addr-li">(<c:out value="우편번호"/>)&nbsp;<c:out value="주소"/></li>
+			<li class="order-addr-li"><c:out value="상세주소"/></li>
 		</ul>
 	</div>
-<hr>
-	<div class="point-box">
-		<h3>포인트정보</h3>
-		<table class="point-tb">
-			<tr>
-			<c:set var="remaindPoint" value="${10000+goods.price-goods.price}" />
-				<td>보유포인트</td>
-				<td><fmt:formatNumber var="pocket" value="${goods.price}" pattern="#,###" />
-				<c:out value="${pocket}" /></td>
-			</tr>
-			<tr style="border-bottom: black;">
-				<td>사용포인트</td><td><c:out value="${price}" /></td>
-			</tr>
-			<tr>
-
-				<td>잔여포인트</td><td><c:out value="${remaindPoint}" /></td>
-			</tr>
-		</table>
+<hr style="margin:10px 0 10px 0; text-align:left; width: 90%;">
+<div class="order-point-btn-box">
+	<div class="order-point-box">
+		<div class="order-point-box-title">
+			<span class="order-sub-title">포인트정보</span>
+		</div>
+		<div class="order-point-box-table">
+			<table class="order-point-tb">
+				<tr>
+				<c:set var="remaindPoint" value="${10000+goods.price-goods.price}" />
+					<td>보유포인트</td>
+					<td><fmt:formatNumber var="pocket" value="${goods.price}" pattern="#,###" />
+					<c:out value="${pocket}" /></td>
+				</tr>
+				<tr class="order-point-tr">
+					<td>사용포인트</td><td><c:out value="${price}" /></td>
+				</tr>
+				<tr class="order-point-tr">
+					<td>잔여포인트</td><td><c:out value="${remaindPoint}" /></td>
+				</tr>
+			</table>
+		</div>
 	</div>
-	<div class="btn-box">
-		<button onclick="location.href='<c:url value="/goods/list.do" />'" >취소</button><br>
-		<form method="post" name="orderForm">
-		<button type="submit" onclick="orderCheck();" >주문하기</button>
-		<input type="hidden" name="goodsCode"  value="${goods.goodsCode}" />
-		<input type="hidden" name="nickname"  value="eun_inside" />
-		<input type="hidden" name="price"  value="${goods.price}" />
-		</form>
+	<div class="order-btn-box">
+		<div class="order-btn-c"><button onclick="location.href='<c:url value="/goods/list.do" />'" >취소</button></div>
+		<div class="order-btn-f">
+			<form method="post" name="orderForm">
+			<button type="submit" onclick="orderCheck();" >주문하기</button>
+			<input type="hidden" name="goodsCode"  value="${goods.goodsCode}" />
+			<input type="hidden" name="nickname"  value="eun_inside" />
+			<input type="hidden" name="price"  value="${goods.price}" />
+			</form>
+		</div>
 	</div>
-<%@include file="/WEB-INF/views/user/main/userFooter.jsp"%>
+</div>
+</body>
+</html>

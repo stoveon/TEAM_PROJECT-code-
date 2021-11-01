@@ -1,10 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <%@include file="/WEB-INF/views/user/main/userHeader.jsp"%>
 <link href="<c:url value="/resources/css/goodsDetail.css" />" rel="stylesheet" />
-	<div class="image-preview">
+<div class="detail-img-box">
+	<div class="detail-main-img">
 	<c:choose>
 		<c:when test="${empty goodsImages}">
 			<c:set var="imagePath" value="/resources/img/noGoods.gif" />		
@@ -13,34 +16,29 @@
 			<c:set var="imagePath" value="/display?goodsCode=${goods.goodsCode}&saveName=${goodsImages[0]}" />		
 		</c:otherwise>
 	</c:choose>
-<!-- 		<c:if test="${empty goodsImages}">
-			<c:set var="imagePath" value="/resources/img/noGoods.gif" />
-		</c:if>
-		<c:if test="${!empty goodsImages}">
-			<c:set var="imagePath" value="/display?goodsCode=${goods.goodsCode}&saveName=${goodsImages[0]}" />
-		</c:if> -->
 		<img class="mimg" src="<c:url value="${imagePath}" />">
 	</div>
-	<div class="list-box">
-	<div class="list-img">
-		<ul>
-			<c:forEach items="${goodsImages}" var="imageOne">
-				<li><img class="arimg" src="<c:url value="/display?goodsCode=${goods.goodsCode}&saveName=${imageOne}" />"></li>
-			</c:forEach>
-		</ul>
-	</div>
-	</div>
+	
+	<c:if test="${fn:length(goodsImages) > 1}">
+		<div class="detail-list-img">
+			<ul>
+				<c:forEach items="${goodsImages}" var="imageOne">
+					<li><img class="arimg" src="<c:url value="/display?goodsCode=${goods.goodsCode}&saveName=${imageOne}" />"></li>
+				</c:forEach>
+			</ul>
+		</div>
+	</c:if>
+</div>
 <div class="detail-box">
-	<div class="info-box">
-	<ul >
-		<li><c:out value="${goods.goodsName}"/></li>
-		<li><c:out value="${goods.price}"/></li>
-		<li><c:out value="${goods.content}"/></li>
-	</ul>
+	<div class="detail-info-box">
+	<p class="detail-goodsname"><b><c:out value="${goods.goodsName}"/></b></p><br>
+		<fmt:formatNumber var="price" value="${goods.price}" pattern="#,###" />
+	<p class="detail-goodsprice"><c:out value="${price}"/></p><br>
+	<p class="detail-goodscontent"><c:out value="${goods.content}"/></p><br>
 	</div>
-	<div class="btn-box">
+	<div class="detail-btn-box">
 		<button class="order-btn" onclick="location.href='<c:url value="/goods/order.do/${goods.goodsCode}" />'">
-		주문하기</button>
+		<img class="banner" src="<c:url value="/resources/img/goods-get-btn.png"/>"></button>
 	</div>
 </div>
 </body>
