@@ -75,4 +75,9 @@ public class GoodsController {
 		return "redirect:/goods/list.do";
 	}
 	
+	@RequestMapping(value="order.do/orderPopup")
+	public String orderPopup() throws Exception {
+		return "user/goods/orderPopup";
+	}
+	
 }

@@ -83,9 +83,9 @@
 		<div class="order-btn-c"><button onclick="location.href='<c:url value="/goods/list.do" />'" >취소</button></div>
 		<div class="order-btn-f">
 			<form method="post" name="orderForm" action="<c:url value="/goods/order.do" />">
-			<button type="submit" id="salesbtn" onclick="orderCheck();" >주문하기</button>
+			<button type="submit" id="salesbtn" onclick="return orderCheck(${goods.goodsName});" >주문하기</button>
 			<input type="hidden" name="goodsCode"  value="${goods.goodsCode}" />
-			<input type="hidden" id="goodsName" name="goodsName"  value="${goods.goodsName}" />
+			<input type="hidden" name="goodsName"  value="${goods.goodsName}" />
 			<input type="hidden" name="nickname"  value="eun_inside" />
 			<input type="hidden" name="price"  value="${goods.price}" />
 			</form>
