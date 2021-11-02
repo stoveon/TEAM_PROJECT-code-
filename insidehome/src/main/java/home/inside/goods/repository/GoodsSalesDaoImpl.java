@@ -38,4 +38,19 @@ public class GoodsSalesDaoImpl implements IGoodsSalesDao {
 	public int salesCount(String nickname) throws Exception {
 		return sqlSessionTemplate.selectOne("salesCountNickname", nickname);
 	}
+
+	@Override
+	public List<HashMap<String, String>> nickNameOrderList(String nickname) throws Exception {
+		return sqlSessionTemplate.selectList("nickNameOrderList", nickname);
+	}
+
+	@Override
+	public void autoSendupdate(String nickname) throws Exception {
+		sqlSessionTemplate.update("autoSendUpdate", nickname);
+	}
+
+	@Override
+	public List<String> autoSendupdateList() throws Exception {
+		return sqlSessionTemplate.selectList("autoSendUPdateList");
+	}
 }

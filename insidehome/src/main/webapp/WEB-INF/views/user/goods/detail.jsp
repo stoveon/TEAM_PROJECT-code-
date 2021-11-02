@@ -7,12 +7,6 @@
 <%@include file="/WEB-INF/views/user/main/userHeader.jsp"%>
 <link href="<c:url value="/resources/css/goodsDetail.css" />" rel="stylesheet" />
 <script type="text/javascript" src="<c:url value="/resources/js/goodsjs.js" />"></script>
-<script >
-window.onload = function(){
-	document.getElementByClassName("arimg").onclick = changeMainIma;
-
-}
-</script>
 <div class="detail-img-box">
 	<div class="detail-main-img">
 	<c:choose>
@@ -30,7 +24,7 @@ window.onload = function(){
 		<div class="detail-list-img">
 			<c:forEach items="${goodsImages}" var="imageOne">
 				<div class="detail-list-img-li">
-					<img class="arimg" src="<c:url value="/display?goodsCode=${goods.goodsCode}&saveName=${imageOne}" />">
+					<a href="javascript:changeMainIma();"><img class="arimg" src="<c:url value="/display?goodsCode=${goods.goodsCode}&saveName=${imageOne}" />"></a>
 				</div>
 			</c:forEach>
 		</div>

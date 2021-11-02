@@ -32,7 +32,7 @@ var selectBoxChange = function(value){
 		</c:if>
 				<td>
 				<a href="<c:url value="/goods/detail.do/${goodsOne.GOODSCODE}" />">
-					<div class="goods-box" title="${goodsOne.goodsName}" title="<c:out value="${goodsOne.GOODSNAME}" />">
+					<div class="goods-box" title="${goodsOne.goodsName}">
 						<div class="image-box">
 							<c:choose>
 								<c:when test="${goodsOne.SAVENAME == null}">
@@ -42,7 +42,7 @@ var selectBoxChange = function(value){
 									<c:set var="imagePath" value="/display?goodsCode=${goodsOne.GOODSCODE}&saveName=${goodsOne.SAVENAME}" />							
 								</c:otherwise>
 							</c:choose>			
-							<img class="image-goods" src="<c:url value="${imagePath}" />" /><br>
+							<img class="image-goods" src="<c:url value="${imagePath}" />" alt="<c:out value="${goodsOne.GOODSNAME}" />"/><br>
 							</div>
 							<div class="goods-txt">
 								<b><c:out value="${goodsOne.GOODSNAME}"/></b>

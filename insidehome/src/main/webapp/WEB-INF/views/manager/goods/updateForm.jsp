@@ -49,8 +49,7 @@
 <script type="text/javascript" src="<c:url value="/resources/js/goodsjs.js"/>"></script>
 <script>
 window.onload = function(){
-		document.getElementById("addBtn").onclick = add_updateFile;
-
+	document.getElementById("addBtn").onclick = add_updateFile;
 }
 </script>
 <%@include file="/WEB-INF/views/manager/main/mgrFooter.jsp"%>

@@ -130,7 +130,7 @@
          <version>${springframework-version}</version>
       </dependency>
       
-      <!-- logger -->
+      <!-- log -->
       <dependency>
       	<groupId>log4j</groupId>
       	<artifactId>log4j</artifactId>

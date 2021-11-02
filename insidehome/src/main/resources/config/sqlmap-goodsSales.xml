@@ -24,8 +24,25 @@
 		order by SA.SENDSTATE desc, SA.ORDERDATE desc
 	</select>
 	
+	<select id="nickNameOrderList" parameterType="String" resultType="HashMap">
+		select SA.ORDERDATE, SA.GOODSCODE, GD.GOODSNAME, SA.PRICE, SA.NICKNAME, SA.SENDSTATE
+		from GOODS_SALES SA, GOODS GD 
+		where SA.GOODSCODE = GD.GOODSCODE
+		order by SA.SENDSTATE desc, SA.ORDERDATE desc
+		where NICKNAME=#{nickname}
+	</select>
+	
 	<update id="updateOrderState" parameterType="HashMap">
 		update GOODS_SALES set SENDSTATE=#{state} where GOODSCODE=#{goodsCode}
 	</update>
+	
+	<update id="autoSendUpdate" parameterType="String">
+	update GOODS_SALES set SENDSTATE='END' where GOODSCODE=#{GOODSCODE}
+	</update>
+	
+	<select id="autoSendUPdateList" resultType="String">
+	select GOODSCODE from GOODS_SALES where 
+	TO_CHAR(SENDDATE + (interval '7' DAY), 'YYYYMMDD') = TO_CHAR(sysdate, 'YYYYMMDD')
+	</select>
 	
 </mapper>

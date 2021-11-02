@@ -27,4 +27,6 @@ public interface IGoodsManagerService {
 	public void updateSales(String state, String goodsCode) throws Exception;
 	//관리자 메인 페이지(주문관리)에서 사용할 메서드
 	public List<HashMap<String, Object>> orderAll() throws Exception;
+	//배송상태 자동 업데이트 처리
+	public void autoSendUpdate() throws Exception;
 }

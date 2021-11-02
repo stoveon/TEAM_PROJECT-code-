@@ -117,11 +117,11 @@ public class GoodsManagerServiceImpl implements IGoodsManagerService {
 	public Map<String, Object> selectOne(String goodsCode) throws Exception {
 		Map<String, Object> hm = new HashMap<String, Object>();
 		GoodsVo goods = goodsDao.selectOne(goodsCode);
-		List<String> goodsImages = new ArrayList<String>();
-		List<String> imgPath = new ArrayList<String>();
+		List<HashMap<String, String>> goodsImages = new ArrayList<HashMap<String,String>>();
 		for(String str : goodsImageDao.selectImage(goodsCode)) {
-			String path = "C:\\TeamProject\\UploadFile\\GOODS\\" + goods.getGoodsCode() + "\\" + str;
-			imgPath.add(path);
+			HashMap<String, String> imgImsi = new HashMap<String, String>();
+			imgImsi.put("imgPath", str);
+			
 			String[] tmp = str.split("_");
 			String result = "";
 			if(tmp.length > 2) {
@@ -136,11 +136,11 @@ public class GoodsManagerServiceImpl implements IGoodsManagerService {
 			}else {
 				result = tmp[tmp.length-1];
 			}
-			goodsImages.add(result);
-		}
+			imgImsi.put("saveName", result);
+			goodsImages.add(imgImsi);
+			}
 		hm.put("goods", goods);
 		hm.put("goodsImages", goodsImages);
-		hm.put("imgPath", imgPath);
 		return hm;
 	}
 
@@ -159,6 +159,7 @@ public class GoodsManagerServiceImpl implements IGoodsManagerService {
 	
 	@Override
 	public List<HashMap<String, Object>> orderAll() throws Exception {
+		autoSendUpdate();
 		return goodsSalesDao.orderList();
 	}
 	
@@ -167,6 +168,13 @@ public class GoodsManagerServiceImpl implements IGoodsManagerService {
 		String trans = after.format(date);
 		Date result = java.sql.Date.valueOf(trans);
 		return result;
+	}
+
+	@Override
+	public void autoSendUpdate() throws Exception {
+		for(String str : goodsSalesDao.autoSendupdateList()) {
+		goodsSalesDao.autoSendupdate(str);	
+		}
 	}
 	
 }

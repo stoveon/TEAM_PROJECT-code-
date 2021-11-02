@@ -16,4 +16,10 @@ public interface IGoodsSalesDao {
 	public void deleteGoodsSales(String nickname) throws Exception;
 	//회원별 주문 수량 가져오기
 	public int salesCount(String nickname) throws Exception;
+	//회원별 주문내역 가져오기
+	public List<HashMap<String, String>> nickNameOrderList(String nickname) throws Exception;
+	//주문상태 자동 업데이트 할 대상
+	public List<String> autoSendupdateList() throws Exception;
+	//주문상태 자동 업데이트
+	public void autoSendupdate(String nickname) throws Exception;
 }

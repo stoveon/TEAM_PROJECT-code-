@@ -52,11 +52,9 @@ public class GoodsManagerController {
 	public String updateGoodsForm(@PathVariable String goodsCode, Model model) throws Exception {
 		Map<String, Object> hm = goodsMangerService.selectOne(goodsCode);
 		GoodsVo goods = (GoodsVo) hm.get("goods");
-		List<String> goodsImages = (List<String>)hm.get("goodsImages");
-		List<String> imgPath = (List<String>) hm.get("imgPath");
+		List<HashMap<String, String>> goodsImages = (List<HashMap<String, String>>)hm.get("goodsImages");
 		model.addAttribute("goods", goods);	
 		model.addAttribute("goodsImages", goodsImages);	
-		model.addAttribute("imgPath", imgPath);	
 		return "manager/goods/updateForm";
 	}
 	

@@ -5,15 +5,6 @@
 <!DOCTYPE html>
 <%@include file="/WEB-INF/views/user/main/userHeader.jsp"%>
 <link href="<c:url value="/resources/css/goodsDetail.css" />" rel="stylesheet" />
-<script type="text/javascript">
-function orderCheck(){
-	if(confirm("상품을  주문하시겠습니까?") == true){
-		document.orderForm.action='<c:url value="/goods/order.do" />'
-	}else{
-		return false;
-	}
-}
-</script>
 	<span class="order-title">주문/결제</span>
 <hr style="margin:10px 0 10px 0; text-align:left; width: 90%;">
 	<div class="order-goods-box">
@@ -91,14 +82,16 @@ function orderCheck(){
 	<div class="order-btn-box">
 		<div class="order-btn-c"><button onclick="location.href='<c:url value="/goods/list.do" />'" >취소</button></div>
 		<div class="order-btn-f">
-			<form method="post" name="orderForm">
-			<button type="submit" onclick="orderCheck();" >주문하기</button>
+			<form method="post" name="orderForm" action="<c:url value="/goods/order.do" />">
+			<button type="submit" id="salesbtn" onclick="orderCheck();" >주문하기</button>
 			<input type="hidden" name="goodsCode"  value="${goods.goodsCode}" />
+			<input type="hidden" id="goodsName" name="goodsName"  value="${goods.goodsName}" />
 			<input type="hidden" name="nickname"  value="eun_inside" />
 			<input type="hidden" name="price"  value="${goods.price}" />
 			</form>
 		</div>
 	</div>
 </div>
+<script type="text/javascript" src="<c:url value="/resources/js/goodsjs.js" />"></script>
 </body>
 </html>

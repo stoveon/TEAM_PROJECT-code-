@@ -21,15 +21,6 @@ function checkForm() {
 	}
 }
 
-function openWindowPop(url, name){
-	var options = 'top=10, left=10, width=500, height=600, status=no, menubar=no, toolbar=no, resizable=no';
-	window.open(url, name, options);
-}
-
-const changeMainIma = () => {
-	
-}
-
 const changeMainIma = () => {
 	var bigPic = document.querySelector("#mimg");
 	var smallPics = document.querySelectorAll(".arimg");
@@ -44,4 +35,15 @@ const changeMainIma = () => {
 		var smallPicAttribute = this.getAttribute("src");
 		bigPic.setAttribute("src", smallPicAttribute);
 	}
+}
+
+
+
+document.getElementById("salesbtn").onclick =  function orderCheck(){
+/*	var pop = window.open("/orderPopup.html", "주문확인", "left=10, top=10, width=500, height=500");*/
+			if(confirm("주문을 하시겠습니까?") == true){
+				return true;
+			}else{
+				return false;
+			}
 }
