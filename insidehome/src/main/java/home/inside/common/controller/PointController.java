@@ -1,8 +1,12 @@
 package home.inside.common.controller;
 
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,48 +19,31 @@ import home.inside.common.vo.PointVo;
 @Controller
 public class PointController {
 	@Autowired
-	private IPointService pointService;
+	private IPointService pointSer;
 	
-	//출석
-	@RequestMapping(value = "/inside/check.do")
-	public String checkIn(String nickname, Date changeDate, HttpServletRequest req) throws Exception {
-		if(nickname!=null && pointService.selectCheck(nickname)<=0) {
-			PointVo vo = new PointVo();
-			vo.setNickname(nickname);
-			vo.setChangePoint(300);
-			vo.setChangeWhy("checkIn");
-			pointService.insertPoint(vo);
-			req.setAttribute("check", "success");
-		}
-		req.setAttribute("check", "fail");
-		return "error/commonException";
-	}
-	
-	
-	//출석페이지
-	@RequestMapping(value = "/inside/checkin.do")
-	public String checkList(String nickname, Integer month, Model model) throws Exception {
-		System.out.println("month: "+month);
+	//출석페이지 요청
+	@RequestMapping(value = "/inside/checkForm.do")
+	public String checkList(Integer month, Model model, HttpSession session) throws Exception {
+		String nickname = (String) session.getAttribute("loginInside");
 		if(nickname!=null) {
 			month=(month==null)?0:month;
-			model.addAttribute("checkList", pointService.selectMonth(nickname, month));
+			model.addAttribute("checkList", pointSer.selectMonth(nickname));
+		}else {
+			model.addAttribute("checkList", Collections.emptyList());
 		}
 		return "user/main/checkIn";
 	}
 	
-	
-	@RequestMapping("/main.do")
-	public String view() {
-		return "user/main/main";
-	}
-	
-	@RequestMapping("/user/main.do")
-	public String view2() {
-		return "manager/main/main";
-	}
-
-	@RequestMapping("/manager/main.do")
-	public String view3() {
+	//출석처리 요청
+	@RequestMapping(value = "/user/inside/check.do")
+	public String checkIn(HttpSession session, HttpServletRequest req) throws Exception {
+		String nickname = (String) session.getAttribute("loginInside");
+		if(nickname!=null && pointSer.selectCheck(nickname)<=0) {
+			pointSer.insertPoint(nickname, "check", 300);
+			req.setAttribute("check", "success");
+		}else {
+			req.setAttribute("check", "fail");
+		}
 		return "error/commonException";
 	}
 

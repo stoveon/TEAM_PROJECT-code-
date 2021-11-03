@@ -11,15 +11,15 @@
 	<select id="selectMainInfo" parameterType="String" resultType="HashMap">
 		select EMAIL, NICKNAME from MEMBER_MAIN where NICKNAME=#{nickname}
 	</select>
-	<select id="selectMainList" parameterType="String" resultType="HashMap">
+	<select id="selectMainList" resultType="HashMap">
 		select EMAIL, NICKNAME, REGDATE, LOGINTIME from MEMBER_MAIN 
-		<if test="nickname!=null">
+	</select>
+	<select id="searchMainList" parameterType="String" resultType="HashMap">
+		select EMAIL, NICKNAME, REGDATE, LOGINTIME from MEMBER_MAIN 
 			where NICKNAME like '%'||#{nickname}||'%'
-		</if>
 	</select>
 	<update id="updatePw" parameterType="HashMap">
-		update MEMBER_MAIN set PASSWORD=#{password} 
-		where NICKNAME=#{nickname}] and PASSORD=#{password}
+		update MEMBER_MAIN set PASSWORD=#{newPassword} where NICKNAME=#{nickname}
 	</update>
 	<delete id="deleteMainInfo" parameterType="String">
 		delete from MEMBER_MAIN where NICKNAME=#{nickname}
@@ -27,15 +27,45 @@
 	
 	
 	<select id="selectLoginInfo" parameterType="String" resultType="HashMap">
-		select EMAIL, PASSWORD from MEMBER_MAIN where SESSIONID=#{sessionId}
+		select EMAIL, NICKNAME, LOGINOPTION from MEMBER_MAIN where SESSIONID=#{sessionId}
 	</select>
 	<select id="selectIsEqualsToInsert" parameterType="HashMap" resultType="String">
 		select NICKNAME from MEMBER_MAIN where EMAIL=#{email} and PASSWORD=#{password}
 	</select>
 	<update id="updateLoginSuccess" parameterType="HashMap">
-		update MEMBER_MAIN set SESSIONID=#{sessionId} where NICKNAME=#{nickname}
+		update MEMBER_MAIN set LOGINTIME=sysdate 
+		<if test="sessionId!=null">
+		, SESSIONID=#{sessionId}, LOGINOPTION=#{loginOption} 
+		</if>
+		where EMAIL=#{email}
 	</update>
-	<select id="overlapCheck" parameterType="HashMap" resultType="String">
-		select ${type} from MEMBER_MAIN where ${type}=#{str}
+	<select id="emailCheck" parameterType="String" resultType="int">
+		select count(*) from MEMBER_MAIN where EMAIL=#{email}
+	</select>
+	<select id="nicknameCheck" parameterType="String" resultType="int">
+		select count(*) from MEMBER_MAIN where NICKNAME=#{nickname}
+	</select>
+	<select id="tmpLogin" parameterType="String" resultType="HashMap">
+		select NICKNAME, PASSWORD from MEMBER_MAIN where EMAIL=#{email}
+	</select>
+	
+	
+	
+	<select id="emailFind" parameterType="HashMap" resultType="String">
+		select main.EMAIL from MEMBER_MAIN main, MEMBER_ADDR addr
+		where addr.PHONE1=#{phone1} and addr.PHONE2=#{phone2} and main.EMAIL like '%'||#{email}
+	</select>
+	<select id="passwordFind" parameterType="HashMap" resultType="String">
+		select main.EMAIL from MEMBER_MAIN main, MEMBER_ADDR addr
+		where addr.PHONE1=#{phone1} and addr.PHONE2=#{phone2} and main.EMAIL=#{email}
+	</select>
+	<select id="selectInfo" parameterType="String" resultType="memberInfoDto">
+		select main.EMAIL, main.NICKNAME, main.LOGINTIME, main.REGDATE,
+    			sub.NAME, sub.GENDER, sub.STOREDATE,
+			    addr.PHONE1, addr.PHONE2, addr.ADDRNUM, addr.ADDR, addr.ADDRSUB
+    	from MEMBER_MAIN main, MEMBER_SUB sub, MEMBER_ADDR addr
+    	where main.NICKNAME = sub.NICKNAME
+        		and sub.NICKNAME = addr.NICKNAME
+		        and addr.NICKNAME = #{nickname}
 	</select>
 </mapper>

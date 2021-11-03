@@ -5,28 +5,33 @@
 
 <mapper namespace="memberSubDao">
 	<insert id="insertSubInfo" parameterType="HashMap">
-		insert into MEMBER_SUB(NUM, NICKNAME, NAME,STOREDATE)
-		values(MEMBER_SUB_SEQ.nextval, #{nickname}, #{name}, #{gender}, 
-		(select sysdate + interval #{storedate} year from dual))
+		insert into
+		MEMBER_SUB(NUM, NICKNAME, NAME, GENDER, STOREDATE) values
+		(MEMBER_SUB_SEQ.nextval, #{nickname}, #{name}, #{gender}, add_months(sysdate, ${storedate}))
 	</insert>
-	<select id="selectSubInfo" parameterType="String" resultType="memberSubVo">
+	<select id="selectSubInfo" parameterType="String"
+		resultType="memberSubVo">
 		select * from MEMBER_SUB where NICKNAME=#{nickname}
 	</select>
-	<update id="updateSubInfo" parameterType="memberSubVo">
-		update MEMBER_SUB set GENDER=#{gender}, 
-		STOREDATE=(select sysdate + interval #{storedate} year from dual)) 
+	<update id="updateSubInfo" parameterType="HashMap">
+		update MEMBER_SUB set
+		GENDER=#{gender},
+		STOREDATE=add_months(sysdate, ${storedate}), 
+		MODDATE=sysdate 
 		where NICKNAME=#{nickname}
 	</update>
 	<delete id="deleteSubInfo" parameterType="String">
-		delete from MEMBER_SUB where NICKNAME=#{nickname}
+		delete from MEMBER_SUB
+		where NICKNAME=#{nickname}
 	</delete>
-	
-	
-	<select id="selectPointAndWarn" parameterType="String" resultType="HashMap">
-		select WARNCOUNT, POINT from MEMBER_SUB where NICKNAME=#{nickname}
+
+	<select id="selectPointAndWarn" parameterType="String"
+		resultType="HashMap">
+		select WARNCOUNT, POINT from MEMBER_SUB where
+		NICKNAME=#{nickname}
 	</select>
 	<update id="updatePointOrWarn" parameterType="HashMap">
-		update MEMBER_SUB set 
+		update MEMBER_SUB set
 		<if test="point!=0">
 			POINT=POINT+#{point}
 		</if>

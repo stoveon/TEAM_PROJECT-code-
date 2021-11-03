@@ -10,10 +10,12 @@
     <init-param>
       <param-name>contextConfigLocation</param-name>
       <param-value>
-        	classpath:log4j.xml
   			classpath:spring-context.xml
   			classpath:spring-mvc.xml
   			classpath:spring-db.xml
+  			classpath:log4j.xml
+  			/WEB-INF/spring/root-context.xml
+  			/WEB-INF/spring/spring-security.xml
   		</param-value>
     </init-param>
     <load-on-startup>1</load-on-startup>
@@ -34,4 +36,12 @@
     <filter-name>encoding</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
+  <error-page>
+  	<error-code>404</error-code>
+  	<location>/WEB-INF/views/error/commonException.jsp</location>
+  </error-page>
+  <error-page>
+  	<error-code>500</error-code>
+  	<location>/WEB-INF/views/error/serverException.jsp</location>
+  </error-page>
 </web-app>

@@ -8,6 +8,7 @@ public class MemberMainVo {
 	private String nickname;
 	private String password;
 	private String sessionId;
+	private String loginOption;
 	private Date loginTime;
 	private Date regdate;
 	
@@ -49,6 +50,12 @@ public class MemberMainVo {
 	public void setSessionId(String sessionId) {
 		this.sessionId = sessionId;
 	}
+	public String getLoginOption() {
+		return loginOption;
+	}
+	public void setLoginOption(String loginOption) {
+		this.loginOption = loginOption;
+	}
 	public Date getLoginTime() {
 		return loginTime;
 	}
@@ -61,10 +68,12 @@ public class MemberMainVo {
 	public void setRegdate(Date regdate) {
 		this.regdate = regdate;
 	}
+
 	@Override
 	public String toString() {
 		return "MemberMainVo [num=" + num + ", email=" + email + ", nickname=" + nickname + ", password=" + password
-				+ ", sessionId=" + sessionId + ", loginTime=" + loginTime + ", regdate=" + regdate + "]";
+				+ ", sessionId=" + sessionId + ", loginOption=" + loginOption + ", loginTime=" + loginTime
+				+ ", regdate=" + regdate + "]";
 	}
 	
 	

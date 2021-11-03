@@ -13,18 +13,18 @@
 		</caption>
 		<thead>
 			<tr>
-				<td>상품명</td><td><input id="essential" type="text" name="goodsName" value="${goods.goodsName}" /></td>
-				<td>가격</td><td><input type="number" name="price" min="0" max="50000" step="100" value="${goods.price}" /></td>
-				<td><input type="radio" name="stock" value="0" /> +0
-					<input type="radio" name="stock" value="10" /> +10
-					<input type="radio" name="stock" value="20" /> +20
+				<td>상품명</td><td><input type="text" name="goodsName" value="${goods.goodsName}" /></td>
+				<td>가격</td><td><input type="number" required="required" name="price" min="0" max="50000" step="100" value="${goods.price}" /></td>
+				<td><input class="stock-update" type="radio" name="stock" value="0" /> +0
+					<input class="stock-update" type="radio" name="stock" value="10" /> +10
+					<input class="stock-update" type="radio" name="stock" value="20" /> +20
 				</td>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
 				<td colspan="5">
-					<textarea class="essential" rows="10" cols="100" name="content">${goods.content}</textarea>
+					<textarea rows="10" cols="100" name="content">${goods.content}</textarea>
 					<input type="hidden" name="goodsCode" value="${goods.goodsCode}" />
 				</td>
 			</tr>
@@ -35,7 +35,7 @@
 			<c:if test="${!empty goodsImages}">
 				<c:forEach items="${goodsImages}" var="fileName">
 				<c:set var="saveFile" value="${fileName.imgPath}" />
-				<p><input class="essential" type="checkbox" name="deleteGoodsImage" value="${fileName}" /><a href="<c:url value="/display?goodsCode=${goods.goodsCode}&saveName=${saveFile}" />" target="_blank"><c:out value="${fileName.saveName}" /></a></p>
+				<p><input type="checkbox" name="deleteGoodsImage" value="${fileName}" /><a href="<c:url value="/display?goodsCode=${goods.goodsCode}&saveName=${saveFile}" />" target="_blank"><c:out value="${fileName.saveName}" /></a></p>
 				</c:forEach>
 			</c:if>
 				<div id="fileBox">

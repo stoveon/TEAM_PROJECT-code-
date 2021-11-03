@@ -1,7 +1,6 @@
 package home.inside.member.service;
 
 import java.util.HashMap;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,8 +9,11 @@ import home.inside.member.repository.IMemberAddrDao;
 import home.inside.member.repository.IMemberDropDao;
 import home.inside.member.repository.IMemberMainDao;
 import home.inside.member.repository.IMemberSubDao;
+import home.inside.member.util.FindEmailCommand;
+import home.inside.member.util.FindPwCommand;
 import home.inside.member.vo.MemberAddrVo;
 import home.inside.member.vo.MemberDropVo;
+import home.inside.member.vo.MemberInfoDto;
 import home.inside.member.vo.MemberSubVo;
 
 @Service
@@ -26,33 +28,32 @@ public class MemberInfoServiceImpl implements IMemberInfoService {
 	private IMemberDropDao dropDao;
 
 	@Override
-	public HashMap<String, Object> selectMyInfo(String nickname) throws Exception {
-		HashMap<String, Object> result = new HashMap<String, Object>();
-		result.put("main", mainDao.selectMainInfo(nickname));
-		result.put("sub", subDao.selectSubInfo(nickname));
-		result.put("addr", addrDao.selectAddrInfo(nickname));
-		return result;
-	}
-	
-	@Override
-	public MemberAddrVo selectAddrInfo(String nickname) throws Exception {
-		return addrDao.selectAddrInfo(nickname);
-	}
-	@Override
-	public List<HashMap<String, Object>> selectMemberList(String nickname) throws Exception {
-		return mainDao.selectMainList(nickname);
+	public MemberInfoDto selectInfo(String nickname) throws Exception {
+		return mainDao.selectInfo(nickname);
 	}
 
 	@Override
-	public List<MemberDropVo> selectDropList(String nickname) throws Exception {
-		return dropDao.selectDropList(nickname);
+	public Object selectMemberList(String type) throws Exception {
+		if (type != null && type.equals("black")) {
+			return dropDao.selectDropList();
+		} else {
+			return mainDao.selectMainList();
+		}
 	}
 
 	@Override
-	public int updatePassword(String nickname, String pw, String newPw) throws Exception {
+	public Object searchMemberList(String nickname, String type) throws Exception {
+		if (type != null && type.equals("black")) {
+			return dropDao.searchDropList(nickname);
+		} else {
+			return mainDao.searchMainList(nickname);
+		}
+	}
+
+	@Override
+	public int updatePassword(String nickname, String newPw) throws Exception {
 		HashMap<String, Object> hsm = new HashMap<String, Object>();
 		hsm.put("nickname", nickname);
-		hsm.put("password", pw);
 		hsm.put("newPassword", newPw);
 		return mainDao.updatePw(hsm);
 	}
@@ -63,18 +64,49 @@ public class MemberInfoServiceImpl implements IMemberInfoService {
 	}
 
 	@Override
-	public void updateMyInfo(MemberSubVo subVo, MemberAddrVo addrVo) throws Exception {
-		subDao.updateSubInfo(subVo);
-		addrDao.updateAddrInfo(addrVo);			
+	public void updateMyInfo(MemberInfoDto dto) throws Exception {
+		HashMap<String, Object> hsmSub = new HashMap<String, Object>();
+		hsmSub.put("gender", dto.getGender());
+		hsmSub.put("storedate", dto.getStoredate());
+		hsmSub.put("nickname", dto.getNickname());
+		subDao.updateSubInfo(hsmSub);
+		
+		HashMap<String, Object> hsmAddr = new HashMap<String, Object>();
+		hsmAddr.put("phone1", dto.getPhone1());
+		hsmAddr.put("phone2", dto.getPhone2());
+		hsmAddr.put("addr", dto.getAddr());
+		hsmAddr.put("addrNum", dto.getAddrNum());
+		hsmAddr.put("addrSub", dto.getAddrSub());
+		hsmAddr.put("nickname", dto.getNickname());
+		addrDao.updateAddrInfo(hsmAddr);
 	}
 
 	@Override
-	public void updateMyCcount(String nickname, int point) throws Exception {
+	public String findMemberInfo(FindEmailCommand emailCmd, FindPwCommand pwCmd) throws Exception {
 		HashMap<String, Object> hsm = new HashMap<String, Object>();
-		hsm.put("nickname", nickname);
-		hsm.put("point", point);
-		subDao.updatePointOrWarn(hsm);
-
+		String result = null;
+		if (emailCmd != null) {
+			hsm.put("email", emailCmd.getEmailAddr());
+			String phone = emailCmd.getPhoneNum();
+			hsm.put("phone1", phone.substring(0, 3));
+			hsm.put("phone2", phone.substring(3));
+			result = mainDao.emailFind(hsm);
+		} else if (pwCmd != null) {
+			hsm.put("email", pwCmd.getEmail());
+			String phone = pwCmd.getPhone();
+			hsm.put("phone1", phone.substring(0, 3));
+			hsm.put("phone2", phone.substring(3));
+			result = mainDao.passwordFind(hsm);
+		}
+		return result;
 	}
 
+	@Override
+	public void dropMember(MemberDropVo dropVo) throws Exception {
+		dropDao.insertDropInfo(dropVo);
+		String nickname = dropVo.getNickname();
+		mainDao.deleteMainInfo(nickname);
+		subDao.deleteSubInfo(nickname);
+		addrDao.deleteAddrInfo(nickname);
+	}
 }

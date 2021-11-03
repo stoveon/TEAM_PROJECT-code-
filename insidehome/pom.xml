@@ -1,13 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>home.inside</groupId>
-  <artifactId>insidehome2</artifactId>
+  <artifactId>insidehome</artifactId>
   <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
   
-  
-  
-<!-- 설정파일에서 정의할 속성 정의 -->
+ 
+	<!-- 설정파일에서 정의할 속성 정의 -->
 	<properties>
 		<java-version>1.8</java-version>
 		<springframework-version>4.3.25.RELEASE</springframework-version>
@@ -97,7 +96,7 @@
 			<artifactId>spring-orm</artifactId>
 			<version>4.3.2.RELEASE</version>
 		</dependency>
-		
+
 		<!-- fileUpload -->
 		<dependency>
 			<groupId>commons-io</groupId>
@@ -109,7 +108,7 @@
 			<artifactId>commons-fileupload</artifactId>
 			<version>1.2.2</version>
 		</dependency>
-		
+
 		<!-- test -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -117,20 +116,54 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- mail발송 -->
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.7</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${springframework-version}</version>
+		</dependency>
 		
-      <!-- mail발송 -->
-      <dependency>
-         <groupId>javax.mail</groupId>
-         <artifactId>mail</artifactId>
-         <version>1.4.7</version>
-      </dependency>
-      <dependency>
-         <groupId>org.springframework</groupId>
-         <artifactId>spring-context-support</artifactId>
-         <version>${springframework-version}</version>
-      </dependency>
-      
-      <!-- log -->
+		<!-- ajax -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.9.4</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
+			<version>2.9.4</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.2</version>
+		</dependency>
+		
+		<!-- 회원정보 암호화 -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>5.0.8.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>			
+			<version>5.0.8.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-config</artifactId>			
+			<version>5.0.8.RELEASE</version>			
+		</dependency>
+		
+		<!-- logger -->
       <dependency>
       	<groupId>log4j</groupId>
       	<artifactId>log4j</artifactId>
@@ -155,9 +188,8 @@
       		</exclusions>
       		<scope>runtime</scope>
       </dependency>
-		
 	</dependencies>
-	
+
 	<build>
 		<plugins>
 			<plugin>
@@ -171,5 +203,5 @@
 			</plugin>
 		</plugins>
 	</build>
-  
+
 </project>

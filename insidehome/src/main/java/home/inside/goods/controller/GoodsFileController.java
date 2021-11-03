@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.sun.istack.internal.logging.Logger;
 
 import home.inside.goods.service.IGoodsManagerService;
-import sun.misc.ProxyGenerator;
 
 @Controller
 public class GoodsFileController {

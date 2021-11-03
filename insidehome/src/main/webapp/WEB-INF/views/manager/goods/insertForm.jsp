@@ -15,7 +15,7 @@
 				<td>상품명</td> 
 				<td><input type="text" name="goodsName" placeholder="상품명 입력"/></td>
 				<td>가격</td> 
-				<td><input type="number" name="price" min="0" max="50000" step="100" placeholder="가격 입력"/></td>
+				<td><input type="number" name="price" required="required" min="0" max="50000" step="100" placeholder="가격 입력"/></td>
 			</tr>
 		</thead>
 		<tbody>

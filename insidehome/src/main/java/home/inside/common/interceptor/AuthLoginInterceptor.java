@@ -16,10 +16,8 @@ public class AuthLoginInterceptor extends HandlerInterceptorAdapter {
 			Object authLogin = session.getAttribute("loginInside");
 			if(authLogin!=null) {
 				return true;
-				
 			}
 		}
-		request.setAttribute("err", "접근 불가");
 		response.sendRedirect(request.getContextPath()+"/main.do");
 		return false;
 	}

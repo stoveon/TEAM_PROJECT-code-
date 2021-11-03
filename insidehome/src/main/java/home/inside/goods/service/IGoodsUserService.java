@@ -2,7 +2,6 @@ package home.inside.goods.service;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import home.inside.goods.vo.GoodsImageVo;
 import home.inside.goods.vo.GoodsSalesVo;

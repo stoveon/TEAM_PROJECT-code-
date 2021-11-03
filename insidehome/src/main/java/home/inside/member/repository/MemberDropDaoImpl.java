@@ -13,21 +13,30 @@ import home.inside.member.vo.MemberDropVo;
 public class MemberDropDaoImpl implements IMemberDropDao {
 	@Autowired
 	SqlSessionTemplate sqlSessionTemplate;
-	
+
 	@Override
 	public void insertDropInfo(MemberDropVo dropVo) throws Exception {
 		sqlSessionTemplate.insert("insertDropInfo", dropVo);
 	}
 
 	@Override
-	public String overlapCheckDrop(HashMap<String, Object> hsm) throws Exception {
-		List<String> result = sqlSessionTemplate.selectList("overlapCheckDrop", hsm);
-		return result.isEmpty()?null: result.get(0);
+	public int emailCheckDrop(String email) throws Exception {
+		return sqlSessionTemplate.selectOne("emailCheckDrop", email);
 	}
 
 	@Override
-	public List<MemberDropVo> selectDropList(String nickname) throws Exception {
-		return sqlSessionTemplate.selectList("selectDropList", nickname);
+	public int nicknameCheckDrop(String nickname) throws Exception {
+		return sqlSessionTemplate.selectOne("nicknameCheckDrop", nickname);
+	}
+
+	@Override
+	public List<HashMap<String, Object>> selectDropList() throws Exception {
+		return sqlSessionTemplate.selectList("selectDropList");
+	}
+
+	@Override
+	public List<HashMap<String, Object>> searchDropList(String nickname) throws Exception {
+		return sqlSessionTemplate.selectList("searchDropList", nickname);
 	}
 
 }

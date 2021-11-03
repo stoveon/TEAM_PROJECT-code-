@@ -10,10 +10,11 @@
 		<setting name="mapUnderscoreToCamelCase" value="true"/>
 	</settings>
 	<typeAliases>
-		<typeAlias alias="memberVo" type="home.inside.member.vo.MemberMainVo"/>
+		<typeAlias alias="memberMainVo" type="home.inside.member.vo.MemberMainVo"/>
 		<typeAlias alias="memberSubVo" type="home.inside.member.vo.MemberSubVo"/>
 		<typeAlias alias="memberAddrVo" type="home.inside.member.vo.MemberAddrVo"/>
 		<typeAlias alias="memberDropVo" type="home.inside.member.vo.MemberDropVo"/>
+		<typeAlias alias="memberInfoDto" type="home.inside.member.vo.MemberInfoDto"/>
 		<typeAlias alias="goodsVo" type="home.inside.goods.vo.GoodsVo"/>
 		<typeAlias alias="goodsImageVo" type="home.inside.goods.vo.GoodsImageVo"/>
 		<typeAlias alias="goodsSalesVo" type="home.inside.goods.vo.GoodsSalesVo"/>

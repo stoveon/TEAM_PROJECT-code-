@@ -49,7 +49,7 @@
 <hr style="margin:10px 0 10px 0; text-align:left; width: 90%;">
 	<div class="order-addr-box">
 		<span class="order-sub-title">배송지 정보</span>&nbsp;
-		<button onclick="location.href=<c:url value="#"/>" >배송지  수정</button>
+		<button id="addrChange" onclick="addrChange();" >배송지변경</button>
 		<ul>
 			<li  class="order-addr-li"><c:out value="이름"/>&nbsp;<c:out value="전화번호"/></li>
 			<li class="order-addr-li">(<c:out value="우편번호"/>)&nbsp;<c:out value="주소"/></li>
@@ -83,9 +83,9 @@
 		<div class="order-btn-c"><button onclick="location.href='<c:url value="/goods/list.do" />'" >취소</button></div>
 		<div class="order-btn-f">
 			<form method="post" name="orderForm" action="<c:url value="/goods/order.do" />">
-			<button type="submit" id="salesbtn" onclick="return orderCheck(${goods.goodsName});" >주문하기</button>
+			<button type="submit" id="salesbtn" onclick="return orderCheck();" >주문하기</button>
 			<input type="hidden" name="goodsCode"  value="${goods.goodsCode}" />
-			<input type="hidden" name="goodsName"  value="${goods.goodsName}" />
+			<input type="hidden" id="goodsName" name="goodsName"  value="${goods.goodsName}" />
 			<input type="hidden" name="nickname"  value="eun_inside" />
 			<input type="hidden" name="price"  value="${goods.price}" />
 			</form>

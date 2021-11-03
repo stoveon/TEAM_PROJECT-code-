@@ -1,3 +1,9 @@
+function getContextPath(){
+    var offset=location.href.indexOf(location.host)+location.host.length;
+    var ctxPath=location.href.substring(offset,location.href.indexOf('/',offset+1));
+    return ctxPath;
+}
+
 const add_insertFile = () => {
 	const box = document.getElementById('fileBox');
 	const newP = document.createElement('p');
@@ -15,15 +21,10 @@ const add_updateFile = () => {
 
 
 function checkForm(){
-			if(document.goodsForm.goodsName.value == "" || typeof document.goodsForm.price.value != 'number' || document.goodsForm.content.value == "" || document.goodsForm.stock.value == ""){
+			if(document.goodsForm.goodsName.value == "" || document.goodsForm.content.value == "" || document.goodsForm.stock.value == ""){
 		if(document.goodsForm.goodsName.value == ""){
 			alert("상품 이름이 입력되지 않았습니다.");
 			document.goodsForm.goodsName.focus();
-			return false;
-		}
-		if(typeof document.goodsForm.price.value != 'number'){
-			alert("가격이 입력되지 않았습니다.");
-			document.goodsForm.price.focus();
 			return false;
 		}
 		if(document.goodsForm.content.value == ""){
@@ -63,8 +64,20 @@ const changeMainIma = () => {
 
 
 
-document.getElementById("salesbtn").onclick =  function orderCheck(goodsName){
-	var pop = window.open("orderPopup", "_blank", "left=10, top=200px, width=500px, height=500px");
+document.getElementById("salesbtn").onclick =  function orderCheck(){
+	if(confirm("구매 하시겠습니까?") == true){
+		var pop = window.open("orderPopup", "_blank", "left=300px, top=200px, width=300px, height=200px");
+		pop.document.getElementById("orderOk").value = opener.document.getElementById("goodsName").value;
+	}else{
+		return false;
+	}
+	
+}
 
-	pop.document.getElementById("orderOk").value = goodsName;
+document.getElementById("addrChange").onclick = function addrChange(){
+	if(confirm("배송지변경은 [마이페이지-내정보수정]에서만 가능합니다.                           변경하시겠습니까?") == true){
+		return window.location.href = getContextPath()+'/user/mypage/main.do';
+	}else{
+		return false;
+	}
 }

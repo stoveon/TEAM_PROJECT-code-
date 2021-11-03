@@ -12,7 +12,7 @@
 	<select id="selectAddrInfo" parameterType="String" resultType="memberAddrVo">
 		select * from MEMBER_ADDR where NICKNAME=#{nickname}
 	</select>
-	<update id="updateAddrInfo" parameterType="memberAddrVo">
+	<update id="updateAddrInfo" parameterType="HashMap">
 		update MEMBER_ADDR set PHONE1=#{phone1}, PHONE2=#{phone2}, 
 		ADDRNUM=#{addrNum}, ADDR=#{addr}, ADDRSUB=#{addrSub}
 		where NICKNAME=#{nickname}

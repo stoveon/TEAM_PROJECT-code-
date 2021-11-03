@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 
 @ControllerAdvice("insidehome")
 public class CommonExceptionController {
-
+		
 		public String handleException() {
 			return "error/commonException";
 		}

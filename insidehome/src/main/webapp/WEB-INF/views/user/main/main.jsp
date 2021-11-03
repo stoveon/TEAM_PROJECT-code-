@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+	pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<!DOCTYPE html>
+
+
 <%@include file="/WEB-INF/views/user/main/userHeader.jsp"%>
-<link href="<c:url value="/resources/css/goodsMain.css" />" rel="stylesheet" />
 <div class="main-reg-img">
 	<img class="banner" src="<c:url value="/resources/img/main-regDesc.png"/>">
 </div>
@@ -13,8 +13,9 @@
 		<tr>
 			<c:forEach items="${mainLatest}" var="latestOne" varStatus="status">
 			<c:if test="${status.index != 0 and status.index %5 == 0}">
-			</tr><tr>
+				<tr></tr>
 			</c:if>
+			<c:if test="${status.index != 0 and status.index %5 != 0}">
 					<td>
 					<a href="<c:url value="/goods/detail.do/${latestOne.GOODSCODE}" />" title="<c:out value="${lastestOne.GOODSNAME}"/>">
 						<div class="goods-box">
@@ -37,6 +38,7 @@
 						</div>
 					</a>
 					</td>
+			</c:if>
 			</c:forEach>
 			</tr>
 		</table>
@@ -49,8 +51,9 @@
 		<tr>
 			<c:forEach items="${mainHeart}" var="heartOne" varStatus="status">
 			<c:if test="${status.index != 0 and status.index %5 == 0}">
-			</tr><tr>
+				<tr></tr>
 			</c:if>
+			<c:if test="${status.index != 0 and status.index %5 != 0}">
 					<td>
 					<a href="<c:url value="/goods/detail.do/${heartOne.GOODSCODE}" />">
 						<div class="goods-box">
@@ -73,11 +76,8 @@
 						</div>
 					</a>
 					</td>
+			</c:if>
 			</c:forEach>
 			</tr>
 		</table>
-</div>
-
-
-</body>
-</html>
+</div><%@include file="/WEB-INF/views/user/main/userFooter.jsp"%>

@@ -7,10 +7,8 @@ import home.inside.member.vo.MemberSubVo;
 public interface IMemberSubDao {
 		// 회원가입
 		public void insertSubInfo(HashMap<String, Object> hsm) throws Exception;
-		// 회원 개인정보 조회
-		public MemberSubVo selectSubInfo(String nickname) throws Exception;
 		// 회원정보 수정
-		public void updateSubInfo(MemberSubVo subVo) throws Exception;
+		public void updateSubInfo(HashMap<String, Object> hsm) throws Exception;
 		// 회원탈퇴
 		public void deleteSubInfo(String nickname) throws Exception;
 		

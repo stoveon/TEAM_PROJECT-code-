@@ -17,15 +17,10 @@ public class MemberSubDaoImpl implements IMemberSubDao {
 	public void insertSubInfo(HashMap<String, Object> hsm) throws Exception {
 		sqlSessionTemplate.insert("insertSubInfo", hsm);
 	}
-
+	
 	@Override
-	public MemberSubVo selectSubInfo(String nickname) throws Exception {
-		return sqlSessionTemplate.selectOne("selectSubInfo", nickname);
-	}
-
-	@Override
-	public void updateSubInfo(MemberSubVo subVo) throws Exception {
-		sqlSessionTemplate.update("updateSubInfo", subVo);
+	public void updateSubInfo(HashMap<String, Object> hsm) throws Exception {
+		sqlSessionTemplate.update("updateSubInfo", hsm);
 	}
 
 	@Override

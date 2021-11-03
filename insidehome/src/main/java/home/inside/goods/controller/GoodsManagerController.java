@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,10 +40,6 @@ public class GoodsManagerController {
 	
 	@RequestMapping(value="insertGoods.do", method = RequestMethod.POST)
 	public String insertGoodsSubmit(Model model, GoodsVo goodsVo, MultipartHttpServletRequest mpReq) throws Exception {
-		if(goodsVo.getGoodsName() == null || goodsVo.getContent() == null) {
-			model.addAttribute("goodsVo", goodsVo);
-			return "manager/goods/insertForm";
-		}
 		goodsMangerService.insert(goodsVo, mpReq);
 		return "redirect:/manager/goods/list.do";
 	}
@@ -75,6 +72,9 @@ public class GoodsManagerController {
 
 	@RequestMapping(value="deleteGoods.do")
 	public String deleteGoods(@RequestParam(value = "selectGoods") String[] selectGoods, RedirectAttributes rttr) throws Exception {
+		for(int i=0; i<selectGoods.length; i++) {
+			selectGoods[i] = selectGoods[i].split("&")[0];
+		}
 		goodsMangerService.deleteGoods(selectGoods);
 		rttr.addFlashAttribute("deleteOk", "success");
 		return "redirect:/manager/goods/list.do";

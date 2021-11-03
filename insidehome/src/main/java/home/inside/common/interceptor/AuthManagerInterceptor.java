@@ -14,13 +14,13 @@ public class AuthManagerInterceptor extends HandlerInterceptorAdapter{
 			throws Exception {
 		HttpSession session = request.getSession(false);
 		if(session!=null) {
-			Object authLogin = session.getAttribute("loginInside");
-			if(authLogin!=null) {
+			Object authMgr = session.getAttribute("mgrInside");
+			if(authMgr!=null) {
 				return true;
 				
 			}
 		}
-		response.sendRedirect(request.getContextPath()+"/inside/login.do");
+		response.sendRedirect(request.getContextPath()+"/mgr/error.do");
 		return false;
 	}
 }
