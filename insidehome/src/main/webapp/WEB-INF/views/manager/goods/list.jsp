@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <%@include file="/WEB-INF/views/manager/main/mgrHeader.jsp"%>
 <script type="text/javascript">
@@ -24,7 +25,7 @@ function removeCheck(){
 <div class="bodyinfo">
 	<form name="goodsForm" method="post">
 		<div class="info-detail">
-			<h1 class="info-title">상품관리</h1>
+			<h1 class="info-title">상품관리</h1>(등록 상품수: ${fn:length(goodsList)})
 		</div>
 		<hr>
 		<div class="info-inner">

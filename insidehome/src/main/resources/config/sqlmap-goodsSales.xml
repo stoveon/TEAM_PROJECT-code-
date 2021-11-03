@@ -19,7 +19,7 @@
 	</select>
 	
 	<select id="salesOrderList" resultType="HashMap">
-		select SA.ORDERDATE, SA.GOODSCODE, GD.GOODSNAME, SA.PRICE, SA.NICKNAME, SA.SENDSTATE
+		select SA.NUM, SA.ORDERDATE, SA.GOODSCODE, GD.GOODSNAME, SA.PRICE, SA.NICKNAME, SA.SENDSTATE
 		from GOODS_SALES SA, GOODS GD 
 		where SA.GOODSCODE = GD.GOODSCODE
 		order by SA.SENDSTATE desc, SA.ORDERDATE desc
@@ -34,7 +34,12 @@
 	</select>
 	
 	<update id="updateOrderState" parameterType="HashMap">
-		update GOODS_SALES set SENDSTATE=#{state} where GOODSCODE=#{goodsCode}
+	<if test='state.equals("YET")'>
+		update GOODS_SALES set SENDSTATE=#{state}, SENDDATE=null where NUM=#{num}
+	</if>
+	<if test='state.equals("ING")'>
+		update GOODS_SALES set SENDSTATE=#{state}, SENDDATE=sysdate where NUM=#{num}
+	</if>
 	</update>
 	
 	<update id="autoSendUpdate" parameterType="String">

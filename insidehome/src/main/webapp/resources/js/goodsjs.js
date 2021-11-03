@@ -11,14 +11,12 @@ const add_insertFile = () => {
 	box.appendChild(newP);
 }
 
-
 const add_updateFile = () => {
 	const box = document.getElementById('fileBox');
 	const newP = document.createElement('p');
 	newP.innerHTML = "<input id='#' type='file' name='plusGoodsImage' accept='.jpg,.jpeg,.png,.gif' />";
 	box.appendChild(newP);
 }
-
 
 function checkForm(){
 			if(document.goodsForm.goodsName.value == "" || document.goodsForm.content.value == "" || document.goodsForm.stock.value == ""){
@@ -45,7 +43,6 @@ function checkForm(){
 		}
 }
 
-
 const changeMainIma = () => {
 	var bigPic = document.querySelector("#mimg");
 	var smallPics = document.querySelectorAll(".arimg");
@@ -62,22 +59,30 @@ const changeMainIma = () => {
 	}
 }
 
-
-
-document.getElementById("salesbtn").onclick =  function orderCheck(){
+function orderCheck(){
 	if(confirm("구매 하시겠습니까?") == true){
 		var pop = window.open("orderPopup", "_blank", "left=300px, top=200px, width=300px, height=200px");
 		pop.document.getElementById("orderOk").value = opener.document.getElementById("goodsName").value;
 	}else{
 		return false;
 	}
-	
 }
 
-document.getElementById("addrChange").onclick = function addrChange(){
-	if(confirm("배송지변경은 [마이페이지-내정보수정]에서만 가능합니다.                           변경하시겠습니까?") == true){
+function addrChange(){
+	if(confirm("배송지변경은 [마이페이지-정보수정]에서만 가능합니다.                              변경하시겠습니까?") == true){
 		return window.location.href = getContextPath()+'/user/mypage/main.do';
 	}else{
 		return false;
+	}
+}
+		
+function sendReturn(){
+	var salesNum = document.getElementById("sendReturn").value;
+	console.log(salesNum);
+	console.log(document.orderForm.action=getContextPath()+'/manager/main/order.do?state=YET&num='+salesNum);
+	if(confirm("발송을  취소하시겠습니까?") == true){
+		return document.orderForm.action=getContextPath()+'/manager/main/order.do?state=YET&num='+salesNum;
+}else{
+	return false;
 	}
 }

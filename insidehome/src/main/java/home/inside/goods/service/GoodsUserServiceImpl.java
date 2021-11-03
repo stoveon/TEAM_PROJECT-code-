@@ -58,6 +58,7 @@ public class GoodsUserServiceImpl implements IGoodsUserService {
 	public void insertGoodsSales(GoodsSalesVo goodsSalesVo) throws Exception {
 		goodsSalesVo.setSendState("YET");
 		goodsSalesDao.insertGoodsSales(goodsSalesVo);
+		goodsDao.stockMinus(goodsSalesVo.getGoodsCode());
 	}
 
 	@Override

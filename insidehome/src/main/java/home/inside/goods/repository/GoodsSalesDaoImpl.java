@@ -25,7 +25,7 @@ public class GoodsSalesDaoImpl implements IGoodsSalesDao {
 	}
 
 	@Override
-	public void updateSaleState(HashMap<String, String> hm) throws Exception {
+	public void updateSaleState(HashMap<String, Object> hm) throws Exception {
 		sqlSessionTemplate.update("updateOrderState", hm);
 	}
 

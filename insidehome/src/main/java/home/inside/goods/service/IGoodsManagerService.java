@@ -24,7 +24,7 @@ public interface IGoodsManagerService {
 	//테이블에는 상품 이미지가 있지만 실제 파일이 없을 경우 삭제
 	public void deleteNotExistImage(String goodsCode) throws Exception;
 	//발송상태 변경
-	public void updateSales(String state, String goodsCode) throws Exception;
+	public void updateSales(String state, int num) throws Exception;
 	//관리자 메인 페이지(주문관리)에서 사용할 메서드
 	public List<HashMap<String, Object>> orderAll() throws Exception;
 	//배송상태 자동 업데이트 처리

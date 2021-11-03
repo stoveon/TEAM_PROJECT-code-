@@ -28,4 +28,6 @@ public interface IGoodsDao {
 	public List<HashMap<String, String>> selectMainLatest() throws Exception;
 	//메인에서 보여줄 추천상품
 	public List<HashMap<String, String>> selectMainHeart() throws Exception;
+	//상품 구매시 수량 감소
+	public void stockMinus(String goodsCode) throws Exception;
 }

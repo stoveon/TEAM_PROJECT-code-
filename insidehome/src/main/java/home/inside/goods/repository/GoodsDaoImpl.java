@@ -69,4 +69,9 @@ public class GoodsDaoImpl implements IGoodsDao {
 		return sqlSessionTemplate.selectList("selectMainHeart");
 	}
 
+	@Override
+	public void stockMinus(String goodsCode) throws Exception {
+		sqlSessionTemplate.update("stockMinus", goodsCode);
+	}
+
 }

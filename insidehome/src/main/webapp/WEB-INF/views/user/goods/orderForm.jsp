@@ -93,5 +93,8 @@
 	</div>
 </div>
 <script type="text/javascript" src="<c:url value="/resources/js/goodsjs.js" />"></script>
-</body>
-</html>
+<script type="text/javascript">
+	document.getElementById("addrChange").onclick = function(){addrChange()};
+	document.getElementById("salesbtn").onclick = function(){orderCheck()};
+</script>
+<%@include file="/WEB-INF/views/user/main/userFooter.jsp"%>

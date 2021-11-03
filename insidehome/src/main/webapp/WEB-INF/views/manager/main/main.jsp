@@ -2,12 +2,12 @@
 	pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@include file="/WEB-INF/views/manager/main/mgrHeader.jsp"%>
 
 <div class="bodyinfo">
 	<div class="info-detail">
-		<h1 class="info-title">주문관리</h1>
+		<h1 class="info-title">주문관리</h1>(주문건수: ${fn:length(orderList)})
 	</div>
 	<hr>
 	<div class="info-inner">
@@ -29,17 +29,17 @@
 						var="orderDate" />
 					<td>${orderDate}</td>
 					<td>${orderOne.GOODSNAME}</td>
-					<fmt:formatNumber value="${orderOne.SALES}" pattern="#,###"
+					<fmt:formatNumber value="${orderOne.PRICE}" pattern="#,###"
 						var="sales" />
 					<td>${sales}</td>
 					<td>${orderOne.NICKNAME}</td>
 					<td style="text-align: center; height: 20px;">
 						<c:choose>
 							<c:when test="${orderOne.SENDSTATE eq 'YET'}">
-								<button class="fit-size" type="submit" onclick="form.action= '<c:url value="/manager/main/order.do?state=ING&goodsCode=${orderOne.GOODSCODE}" />'">발송</button>
+								<button class="fit-size" type="submit" onclick="form.action= '<c:url value="/manager/main/order.do?state=ING&num=${orderOne.NUM}" />'">발송</button>
 							</c:when>
 							<c:when test="${orderOne.SENDSTATE eq 'ING'}">
-								<button class="fit-size" id="salesReturn" type="submit" onclick="sendChk();">발송취소</button>
+								<button class="fit-size" id="sendReturn" type="submit" value="<c:out value="${orderOne.NUM}" />" onclick="return sendReturn();">발송취소</button>
 							</c:when>
 							<c:when test="${orderOne.SENDSTATE eq 'END'}">
 								<c:out value="배송완료" />
@@ -54,15 +54,8 @@
 	</div>
 </div>
 
-
+<script type="text/javascript" src="<c:url value="/resources/js/goodsjs.js" />"></script>
 <script>
-window.onload = function(){
-	document.getElementById("salesReturn").onclick=function sendChk(){
-		if(confirm("발송을  취소하시겠습니까?") == true){
-			return form.action='<c:url value="/manager/main/order.do?state=YET&goodsCode=${orderOne.GOODSCODE}" />';
-	}
-}
+	document.getElementById("sendReturn").onclick = function(){sendReturn()};
 </script>
-
-
 <%@include file="/WEB-INF/views/manager/main/mgrFooter.jsp"%>

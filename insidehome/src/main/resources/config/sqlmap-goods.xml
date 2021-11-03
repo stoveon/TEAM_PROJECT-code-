@@ -95,5 +95,9 @@
    		on GD.GOODSCODE = FI.GOODSCODE 
         where GD.HEART = 'yes' order by GD.REGDATE desc
 	</select>
+	
+	<update id="stockMinus" parameterType="String">
+		update GOODS set STOCK=STOCK-1 where GOODSCODE=#{goodsCode}
+	</update>
 
 </mapper>

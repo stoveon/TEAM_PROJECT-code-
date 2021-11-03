@@ -42,6 +42,4 @@
 		<img class="banner" src="<c:url value="/resources/img/goods-get-btn.png"/>"></button>
 	</div>
 </div>
-</body>
-</html>
-<%--<%@include file="/WEB-INF/views/user/main/userFooter.jsp"--%>
+<%@include file="/WEB-INF/views/user/main/userFooter.jsp"%>

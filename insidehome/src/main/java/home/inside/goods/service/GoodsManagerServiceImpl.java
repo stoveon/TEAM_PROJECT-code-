@@ -150,10 +150,10 @@ public class GoodsManagerServiceImpl implements IGoodsManagerService {
 	}
 
 	@Override
-	public void updateSales(String state, String goodsCode) throws Exception {
-		HashMap<String, String> hm = new HashMap<String, String>();
+	public void updateSales(String state, int num) throws Exception {
+		HashMap<String, Object> hm = new HashMap<String, Object>();
 		hm.put("state", state);
-		hm.put("goodsCode", goodsCode);
+		hm.put("num", num);
 		goodsSalesDao.updateSaleState(hm);
 	}
 	
