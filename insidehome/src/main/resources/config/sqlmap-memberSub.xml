@@ -9,10 +9,6 @@
 		MEMBER_SUB(NUM, NICKNAME, NAME, GENDER, STOREDATE) values
 		(MEMBER_SUB_SEQ.nextval, #{nickname}, #{name}, #{gender}, add_months(sysdate, ${storedate}))
 	</insert>
-	<select id="selectSubInfo" parameterType="String"
-		resultType="memberSubVo">
-		select * from MEMBER_SUB where NICKNAME=#{nickname}
-	</select>
 	<update id="updateSubInfo" parameterType="HashMap">
 		update MEMBER_SUB set
 		GENDER=#{gender},

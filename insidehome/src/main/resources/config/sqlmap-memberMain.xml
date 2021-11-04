@@ -46,7 +46,10 @@
 		select count(*) from MEMBER_MAIN where NICKNAME=#{nickname}
 	</select>
 	<select id="tmpLogin" parameterType="String" resultType="HashMap">
-		select NICKNAME, PASSWORD from MEMBER_MAIN where EMAIL=#{email}
+		select main.NICKNAME, main.PASSWORD, 
+				sub.WARNCOUNT 
+		from MEMBER_MAIN main, MEMBER_SUB sub  
+		where main.EMAIL=#{email} and main.NICKNAME = sub.NICKNAME
 	</select>
 	
 	

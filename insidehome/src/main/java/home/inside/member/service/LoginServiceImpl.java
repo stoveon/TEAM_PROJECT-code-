@@ -36,9 +36,5 @@ public class LoginServiceImpl implements ILoginService {
 		}
 	}
 
-	@Override
-	public HashMap<String, Object> loginTmpSuccess(String email) throws Exception {
-		return mainDao.tmpLogin(email);
-	}
 
 }

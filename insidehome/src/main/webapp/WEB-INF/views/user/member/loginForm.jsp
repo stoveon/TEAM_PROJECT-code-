@@ -4,7 +4,7 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 
-<div class="bodyinfo">
+<div class="body-info">
 	<div class="info-detail">
 			<form:form action="login.do" commandName="cmd" class="login-info">
 			<ul class="first-box">

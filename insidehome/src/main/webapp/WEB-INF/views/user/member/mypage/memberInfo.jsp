@@ -15,7 +15,7 @@
 </script>
 
 
-<div class="bodyinfo">
+<div class="body-info">
 	<div class="info-detail">
 		<a class="info-title" href="<c:url value="/user/mypage/info/view.do" />">내 정보 관리
 			<img class="explain" title="개인정보 확인" src="<c:url value="/resources/img/icon-infoEdit.png"/>">

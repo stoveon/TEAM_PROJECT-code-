@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<!DOCTYPE html>
+
 <%@include file="/WEB-INF/views/manager/main/mgrHeader.jsp"%>
 <script type="text/javascript">
 function removeCheck(){
@@ -22,7 +22,7 @@ function removeCheck(){
 		alert('잘못 선택하셨습니다.');
 	}
 </script>
-<div class="bodyinfo">
+<div class="body-info">
 	<form name="goodsForm" method="post">
 		<div class="info-detail">
 			<h1 class="info-title">상품관리</h1>(등록 상품수: ${fn:length(goodsList)})

@@ -3,7 +3,7 @@
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@include file="/WEB-INF/views/user/main/userHeader.jsp"%>
 
-<div class="bodyinfo">
+<div class="body-info">
 	<div class="info-detail">
 		<a class="info-title" href="<c:url value="/user/mypage/info/view.do" />">내 정보 관리
 			<img class="explain" title="개인정보 확인" src="<c:url value="/resources/img/icon-infoEdit.png"/>">
@@ -28,7 +28,7 @@
 				<li class="mypage-info-title">전화번호</li>
 				<li class="mypage-info-content">
 					<c:set var="num1" value="${phone1}"/>
-					<form:select path="phone1" class="reg-info-phone1">
+					<form:select path="phone1" >
 						<form:option value="010" label="010" />
 						<form:option value="011" label="011" />
 						<form:option value="016" label="016" />

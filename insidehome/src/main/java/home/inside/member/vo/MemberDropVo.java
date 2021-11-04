@@ -10,12 +10,11 @@ public class MemberDropVo {
 	private Date dropdate;
 	
 	
-	public MemberDropVo(String email, String nickname, int warnCount, Date dropdate) {
+	public MemberDropVo(String email, String nickname, int warnCount) {
 		super();
 		this.email = email;
 		this.nickname = nickname;
 		this.warnCount = warnCount;
-		this.dropdate = dropdate;
 	}
 
 

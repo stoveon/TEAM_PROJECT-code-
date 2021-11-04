@@ -9,7 +9,10 @@ var selectBoxChange = function(value){
 	var type = value;
 	window.location.href="<%=request.getContextPath()%>/goods/list.do?type=" + type;
 }
-
+var result = "<c:out value="${orderRequest}"/>";
+if(result == 'fail'){
+	alert('구매하고자 하는 상품의 가격보다 보유 포인트가 부족합니다.');
+}
 </script>
 <link href="<c:url value="/resources/css/goodsMain.css" />" rel="stylesheet" />
 <div>
@@ -23,6 +26,46 @@ var selectBoxChange = function(value){
 	</select>
 </div>
 <table>
+	<caption>
+		추천상품
+	</caption>
+	<tbody>
+	<c:forEach items="${mainHeart}" var="heartOne" varStatus="status">
+			<c:if test="${status.index != 0 and status.index %5 == 0}">
+				<tr></tr>
+			</c:if>
+			<c:if test="${status.index != 0 and status.index %5 != 0}">
+					<td>
+					<a href="<c:url value="/goods/detail.do/${heartOne.GOODSCODE}" />">
+						<div class="goods-box">
+							<div class="image-box">
+								<c:choose>
+									<c:when test="${heartOne.SAVENAME == null}">
+										<c:set var="imagePath" value="/resources/img/noGoods.gif" />
+									</c:when>
+									<c:otherwise>
+										<c:set var="imagePath" value="/display?goodsCode=${heartOne.GOODSCODE}&saveName=${heartOne.SAVENAME}" />							
+									</c:otherwise>
+								</c:choose>			
+								<img class="image-goods" src="<c:url value="${imagePath}" />" /><br>
+								</div>
+								<div class="goods-txt">
+									<b><c:out value="${heartOne.GOODSNAME}"/></b>
+									<fmt:formatNumber var="price" value="${heartOne.PRICE}" pattern="#,###" />
+									<c:out value="${price += ' point'}"/>
+								</div>
+						</div>
+					</a>
+					</td>
+			</c:if>
+			</c:forEach>
+	</tbody>
+</table>
+
+<table>
+	<caption>
+		전체 상품 목록
+	</caption>
 	<tbody>
 		<tr>
 		<c:forEach items="${goodsList}" var="goodsOne" varStatus="status">

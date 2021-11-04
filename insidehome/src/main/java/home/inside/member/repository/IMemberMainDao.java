@@ -32,6 +32,6 @@ public interface IMemberMainDao {
 	// 아이디 비밀번호 찾기(main, addr)
 	public String emailFind(HashMap<String, Object> hsm) throws Exception;
 	public String passwordFind(HashMap<String, Object> hsm) throws Exception;
-	// 회원 마이페이지 개인정보 조회용 
+	// 회원 마이페이지 개인정보 조회/배송정보 조회 
 	public MemberInfoDto selectInfo(String nickname) throws Exception;
 }

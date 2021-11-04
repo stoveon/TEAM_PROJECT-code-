@@ -5,8 +5,8 @@
 
 <mapper namespace="memberDropDao">
 	<insert id="insertDropInfo" parameterType="memberDropVo">
-		insert into MEMBER_DROP(NUM, EMAIL, NICKNAME)
-		value (MEMBER_DROP_SEQ.nextval, #{email}, #{nickname}, #{warnCount})
+		insert into MEMBER_DROP(NUM, EMAIL, NICKNAME, WARNCOUNT)
+		values (MEMBER_DROP_SEQ.nextval, #{email}, #{nickname}, #{warnCount})
 	</insert>
 	<select id="emailCheckDrop" parameterType="String" resultType="int">
 		select count(*) from MEMBER_DROP where EMAIL=#{email}

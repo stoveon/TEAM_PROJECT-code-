@@ -53,7 +53,6 @@ public class MainController {
 
 	@RequestMapping(value = "/manager/main/order.do")
 	public String order(@RequestParam(value = "state") String state,@RequestParam(value = "num") int num) throws Exception {
-		System.out.println(state + " : " + num);
 		goodsManagerService.updateSales(state, num);
 		return "redirect:/manager/inside/main.do";
 	}

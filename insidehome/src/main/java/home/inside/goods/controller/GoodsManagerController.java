@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sun.istack.internal.logging.Logger;
 
+import home.inside.common.service.IPointService;
 import home.inside.goods.service.IGoodsManagerService;
 import home.inside.goods.vo.GoodsVo;
 
@@ -28,8 +29,8 @@ import home.inside.goods.vo.GoodsVo;
 public class GoodsManagerController {
 	@Autowired
 	private IGoodsManagerService goodsMangerService;
-	//@Autowired
-	//private IPointService pointService;
+	@Autowired
+	private IPointService pointService;
 	
 	private Logger log = Logger.getLogger(GoodsManagerController.class);
 

@@ -1,9 +1,6 @@
 package home.inside.member.service;
 
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +34,7 @@ public class RegistServiceImpl implements IRegistService {
 		
 		HashMap<String, Object> subInfo = new HashMap<String, Object>();
 		subInfo.put("nickname", regCmd.getNickname());
-		subInfo.put("name", regCmd.getNickname());
+		subInfo.put("name", regCmd.getName());
 		subInfo.put("gender", regCmd.getGender());
 		subInfo.put("storedate", regCmd.getStoredate());
 		subDao.insertSubInfo(subInfo);

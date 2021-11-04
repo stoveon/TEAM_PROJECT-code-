@@ -19,11 +19,6 @@ public class MemberAddrDaoImpl implements IMemberAddrDao {
 	}
 
 	@Override
-	public MemberAddrVo selectAddrInfo(String nickname) throws Exception {
-		return sqlSessionTemplate.selectOne("selectAddrInfo", nickname);
-	}
-
-	@Override
 	public void updateAddrInfo(HashMap<String, Object> hsm) throws Exception {
 		sqlSessionTemplate.update("updateAddrInfo", hsm);
 	}

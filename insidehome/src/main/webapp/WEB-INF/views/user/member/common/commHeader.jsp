@@ -11,10 +11,10 @@
 <link href="<c:url value="/resources/css/style.css"/>" rel="stylesheet"/>
 </head>
 <body>
-<header class="inside-header">
-	<div class="page-name">
+<header class="reg-head-outer">
+	<div class="logo-area2">
 		<h1><a href="<c:url value="/inside/main.do"/>">
-				<h2 class="page-name">INSIDE.HOME</h2>
+				<h2>INSIDE.HOME</h2>
 		</a></h1>
 	</div>
 </header>

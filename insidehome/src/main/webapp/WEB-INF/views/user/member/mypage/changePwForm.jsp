@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <%@include file="/WEB-INF/views/user/main/userHeader.jsp"%>
-<div class="bodyinfo">
+<div class="body-info">
 	<div class="info-detail">
 		<h1 class="info-title">이메일 찾기</h1>
 		<p class="info-title-sub">

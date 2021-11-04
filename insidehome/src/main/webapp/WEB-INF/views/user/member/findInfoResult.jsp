@@ -4,18 +4,18 @@
 
 <%@include file="/WEB-INF/views/user/main/userHeader.jsp"%>
 
-<div class="bodyinfo">
+<div class="body-info">
 	<div class="info-detail">
 		<c:if test="${findResult != null }">
 			<c:if test="${type eq 'email' }">
-				<h2 class="info-title">이메일 찾기 결과입니다.</h2>
+				<h2>이메일 찾기 결과입니다.</h2>
 			</c:if>
 			<c:if test="${type eq 'password' }">
-				<h2 class="info-title">비밀번호 찾기 결과입니다.</h2>
+				<h2>비밀번호 찾기 결과입니다.</h2>
 			</c:if>
 		</c:if>
 		<c:if test="${findResult == null }">
-			<h2 class="info-title">회원정보가 존재하지 않습니다.</h2>		
+			<h2>회원정보가 존재하지 않습니다.</h2>		
 		</c:if>
 	</div>
 	<hr>

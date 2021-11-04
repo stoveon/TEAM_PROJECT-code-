@@ -5,7 +5,7 @@
 <%@include file="/WEB-INF/views/user/main/userHeader.jsp"%>
 
 
-<div class="bodyinfo">
+<div class="body-info">
 	<div class="info-detail">
 		<a class="info-title" href="<c:url value="/user/mypage/info/view.do" />">내 정보 관리
 			<img class="explain" title="개인정보 확인" src="<c:url value="/resources/img/icon-infoEdit.png"/>">
@@ -40,7 +40,7 @@
 	<div style="padding-left: 10%; width: 80%;">
 		<c:if test="${viewPage eq 'board'}">
 			<div class="info-detail">
-				<h2 class="info-title">작성 글</h2>
+				<h2>작성 글</h2>
 				<form action="main.do?viewPage=board" class="info-search">
 					<input class="searchText"  type="text" name="str" placeholder="제목 검색" value="${str}">
 					<input type="submit" value="검색">
@@ -72,7 +72,7 @@
 		</c:if>
 		<c:if test="${viewPage eq 'point'}">
 			<div class="info-detail">
-				<h2 class="info-title">포인트 적립 및 사용 내역</h2>
+				<h2>포인트 적립 및 사용 내역</h2>
 				<p class="info-title-sub">포인트 변동 내역은 최근 30일간의 내용만 표시됩니다.</p>
 			</div>
 			<div class="info-detail">
@@ -104,7 +104,7 @@
 		</c:if>
 		<c:if test="${viewPage eq 'order'}">
 			<div class="info-detail">
-				<h2 class="info-title">주문내역</h2>
+				<h2>주문내역</h2>
 				<p class="info-title-sub">내가 주문한 모든 내역을 확인할 수 있습니다.</p>
 			</div>
 			<div class="info-detail">

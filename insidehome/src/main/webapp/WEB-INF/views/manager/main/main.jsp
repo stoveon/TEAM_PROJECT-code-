@@ -3,9 +3,10 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+
 <%@include file="/WEB-INF/views/manager/main/mgrHeader.jsp"%>
 
-<div class="bodyinfo">
+<div class="body-info">
 	<div class="info-detail">
 		<h1 class="info-title">주문관리</h1>(주문건수: ${fn:length(orderList)})
 	</div>
@@ -39,7 +40,7 @@
 								<button class="fit-size" type="submit" onclick="form.action= '<c:url value="/manager/main/order.do?state=ING&num=${orderOne.NUM}" />'">발송</button>
 							</c:when>
 							<c:when test="${orderOne.SENDSTATE eq 'ING'}">
-								<button class="fit-size" id="sendReturn" type="submit" value="<c:out value="${orderOne.NUM}" />" onclick="return sendReturn();">발송취소</button>
+								<button class="fit-size2" id="sendReturn" type="submit" value="<c:out value="${orderOne.NUM}" />" onclick="return sendCHK();">발송취소</button>
 							</c:when>
 							<c:when test="${orderOne.SENDSTATE eq 'END'}">
 								<c:out value="배송완료" />
@@ -56,6 +57,10 @@
 
 <script type="text/javascript" src="<c:url value="/resources/js/goodsjs.js" />"></script>
 <script>
-	document.getElementById("sendReturn").onclick = function(){sendReturn()};
+window.onload = function(){
+	document.getElementByClassName("sendReturn").addEventListener = ("onclick", sendCHK);
+}
 </script>
+
+
 <%@include file="/WEB-INF/views/manager/main/mgrFooter.jsp"%>

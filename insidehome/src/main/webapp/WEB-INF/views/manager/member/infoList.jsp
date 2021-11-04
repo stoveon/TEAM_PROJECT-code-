@@ -8,7 +8,7 @@
 <%@include file="/WEB-INF/views/manager/main/mgrHeader.jsp"%>
 
 
-<div class="bodyinfo">
+<div class="body-info">
 	<div class="info-detail">
 	<h1 class="info-title">회원정보</h1>
 	<c:choose>
@@ -38,8 +38,14 @@
 				<tr>
 					<td class="table-inner"><b>이메일</b></td>
 					<td class="table-inner"><b>닉네임</b></td>
-					<td class="table-inner"><b>가입일자</b></td>
-					<td class="table-inner"><b>최근 접속 시간</b></td>
+					<c:if test="${type eq 'normal' }">
+						<td class="table-inner"><b>가입일자</b></td>
+						<td class="table-inner"><b>최근 접속 시간</b></td>
+					</c:if>
+					<c:if test="${type eq 'black' }">
+						<td class="table-inner"><b>경고횟수</b></td>
+						<td class="table-inner"><b>탈퇴일자</b></td>
+					</c:if>
 				</tr>
 			</thead>
 			<tbody>

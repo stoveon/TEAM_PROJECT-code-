@@ -3,7 +3,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-
 <mapper namespace="goodsSalesVo">
 	<insert id="insertGoodsSales" parameterType="goodsSalesVo">
 		insert into GOODS_SALES(NUM, GOODSCODE, NICKNAME, PRICE, ORDERDATE, SENDSTATE) 
@@ -22,15 +21,14 @@
 		select SA.NUM, SA.ORDERDATE, SA.GOODSCODE, GD.GOODSNAME, SA.PRICE, SA.NICKNAME, SA.SENDSTATE
 		from GOODS_SALES SA, GOODS GD 
 		where SA.GOODSCODE = GD.GOODSCODE
-		order by SA.SENDSTATE desc, SA.ORDERDATE desc
+		order by SA.SENDSTATE desc, SA.ORDERDATE desc, SA.SENDDATE desc
 	</select>
 	
 	<select id="nickNameOrderList" parameterType="String" resultType="HashMap">
 		select SA.ORDERDATE, SA.GOODSCODE, GD.GOODSNAME, SA.PRICE, SA.NICKNAME, SA.SENDSTATE
 		from GOODS_SALES SA, GOODS GD 
-		where SA.GOODSCODE = GD.GOODSCODE
+		where SA.GOODSCODE = GD.GOODSCODE and SA.NICKNAME=#{nickname}
 		order by SA.SENDSTATE desc, SA.ORDERDATE desc
-		where NICKNAME=#{nickname}
 	</select>
 	
 	<update id="updateOrderState" parameterType="HashMap">

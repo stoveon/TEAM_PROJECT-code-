@@ -34,33 +34,21 @@
 	</select>
 	
 	<select id="selectGoodsList" parameterType="HashMap" resultType="HashMap">
-	<if test='type.equals("dateDesc")'>
-		select GD.GOODSCODE ,GD.GOODSNAME ,GD.REGDATE ,GD.HEART , GD.PRICE, nvl(FI.SAVENAME, null) SAVENAME 
+	select GD.GOODSCODE ,GD.GOODSNAME ,GD.REGDATE ,GD.HEART , GD.PRICE, nvl(FI.SAVENAME, null) SAVENAME 
     	from GOODS GD left outer join
     		 (select IMAGE.GOODSCODE , IMAGE.SAVENAME from GOODS_IMAGE IMAGE,
     					(select GOODSCODE, min(NUM) MINI from GOODS_IMAGE group by GOODSCODE) IMSI
    			 where IMAGE.NUM = IMSI.MINI) FI
    		on GD.GOODSCODE = FI.GOODSCODE 
-    	order by GD.HEART desc, GD.REGDATE desc
-	</if>
-	<if test='type.equals("priceDesc")'>
-		select GD.GOODSCODE ,GD.GOODSNAME ,GD.REGDATE ,GD.HEART , GD.PRICE, nvl(FI.SAVENAME, null) SAVENAME 
-    	from GOODS GD left outer join
-    		 (select IMAGE.GOODSCODE , IMAGE.SAVENAME from GOODS_IMAGE IMAGE,
-    					(select GOODSCODE, min(NUM) MINI from GOODS_IMAGE group by GOODSCODE) IMSI
-   			 where IMAGE.NUM = IMSI.MINI) FI
-   		on GD.GOODSCODE = FI.GOODSCODE 
-    	order by GD.PRICE desc, GD.HEART desc
-	</if>
-	<if test="type.equals('priceAsc')">
-		select GD.GOODSCODE ,GD.GOODSNAME ,GD.REGDATE ,GD.HEART , GD.PRICE, nvl(FI.SAVENAME, null) SAVENAME 
-    	from GOODS GD left outer join
-    		 (select IMAGE.GOODSCODE , IMAGE.SAVENAME from GOODS_IMAGE IMAGE,
-    					(select GOODSCODE, min(NUM) MINI from GOODS_IMAGE group by GOODSCODE) IMSI
-   			 where IMAGE.NUM = IMSI.MINI) FI
-   		on GD.GOODSCODE = FI.GOODSCODE 
-    	order by GD.PRICE asc, GD.HEART desc
-	</if>
+  		<if test='type.equals("dateDesc")'>
+		order by GD.REGDATE desc, GD.PRICE desc
+		</if>
+		<if test='type.equals("priceDesc")'>
+			order by GD.PRICE desc, GD.REGDATE desc
+		</if>
+		<if test="type.equals('priceAsc')">
+			order by GD.PRICE asc, GD.REGDATE desc
+		</if>
 	</select>
 	
 	<select id="selectGoodsOne" parameterType="String" resultType="goodsVo">

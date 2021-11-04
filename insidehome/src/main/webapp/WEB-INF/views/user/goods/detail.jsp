@@ -38,8 +38,7 @@
 		<p class="detail-goodscontent"><c:out value="${goods.content}"/></p><br>
 	</div>
 	<div class="detail-btn-box">
-		<button class="order-btn" onclick="location.href='<c:url value="/goods/order.do/${goods.goodsCode}" />'">
-		<img class="banner" src="<c:url value="/resources/img/goods-get-btn.png"/>"></button>
+		<button class="order-btn" onclick="location.href='<c:url value="/user/goods/order.do/${goods.goodsCode}" />'">구매하기</button>
 	</div>
 </div>
 <%@include file="/WEB-INF/views/user/main/userFooter.jsp"%>

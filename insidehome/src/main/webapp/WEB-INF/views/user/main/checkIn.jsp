@@ -10,11 +10,7 @@
 <div class="calender">
 	<div class="cal-header">
 		<div></div>
-		<div>
-			<button>◁</button>
-			<button>today</button>
-			<button>▷</button>
-		</div>
+		
 	</div>
 	<div>
 		<ol class="daylist">
@@ -27,13 +23,6 @@
 			<li class="day">토</li>
 		</ol>
 	</div>
-</div>
-<div>
-	<img
-		src="<c:url vavlue="/resources/img/check-off.png"/>" 
-		onmouseover="this.src='<c:url value="/resources/img/check-on.png"/>'" 
-		onmouseout="this.src='<c:url value="/resources/img/check-off.png"/>'" 
-		onclick="<c:url value="/inside/check.do"/>" />
 </div>
 <div>
 	<a href="<c:url value="/inside/check.do"/>">

@@ -4,7 +4,7 @@
 
 <%@include file="/WEB-INF/views/user/main/userHeader.jsp"%>
 
-<div class="bodyinfo">
+<div class="body-info">
 	<div class="info-detail">
 		<h1 class="info-title">이메일 찾기</h1>
 		<p class="info-title-sub">회원가입 시 입력한 이메일의 주소(sample@inside.home 일 경우 inside.home )와 전화번호를 입력하여 가입 시 사용한 이메일 주소를 찾을 수 있습니다.</p>

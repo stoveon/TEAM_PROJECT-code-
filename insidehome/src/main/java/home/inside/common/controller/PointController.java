@@ -23,10 +23,9 @@ public class PointController {
 	
 	//출석페이지 요청
 	@RequestMapping(value = "/inside/checkForm.do")
-	public String checkList(Integer month, Model model, HttpSession session) throws Exception {
+	public String checkList(Model model, HttpSession session) throws Exception {
 		String nickname = (String) session.getAttribute("loginInside");
 		if(nickname!=null) {
-			month=(month==null)?0:month;
 			model.addAttribute("checkList", pointSer.selectMonth(nickname));
 		}else {
 			model.addAttribute("checkList", Collections.emptyList());

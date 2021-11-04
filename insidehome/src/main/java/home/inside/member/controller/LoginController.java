@@ -80,7 +80,7 @@ public class LoginController {
 		if(tmpCookie!=null) {
 			pwdChk = pwdEncoder.matches(cmd.getPassword(), tmpCookie.getValue());	
 		} else {
-			info = logSer.loginTmpSuccess(cmd.getEmail());
+			info = infoSer.loginTmpSuccess(cmd.getEmail());
 			pwdChk = pwdEncoder.matches(cmd.getPassword(), (String) info.get("PASSWORD"));
 		}
 		if(pwdChk) {
