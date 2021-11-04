@@ -49,7 +49,7 @@
 <hr style="margin:10px 0 10px 0; text-align:left; width: 90%;">
 	<div class="order-addr-box">
 		<span class="order-sub-title">배송지 정보</span>&nbsp;
-		<button id="addrChange" onclick="addrChange();" >배송지변경</button>
+		<button id="addrChange" onclick="return addrChange();" >배송지변경</button>
 		<ul>
 			<li  class="order-addr-li"><c:out value="${userInfo.name}"/>&nbsp;
 				<c:out value="${userInfo.phone1} - ${fn:substring(userInfo.phone2,0,4)} - ${fn:substring(userInfo.phone2,4,8)}"/>
@@ -96,8 +96,8 @@
 </div>
 <script type="text/javascript" src="<c:url value="/resources/js/goodsjs.js" />"></script>
 <script type="text/javascript">
-document.getElementById("addrChange").onclick = function(){addrChange()};
-document.getElementById("salesbtn").onclick = function(){orderCheck()};
+	document.getElementById("addrChange").addEventListener("click", addrChange);
+	document.getElementById("salesbtn").addEventListener("click", orderCheck);
 </script>
 
 <%@include file="/WEB-INF/views/user/main/userFooter.jsp"%>

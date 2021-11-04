@@ -72,7 +72,7 @@ public class GoodsManagerController {
 	
 
 	@RequestMapping(value="deleteGoods.do")
-	public String deleteGoods(@RequestParam(value = "selectGoods") String[] selectGoods, RedirectAttributes rttr) throws Exception {
+	public String deleteGoods(@RequestParam(value = "deleteGoodsImage") String[] selectGoods, RedirectAttributes rttr) throws Exception {
 		for(int i=0; i<selectGoods.length; i++) {
 			selectGoods[i] = selectGoods[i].split("&")[0];
 		}

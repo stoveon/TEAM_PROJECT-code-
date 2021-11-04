@@ -26,7 +26,7 @@
 			<tbody>
 			<c:forEach items="${orderList}" var="orderOne">
 				<tr style="text-align: center;">
-					<fmt:formatDate value="${orderOne.ORDERDATE}" pattern="yyyy-MM-dd"
+					<fmt:formatDate value="${orderOne.ORDERDATE}" pattern="yyyy-MM-dd HH:mm:ss"
 						var="orderDate" />
 					<td>${orderDate}</td>
 					<td>${orderOne.GOODSNAME}</td>
@@ -40,7 +40,7 @@
 								<button class="fit-size" type="submit" onclick="form.action= '<c:url value="/manager/main/order.do?state=ING&num=${orderOne.NUM}" />'">발송</button>
 							</c:when>
 							<c:when test="${orderOne.SENDSTATE eq 'ING'}">
-								<button class="fit-size2" id="sendReturn" type="submit" value="<c:out value="${orderOne.NUM}" />" onclick="return sendCHK();">발송취소</button>
+								<button class="fit-size2" class="sendReturn" type="submit" value="<c:out value="${orderOne.NUM}" />" onclick="return sendCHK();">발송취소</button>
 							</c:when>
 							<c:when test="${orderOne.SENDSTATE eq 'END'}">
 								<c:out value="배송완료" />
@@ -57,9 +57,8 @@
 
 <script type="text/javascript" src="<c:url value="/resources/js/goodsjs.js" />"></script>
 <script>
-window.onload = function(){
-	document.getElementByClassName("sendReturn").addEventListener = ("onclick", sendCHK);
-}
+	let clickbtn = document.querySelector(".sendReturn");
+	clickbtn.addEventListener("click", sendCHK);
 </script>
 
 

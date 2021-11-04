@@ -45,7 +45,6 @@ public class GoodsManagerServiceImpl implements IGoodsManagerService {
 		goodsVo.setHeart("no");
 		goodsVo.setStock(20);
 
-		System.out.println("service.insert: " + goodsVo.toString());
 		goodsDao.insert(goodsVo);
 
 		for (String str : imageList) {
@@ -57,16 +56,14 @@ public class GoodsManagerServiceImpl implements IGoodsManagerService {
 
 	@Override
 	public void update(GoodsVo goodsVo, MultipartHttpServletRequest mpReq) throws Exception {
-
-		if (mpReq.getParameterValues("deleteGoodsImage") != null) {
+		if(mpReq.getParameterValues("deleteGoodsImage") != null) {
 			util.goodsFileDelete(goodsVo.getGoodsCode(), mpReq);
 			String[] deleteFile = mpReq.getParameterValues("deleteGoodsImage");
 			for (String str2 : deleteFile) {
 				goodsImageDao.editGoodsImage(goodsVo.getGoodsCode() + "_" + str2);
-				System.out.println(str2);
 			}
 		}
-		if (mpReq.getFiles("plusGoodsImage") != null) {
+		if(mpReq.getFiles("plusGoodsImage") != null) {
 			List<String> nameList = util.goodsFileEdit(goodsVo.getGoodsCode(), mpReq);
 			for (String str : nameList) {
 				GoodsImageVo tmp = new GoodsImageVo(goodsVo.getGoodsCode(), str);

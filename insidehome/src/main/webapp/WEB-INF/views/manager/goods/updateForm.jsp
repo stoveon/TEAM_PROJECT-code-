@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <%@include file="/WEB-INF/views/manager/main/mgrHeader.jsp"%>
 <form name="goodsForm" action="<c:url value="/manager/goods/updateGoods.do/${goods.goodsCode}" />" method="post" 
-			enctype="multipart/form-data" onsubmit="javascript:checkForm();">
+			enctype="multipart/form-data">
 	<h3>상품 수정</h3>
 	<table>
 		<caption>
@@ -15,9 +15,9 @@
 			<tr>
 				<td>상품명</td><td><input type="text" name="goodsName" value="${goods.goodsName}" /></td>
 				<td>가격</td><td><input type="number" required="required" name="price" min="0" max="50000" step="100" value="${goods.price}" /></td>
-				<td><input class="stock-update" type="radio" name="stock" value="0" /> +0
-					<input class="stock-update" type="radio" name="stock" value="10" /> +10
-					<input class="stock-update" type="radio" name="stock" value="20" /> +20
+				<td><label><input class="stock-update" type="radio" name="stock" value="0" checked="checked"/> +0</label>
+					<label><input class="stock-update" type="radio" name="stock" value="10" /> +10</label>
+					<label><input class="stock-update" type="radio" name="stock" value="20" /> +20</label>
 				</td>
 			</tr>
 		</thead>
@@ -35,12 +35,12 @@
 			<c:if test="${!empty goodsImages}">
 				<c:forEach items="${goodsImages}" var="fileName">
 				<c:set var="saveFile" value="${fileName.imgPath}" />
-				<p><input type="checkbox" name="deleteGoodsImage" value="${fileName}" /><a href="<c:url value="/display?goodsCode=${goods.goodsCode}&saveName=${saveFile}" />" target="_blank"><c:out value="${fileName.saveName}" /></a></p>
+				<p><input type="checkbox" name="deleteGoodsImage" value="${fileName.saveName}" /><a href="<c:url value="/display?goodsCode=${goods.goodsCode}&saveName=${saveFile}" />" target="_blank"><c:out value="${fileName.saveName}" /></a></p>
 				</c:forEach>
 			</c:if>
 				<div id="fileBox">
 					<input type="file" name="plusGoodsImage" accept=".jpg,.jpeg,.png,.gif" />
-					<input id="addBtn" type="button" value="추가" onClick="add_updateFile()">
+					<input id="addBtn" type="button" value="추가" onClick="add_updateFile();">
 				</div>
 				</td>
 			</tr>
@@ -49,9 +49,7 @@
 </form>
 <script type="text/javascript" src="<c:url value="/resources/js/goodsjs.js"/>"></script>
 <script>
-window.onload = function(){
-	document.getElementById("addBtn").addEventListener = ("onclick", add_updateFile);
-	document.getElementById("goodsbtn").addEventListener=("onclick", checkForm);
-}
+	document.getElementById("addBtn").addEventListener("onclick", add_updateFile);
+	document.getElementById("goodsbtn").addEventListener("onclick", checkForm);
 </script>
 <%@include file="/WEB-INF/views/manager/main/mgrFooter.jsp"%>

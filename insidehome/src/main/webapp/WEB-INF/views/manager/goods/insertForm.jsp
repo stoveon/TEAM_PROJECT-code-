@@ -26,7 +26,7 @@
 				<td colspan="4">
 					<div id="fileBox">
 						<input type="file" name="saveGoodsImage" accept=".jpg,.jpeg,.png,.gif" />
-					<input id="addBtn" type="button" value="추가" onClick="add_insertFile()">
+					<input id="addBtn" type="button" value="추가" onClick="add_insertFile();">
 					</div>
 				</td>
 			</tr>
@@ -36,9 +36,7 @@
 
 <script type="text/javascript" src="<c:url value="/resources/js/goodsjs.js" />"></script>
 <script>
-window.onload = function(){
-	document.getElementById("addBtn").onclick=add_insertFile;
-	document.getElementById("goodsbtn").onclick=checkForm;
-}
+	document.getElementById("addBtn").addEventListener("onclick", add_insertFile);
+	document.getElementById("goodsbtn").addEventListener("onclick", checkForm);
 </script>
 <%@include file="/WEB-INF/views/manager/main/mgrFooter.jsp"%>
