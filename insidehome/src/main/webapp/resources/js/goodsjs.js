@@ -74,8 +74,6 @@ function addrChange(){
 		
 function sendCHK(){
 	let salesNum = event.target.value;
-	console.log(salesNum);
-	console.log(document.orderForm.action=getContextPath()+'/manager/main/order.do?state=YET&num='+salesNum);
 	if(confirm("발송을  취소하시겠습니까?") == true){
 		return document.orderForm.action=getContextPath()+'/manager/main/order.do?state=YET&num='+salesNum;
 }else{

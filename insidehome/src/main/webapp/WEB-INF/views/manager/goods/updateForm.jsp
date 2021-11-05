@@ -32,13 +32,13 @@
 	
 				<td rowspan="2">파일 추가</td>
 				<td  colspan="4">
+				<div id="fileBox">
 			<c:if test="${!empty goodsImages}">
 				<c:forEach items="${goodsImages}" var="fileName">
 				<c:set var="saveFile" value="${fileName.imgPath}" />
 				<p><input type="checkbox" name="deleteGoodsImage" value="${fileName.saveName}" /><a href="<c:url value="/display?goodsCode=${goods.goodsCode}&saveName=${saveFile}" />" target="_blank"><c:out value="${fileName.saveName}" /></a></p>
 				</c:forEach>
 			</c:if>
-				<div id="fileBox">
 					<input type="file" name="plusGoodsImage" accept=".jpg,.jpeg,.png,.gif" />
 					<input id="addBtn" type="button" value="추가" onClick="add_updateFile();">
 				</div>

@@ -23,7 +23,8 @@
 				<td colspan="4"><textarea name="content" cols="100" rows="10" placeholder="상품 설명 입력"></textarea></td>
 			</tr>
 			<tr>
-				<td colspan="4">
+				<td rowspan="2">파일 추가</td>
+				<td colspan="3">
 					<div id="fileBox">
 						<input type="file" name="saveGoodsImage" accept=".jpg,.jpeg,.png,.gif" />
 					<input id="addBtn" type="button" value="추가" onClick="add_insertFile();">

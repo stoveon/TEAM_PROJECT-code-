@@ -166,15 +166,22 @@ public class FileUtils {
 		}
 	}
 
-	public File rename(File f) throws IOException {
+	public File rename(File f) {
 		int plusSeq = 1;
-		while(!f.exists()) {
-			String fileName = f.getCanonicalPath();
-			int extensionIdx = fileName.lastIndexOf(".");
-			String _fileName = fileName.substring(0, extensionIdx);						//확장자 제외 파일 이름
-			String extension = fileName.substring(extensionIdx, fileName.length());		//확장자명
-			String newName = _fileName + "(" + plusSeq++ + ")"+ extension;
-			f = new File(newName);
+		while(f.exists()) {
+			String fileName;
+			try {
+				fileName = f.getCanonicalPath();
+				int extensionIdx = fileName.lastIndexOf(".");
+				String _fileName = fileName.substring(0, extensionIdx);						//확장자 제외 파일 이름
+				String extension = fileName.substring(extensionIdx, fileName.length());		//확장자명
+				String newName = _fileName + "(" + plusSeq++ + ")"+ extension;
+				f = new File(newName);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
 		}
 		return f;
 	}	
