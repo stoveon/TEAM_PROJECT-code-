@@ -3,7 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <%@include file="/WEB-INF/views/manager/main/mgrHeader.jsp"%>
-<h3>상품등록</h3>
+<div class="body-info">
+	<div class="info-detail">
+		<h1 class="info-title">상품 등록</h1>
+	</div>
+	<hr>
+	<div class="info-inner">
 <form name="goodsForm" action="<c:url value="/manager/goods/insertGoods.do" />" method="post" enctype="multipart/form-data">
 	<table>
 		<caption>
@@ -34,10 +39,11 @@
 		</tbody>
 	</table>
 </form>
-
+</div>
+</div>
 <script type="text/javascript" src="<c:url value="/resources/js/goodsjs.js" />"></script>
 <script>
-	document.getElementById("addBtn").addEventListener("onclick", add_insertFile);
-	document.getElementById("goodsbtn").addEventListener("onclick", checkForm);
+	document.getElementById("addBtn").addEventListener("click", add_insertFile);
+	document.getElementById("goodsbtn").addEventListener("click", checkForm);
 </script>
 <%@include file="/WEB-INF/views/manager/main/mgrFooter.jsp"%>

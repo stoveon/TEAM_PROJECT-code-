@@ -49,7 +49,7 @@
 </form>
 <script type="text/javascript" src="<c:url value="/resources/js/goodsjs.js"/>"></script>
 <script>
-	document.getElementById("addBtn").addEventListener("onclick", add_updateFile);
-	document.getElementById("goodsbtn").addEventListener("onclick", checkForm);
+	document.getElementById("addBtn").addEventListener("click", add_updateFile);
+	document.getElementById("goodsbtn").addEventListener("click", checkForm);
 </script>
 <%@include file="/WEB-INF/views/manager/main/mgrFooter.jsp"%>

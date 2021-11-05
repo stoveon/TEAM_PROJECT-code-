@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import home.inside.board.vo.BoardImageVo;
+
 @Component
 public class FileUtils {
 	
@@ -58,6 +60,7 @@ public class FileUtils {
 		Map<String, Object> hm = new HashMap<String, Object>();
 		hm.put("goodsCode", goodsCode);
 		hm.put("saveNames", saveNames);
+		
 		
 		return hm;
 	}
@@ -145,9 +148,9 @@ public class FileUtils {
 //--------------------------------------------------------------------------------------------------------------------------
 	
 	//게시판 이미지 등록
-	public HashMap<String, Object> boardFileUpload(MultipartHttpServletRequest mpReq) {
+	public List<BoardImageVo> boardFileUpload(MultipartHttpServletRequest mpReq) {
 		String filaPath = path + "BOARD" + File.separator;
-		HashMap<String, Object> saveFile = new HashMap<String, Object>();
+		 List<BoardImageVo> boardImageList = new ArrayList<BoardImageVo>();
 		
 		File folder = new File(filaPath);
 		if(!folder.exists()) {
@@ -158,30 +161,42 @@ public class FileUtils {
 		
 		List<MultipartFile> fileList = mpReq.getFiles("saveBoardImage");
 		for(MultipartFile mf : fileList) {
-			String originName = mf.getOriginalFilename();
-			String extension = FilenameUtils.getExtension(originName);
-			String tmpName =  uuid + "_" + originName;
-			
-			File file = new File(filaPath + File.separator + tmpName);
-			file = rename(file);			
-			tmpName = file.getName();
-			try {
-				mf.transferTo(file);
-			} catch (IllegalStateException | IOException e) {
-				e.printStackTrace();
-			}
-			saveFile.put("originName", originName);
-			saveFile.put("saveName", tmpName);
-			saveFile.put("fileType", extension);
-			}
+			if(!(mf.getOriginalFilename().equals("") || mf.getOriginalFilename() == null)) {
+				String originName = mf.getOriginalFilename();
+				String extension = FilenameUtils.getExtension(originName);
+				String saveName =  uuid + "_" + originName;
+				
+				File file = new File(filaPath + File.separator + saveName);
+				file = rename(file);			
+				saveName = file.getName();
+				try {
+					mf.transferTo(file);
+				} catch (IllegalStateException | IOException e) {
+					e.printStackTrace();
+				}
+				
+				File noFile = new File(filaPath + File.separator + uuid + "_");
+				if(noFile.exists()) {
+					noFile.delete();
+				}
+				
+				BoardImageVo vo = new BoardImageVo();
+				vo.setOriginName(originName);
+				vo.setSaveName(saveName);
+				vo.setFileType(extension);
+				boardImageList.add(vo);
 
-		return saveFile;
+			}else {
+				boardImageList.clear();
+			}
+		}
+		return boardImageList;
 	}
 	
 	//게시판 이미지 수정
-	public HashMap<String, Object> boardFileEdit(MultipartHttpServletRequest mpReq){
+	public List<BoardImageVo> boardFileEdit(MultipartHttpServletRequest mpReq){
 		String filaPath = path + "BOARD" + File.separator;
-		HashMap<String, Object> saveFile = new HashMap<String, Object>();
+		 List<BoardImageVo> boardImageList = new ArrayList<BoardImageVo>();
 		
 		File folder = new File(filaPath);
 		if(!folder.exists()) {
@@ -192,37 +207,51 @@ public class FileUtils {
 		
 		List<MultipartFile> fileList = mpReq.getFiles("plusBoardImage");
 		for(MultipartFile mf : fileList) {
-			String originName = mf.getOriginalFilename();
-			String extension = FilenameUtils.getExtension(originName);
-			String tmpName =  uuid + "_" + originName;
-			
-			File file = new File(filaPath + File.separator + tmpName);
-			file = rename(file);			
-			tmpName = file.getName();
-			try {
-				mf.transferTo(file);
-			} catch (IllegalStateException | IOException e) {
-				e.printStackTrace();
-			}
-			saveFile.put("originName", originName);
-			saveFile.put("saveName", tmpName);
-			saveFile.put("fileType", extension);
-			}		
+			if(!(mf.getOriginalFilename().equals("") || mf.getOriginalFilename() == null)) {
+				String originName = mf.getOriginalFilename();
+				String extension = FilenameUtils.getExtension(originName);
+				String saveName =  uuid + "_" + originName;
 				
-		return saveFile;
+				File file = new File(filaPath + File.separator + saveName);
+				file = rename(file);			
+				saveName = file.getName();
+				try {
+					mf.transferTo(file);
+				} catch (IllegalStateException | IOException e) {
+					e.printStackTrace();
+				}
+				
+				File noFile = new File(filaPath + File.separator + uuid + "_");
+				if(noFile.exists()) {
+					noFile.delete();
+				}
+				
+				BoardImageVo vo = new BoardImageVo();
+				vo.setOriginName(originName);
+				vo.setSaveName(saveName);
+				vo.setFileType(extension);
+				System.out.println("util: " + originName + " : " + saveName + " : " + extension);
+				boardImageList.add(vo);
+			}else {
+				boardImageList.clear();			
+			}
+		}		
+		return boardImageList;
 	}
 
-	//게시판 이미지 삭제
-	public void boardFileDelete(String goodsCode, MultipartHttpServletRequest mpReq) {
+	//게시판 이미지 수정시 삭제
+	public String[] boardFileDelete(MultipartHttpServletRequest mpReq) {
 		String[] fileName = mpReq.getParameterValues("deleteBoardImage");
-		String filePath = path + "BOARD" + File.separator;
-		for(String str : fileName) {
-			File delFile = new File(filePath + str);
-			if(delFile.exists()) {
-				delFile.delete();
+		if(fileName.length > 0) {
+			String filePath = path + "BOARD" + File.separator;
+			for(String str : fileName) {
+				File delFile = new File(filePath + str);
+				if(delFile.exists()) {
+					delFile.delete();
+				}
 			}
 		}
-		
+		return fileName;		
 	}
 	
 	//게시판 삭제

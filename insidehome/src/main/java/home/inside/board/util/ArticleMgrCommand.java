@@ -44,6 +44,10 @@ public class ArticleMgrCommand {
 	public void setNotify(String notify) {
 		this.notify = notify;
 	}
-	
+	@Override
+	public String toString() {
+		return "ArticleMgrCommand [num=" + num + ", writer=" + writer + ", boardCode=" + boardCode + ", title=" + title
+				+ ", content=" + content + ", notify=" + notify + "]";
+	}
 	
 }

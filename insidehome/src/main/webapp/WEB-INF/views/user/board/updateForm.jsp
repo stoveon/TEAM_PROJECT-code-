@@ -10,7 +10,7 @@
 	</div>
 	<hr>
 	<div class="info-inner">
-	<form name="boardForm" method="post" enctype="multipart/form-data">
+	<form name="boardForm" action="<c:url value="/user/board/update.do/${board.num}"/>" method="post" enctype="multipart/form-data">
 		<table>
 			<thead>
 				<tr>
@@ -44,21 +44,25 @@
 						</c:forEach>
 					</c:if>
 						<input type="file" name="plusBoardImage" accept=".jpg,.jpeg,.png,.gif" />
-					<input id="addBtn" type="button" value="추가" onClick="add_updateFile();">
+					<input id="addBtnBoard" type="button" value="추가" >
 					</div>
 					</td>
 				</tr>
 				<tr>
-					<td><input type="submit" value="등록" /></td>
-					<td><input type="button" value="취소" onclick="<c:url value="/inside/main.do" />" /></td>
+					<td><input id="regbtn" type="submit" value="등록" /></td>
+					<td><input type="button" value="취소" onclick="location.href='javascript:history.back()'" /></td>
 				</tr>
 			</tbody>
 		</table>
 		</form>
 	</div>
 </div>
-<script type="text/javascript" src="<c:url value="/resources/js/boardjs.js" />"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/boardscript.js" />"></script>
 <script>
-	document.getElementById("addBtn").addEventListener("click", add_updateFile);
+	let addBtn = document.querySelector("#addBtnBoard");
+	addBtn.addEventListener("click", add_upFile);
+	
+	let reg = document.querySelector("#regbtn");
+	reg.addEventListener("click", boardCheckForm);
 </script>
 <%@include file="/WEB-INF/views/user/main/userFooter.jsp"%>

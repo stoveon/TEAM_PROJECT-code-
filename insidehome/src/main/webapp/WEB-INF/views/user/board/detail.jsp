@@ -15,14 +15,17 @@
 			<caption>
 			<fmt:formatDate var="regdate" value="${board.regdate}" pattern="yyyy-MM-dd"/>
 			<fmt:formatDate var="moddate" value="${board.moddate}" pattern="yyyy-MM-dd"/>
-				<p>작성일 <c:out value="${regdate}"/> | 수정일 <c:out value="${moddate}"/>
-				조회수 <c:out value="${board.hit}"/> | 추천수 <c:out value="${board.heart}"/>
+				<p>작성일 <c:out value="${regdate}"/> &nbsp;|&nbsp; 수정일 <c:out value="${moddate}"/>
+				조회수 <c:out value="${board.hit}"/> &nbsp;|&nbsp; 추천수 <c:out value="${board.heart}"/>
 				</p>
 			</caption>
 			<thead>
 				<tr>
-					<td><c:if test="${board.boardCode eq 'info'}" ><c:out value="${board.write}"/></c:if></td>
-					<td><button id="">[수정]</button></td><td><button id="">삭제</button></td>
+					<c:if test="${board.boardCode eq 'info'}" >
+						<td><c:out value="${board.write}"/></td>
+					</c:if>
+					<td><button id="" >[수정]</button></td>
+					<td><button id="" >[삭제]</button></td>
 				</tr>
 			</thead>
 			<tbody>
@@ -36,9 +39,9 @@
 		</div>
 	</div>
 	<div>
-		<button id="" onclick="#">목록</button>
-		<button id="" onclick="#">[신고]</button>
-		<button id="" onclick="#">[추천]</button>
+		<button id="" onclick="location.href=''">목록</button>
+		<button id="warnbtn" >[신고]</button>
+		<button id="heartbtn" >[추천]</button>
 	</div>
 	<div>
 	<form>

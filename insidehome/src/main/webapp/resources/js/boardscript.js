@@ -4,39 +4,42 @@ function getContextPath(){
     return ctxPath;
 }
 
-const add_insertFile = () => {
-	const box = document.getElementById('fileBox');
+const add_inFile = () => {
+	const box = document.getElementById('boardFileBox');
 	const newP = document.createElement('p');
-	newP.innerHTML = "<input id='#' type='file' name='saveBoardImage' accept='.jpg,.jpeg,.png,.gif' />";
+	newP.innerHTML = "<input type='file' name='saveBoardImage' accept='.jpg,.jpeg,.png,.gif' />";
 	box.appendChild(newP);
 }
 
-const add_updateFile = () => {
-	const box = document.getElementById('fileBox');
+const add_upFile = () => {
+	const box = document.getElementById('boardFileBox');
 	const newP = document.createElement('p');
-	newP.innerHTML = "<input id='#' type='file' name='plusBoardImage' accept='.jpg,.jpeg,.png,.gif' />";
+	newP.innerHTML = "<input type='file' name='plusBoardImage' accept='.jpg,.jpeg,.png,.gif' />";
 	box.appendChild(newP);
 }
 
-function checkForm(){
-			if(document.boardForm.goodsName.value == "" || document.boardForm.content.value == "" ){
-		if(document.boardForm.goodsName.value == ""){
+function boardCheckForm(){
+	if(document.boardForm.title.value == "" || document.boardForm.content.value == ""){
+		if(document.boardForm.title.value == ""){
 			alert("제목이 입력되지 않았습니다.");
-			document.boardForm.goodsName.focus();
+			document.boardForm.title.focus();
+			event.preventDefault();
 			return false;
 		}
 		if(document.boardForm.content.value == ""){
 			alert("내용이 입력되지 않았습니다.");
 			document.boardForm.content.focus();
+			event.preventDefault();
 			return false;
 		}
+	}else{
+		if(confirm("게시글을 등록하시겠습니까?") == true){
+			return true;
 		}else{
-			if(confirm("게시글을 등록하시겠습니까?") == true){
-				return true;
-			}else{
-				return false;
-			}
+			event.preventDefault();
+			return false;
 		}
+	}
 }
 
 function warnClick(){
@@ -48,11 +51,11 @@ function warnClick(){
 	}
 }
 		
-function sendCHK(){
+/*function sendCHK(){
 	let salesNum = event.target.value;
 	if(confirm("발송을  취소하시겠습니까?") == true){
 		return document.orderForm.action=getContextPath()+'/manager/main/order.do?state=YET&num='+salesNum;
 }else{
 	return false;
 	}
-}
+}*/

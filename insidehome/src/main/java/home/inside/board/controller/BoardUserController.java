@@ -5,19 +5,25 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import home.inside.board.service.IBoardService;
 import home.inside.board.util.ArticleMgrCommand;
 import home.inside.board.vo.BoardVo;
+import home.inside.member.service.IMemberInfoService;
+import home.inside.member.vo.MemberInfoDto;
 
 @Controller
 @RequestMapping("/user/board")
 public class BoardUserController {
 	@Autowired
 	private IBoardService ser;
+	@Autowired
+	private IMemberInfoService infoSer;
 
 	// 회원 글 작성 폼 요청
 	@RequestMapping(value = "/registForm.do")
@@ -25,43 +31,54 @@ public class BoardUserController {
 		String nickname = (String) session.getAttribute("loginInside");
 		artCmd.setWriter(nickname);
 		artCmd.setNotify("no");
+		model.addAttribute("artCmd", artCmd);
 		return "user/board/registForm";
 	}
 
 	// 회원 글 작성 요청
 	@RequestMapping(value = "/regist.do", method = RequestMethod.POST)
 	public String registArticleSubmit(ArticleMgrCommand artCmd, MultipartHttpServletRequest mpReq) throws Exception {
-		/* artCmd 에 num을 제외하고는 null 이면 안됨
-		 * null 이면 작성거절하고 글작성폼으로 리턴
-		 * artCmd에 num을 제외하고 null이 없으면 글 작성요청 후 목록 redirect */
 		ser.insertBoard(artCmd, mpReq);
 		return "redirect:/board/list.do";
 	}
 
 	// 회원 글 수정 폼 요청
-	@RequestMapping(value = "/updateForm.do")
-	public String updateArticleForm(int num, Model model, HttpSession session) throws Exception {
+	@RequestMapping(value = "/updateForm.do/{num}")
+	public String updateArticleForm(@PathVariable(value="num")int num, Model model, HttpSession session) throws Exception {
 		/* 세션에서 닉네임 가져와 게시글작성자와 현재 로그인한 사용자가 일치하는지 확인
 		 * 일치하지 않으면 list 로 redirect
 		 * 일치하면 게시글 정보 담아서 글수정페이지로*/
 		BoardVo board = ser.readBoard(num);
+//		String nickname = (String) session.getAttribute("loginInside");
+//		if(!(nickname.equals(board.getWriter()))) {
+//			return "redirect:/board/list.do";			
+//		}
 		model.addAttribute("board", board);
-		return "redirect:/board/list.do";
+		return "user/board/updateFrom";
 	}
 
 	// 회원 글 수정 요청
-	@RequestMapping(value = "/update.do", method = RequestMethod.POST)
-	public String updateArticleSubmit(ArticleMgrCommand artCmd, HttpSession session) throws Exception {
+	@RequestMapping(value = "/update.do/{num}", method = RequestMethod.POST)
+	public String updateArticleSubmit(@PathVariable(value="num")int num, ArticleMgrCommand artCmd, MultipartHttpServletRequest mpReq) throws Exception {
 		/* artCmd에 null 이 있으면 안됨 
 		 * null 이 있으면 수정 거절하고 글 수정폼으로 리턴
 		 * artCmd 에 null이 없으면 글 수정 요청 후 상세페이지 redirect */
+		if(artCmd.getBoardCode() == null || artCmd.getNum() == 0 || artCmd.getWriter() == null) {
+			return "redirect:/user/board/read.do";			
+		}
+		ser.updateBoard(artCmd, mpReq);
 		return "redirect:/user/board/read.do";
 	}
 
 	// 회원 글 삭제요청
 	@RequestMapping(value = "/delete.do", method = RequestMethod.POST)
-	public String deleteArticleSubmit(int boardNum) throws Exception {
+	public String deleteArticleSubmit(int boardNum, HttpSession session) throws Exception {
 		/* 현재 로그인한 사용자와 글작성자가 일치하는지 확인 */
+		String nickname = (String) session.getAttribute("loginInside");
+		BoardVo board = ser.readBoard(boardNum);
+		if(nickname.equals(board.getWriter())) {
+			ser.deleteBoard(boardNum);
+		}
 		return "redirect:/board/list.do";
 	}
 
@@ -76,7 +93,8 @@ public class BoardUserController {
 
 	// 게시글 추천요청
 	@RequestMapping(value = "/updateHit.do", method = RequestMethod.POST)
-	public String updateHitSubmit(int boardNum) throws Exception { 
+	public String updateHitSubmit(int boardNum, HttpSession session , RedirectAttributes rttr) throws Exception { 
+		BoardVo board = ser.readBoard(boardNum);
 		return "redirect:/user/board/read.do";
 	}
 }

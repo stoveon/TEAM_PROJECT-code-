@@ -5,16 +5,16 @@
 
 <mapper namespace="boardImageDao">
 	<insert id="insertArticleImage" parameterType="boardImageVo">
-		insert BOARD_IMAGE(NUM, BOARDNUM, ORIGINNAME, SAVENAME, FILETYPE)
+		insert into BOARD_IMAGE(NUM, BOARDNUM, ORIGINNAME, SAVENAME, FILETYPE)
 		values(BOARD_IMAGE_SEQ.nextval, 
 		<if test="boardNum==0">
-		BOARD_SEQ.currval,
+		(select max(NUM) from BOARD),
 		</if>
 		<if test="boardNum!=0">
 		#{boardNum}, 
 		</if>
 		#{originName}, #{saveName}, #{fileType})
-		<selectKey resultType="Integer" keyProperty="NUM">
+		<selectKey resultType="Integer" keyProperty="num">
 			select NVL(max(NUM),0) from BOARD_IMAGE
 		</selectKey>
 	</insert>

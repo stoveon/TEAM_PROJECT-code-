@@ -1,6 +1,7 @@
 package home.inside.board.service;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,6 @@ public class BoardServiceImpl implements IBoardService {
 
 	@Override
 	public void insertBoard(ArticleMgrCommand artCmd, MultipartHttpServletRequest mpReq) throws Exception {
-		HashMap<String, Object> hsmima = util.boardFileUpload(mpReq);
 		HashMap<String, Object> hsm = new HashMap<String, Object>();
 		hsm.put("boardCode", artCmd.getBoardCode());
 		hsm.put("nickname", artCmd.getWriter());
@@ -38,11 +38,16 @@ public class BoardServiceImpl implements IBoardService {
 		hsm.put("content", artCmd.getContent());
 		hsm.put("notify", artCmd.getNotify());
 		dao.insertArticle(hsm);
+		List<BoardImageVo> boarImaList = util.boardFileUpload(mpReq);
+		if(boarImaList.size() > 0) {
+			for(BoardImageVo imageVo : boarImaList) {
+				imageDao.insertArticleImage(imageVo);				
+			}
+		}
 	}
 
 	@Override
 	public void updateBoard(ArticleMgrCommand artCmd, MultipartHttpServletRequest mpReq) throws Exception {
-		// 이미지 등록/삭제 관련 내용 추가 필요
 		HashMap<String, Object> hsm = new HashMap<String, Object>();
 		hsm.put("num", artCmd.getNum());
 		hsm.put("title", artCmd.getTitle());
@@ -54,6 +59,16 @@ public class BoardServiceImpl implements IBoardService {
 		if (notify != null && !notify.equals("no")) {
 			hsm.put("notify", notify);
 			dao.changeNotify(hsm);
+		}
+		List<BoardImageVo> boarImaList = util.boardFileEdit(mpReq);
+		if(boarImaList.size() > 0) {
+			for(BoardImageVo imageVo : boarImaList) {
+				imageDao.insertArticleImage(imageVo);				
+			}
+		}
+		String[] deleteFile = util.boardFileDelete(mpReq);
+		if(deleteFile.length > 0) {
+		
 		}
 	}
 
