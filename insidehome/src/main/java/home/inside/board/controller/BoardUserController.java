@@ -1,5 +1,5 @@
 package home.inside.board.controller;
-// 지은이 고생해
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import home.inside.board.service.IBoardService;
 import home.inside.board.util.ArticleMgrCommand;
+import home.inside.board.vo.BoardVo;
 
 @Controller
 @RequestMapping("/user/board")
@@ -24,7 +25,7 @@ public class BoardUserController {
 		String nickname = (String) session.getAttribute("loginInside");
 		artCmd.setWriter(nickname);
 		artCmd.setNotify("no");
-		return "/user/board/registForm";
+		return "user/board/registForm";
 	}
 
 	// 회원 글 작성 요청
@@ -33,6 +34,7 @@ public class BoardUserController {
 		/* artCmd 에 num을 제외하고는 null 이면 안됨
 		 * null 이면 작성거절하고 글작성폼으로 리턴
 		 * artCmd에 num을 제외하고 null이 없으면 글 작성요청 후 목록 redirect */
+		ser.insertBoard(artCmd, mpReq);
 		return "redirect:/board/list.do";
 	}
 
@@ -42,6 +44,8 @@ public class BoardUserController {
 		/* 세션에서 닉네임 가져와 게시글작성자와 현재 로그인한 사용자가 일치하는지 확인
 		 * 일치하지 않으면 list 로 redirect
 		 * 일치하면 게시글 정보 담아서 글수정페이지로*/
+		BoardVo board = ser.readBoard(num);
+		model.addAttribute("board", board);
 		return "redirect:/board/list.do";
 	}
 
@@ -67,7 +71,7 @@ public class BoardUserController {
 		/* 게시글 내용
 		 * 게시글 이미지목록
 		 * 게시글 댓글목록  첨부*/
-		return "/user/board/detail";
+		return "user/board/detail";
 	}
 
 	// 게시글 추천요청

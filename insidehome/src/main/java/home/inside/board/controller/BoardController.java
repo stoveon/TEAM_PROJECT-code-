@@ -16,12 +16,12 @@ public class BoardController {
 	// 공지게시글 상세페이지 요청
 	@RequestMapping("/board/read/notice.do")
 	public String readArticleSubmit(int boardNum, Model model) throws Exception {
-		return "/user/board/detail";
+		return "user/board/detail";
 	}
 
 	// 게시글 목록/검색 요청
 	@RequestMapping("/board/list.do")
 	public String listArticleView(String notify, PageSearchCommand psCmd, Model model) throws Exception {
-		return "/user/board/list";
+		return "user/board/list";
 	}
 }

@@ -122,50 +122,7 @@ public class FileUtils {
 		}
 	}
 	
-	public Map<String, Object> boardFileUpload(int boardNum, MultipartHttpServletRequest mpReq) {
-		String filaPath = path + "BOARD" + File.separator + boardNum + File.separator;
-		Map<String, Object> saveFile = new HashMap<String, Object>();
-		
-		File folder = new File(filaPath);
-		if(!folder.exists()) {
-			folder.mkdirs();
-		}
-		
-		String uuid = UUID.randomUUID().toString();
-		
-		List<MultipartFile> fileList = mpReq.getFiles("saveBoardImage");
-		for(MultipartFile mf : fileList) {
-			String originName = mf.getOriginalFilename();
-			String extension = FilenameUtils.getExtension(originName);
-			String tmpName =  uuid + "_" + originName;
-			
-			File file = new File(filaPath + File.separator + tmpName);	
-			
-			if(file.exists()) {
-				uuid = UUID.randomUUID().toString();
-				tmpName = uuid + File.separator + mf.getOriginalFilename();
-			}
-				
-			try {
-				mf.transferTo(file);
-			} catch (IllegalStateException | IOException e) {
-				e.printStackTrace();
-			}
-			saveFile.put("originName", originName);
-			saveFile.put("saveName", tmpName);
-			saveFile.put("fileType", extension);
-			}
-
-		return saveFile;
-	}
-	
-	public void boardDelete(int boardNum) {
-		File delFile = new File(path + "BOARD"+ File.separator + boardNum);
-		if(delFile.exists()) {
-			delFile.delete();
-		}
-	}
-
+	//상품 이미지 등록 시 동일 이름 확인
 	public File rename(File f) {
 		int plusSeq = 1;
 		while(f.exists()) {
@@ -181,9 +138,100 @@ public class FileUtils {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
 		}
 		return f;
 	}	
+	
+//--------------------------------------------------------------------------------------------------------------------------
+	
+	//게시판 이미지 등록
+	public HashMap<String, Object> boardFileUpload(MultipartHttpServletRequest mpReq) {
+		String filaPath = path + "BOARD" + File.separator;
+		HashMap<String, Object> saveFile = new HashMap<String, Object>();
+		
+		File folder = new File(filaPath);
+		if(!folder.exists()) {
+			folder.mkdirs();
+		}
+		
+		String uuid = UUID.randomUUID().toString();
+		
+		List<MultipartFile> fileList = mpReq.getFiles("saveBoardImage");
+		for(MultipartFile mf : fileList) {
+			String originName = mf.getOriginalFilename();
+			String extension = FilenameUtils.getExtension(originName);
+			String tmpName =  uuid + "_" + originName;
+			
+			File file = new File(filaPath + File.separator + tmpName);
+			file = rename(file);			
+			tmpName = file.getName();
+			try {
+				mf.transferTo(file);
+			} catch (IllegalStateException | IOException e) {
+				e.printStackTrace();
+			}
+			saveFile.put("originName", originName);
+			saveFile.put("saveName", tmpName);
+			saveFile.put("fileType", extension);
+			}
+
+		return saveFile;
+	}
+	
+	//게시판 이미지 수정
+	public HashMap<String, Object> boardFileEdit(MultipartHttpServletRequest mpReq){
+		String filaPath = path + "BOARD" + File.separator;
+		HashMap<String, Object> saveFile = new HashMap<String, Object>();
+		
+		File folder = new File(filaPath);
+		if(!folder.exists()) {
+			folder.mkdirs();
+		}
+		
+		String uuid = UUID.randomUUID().toString();
+		
+		List<MultipartFile> fileList = mpReq.getFiles("plusBoardImage");
+		for(MultipartFile mf : fileList) {
+			String originName = mf.getOriginalFilename();
+			String extension = FilenameUtils.getExtension(originName);
+			String tmpName =  uuid + "_" + originName;
+			
+			File file = new File(filaPath + File.separator + tmpName);
+			file = rename(file);			
+			tmpName = file.getName();
+			try {
+				mf.transferTo(file);
+			} catch (IllegalStateException | IOException e) {
+				e.printStackTrace();
+			}
+			saveFile.put("originName", originName);
+			saveFile.put("saveName", tmpName);
+			saveFile.put("fileType", extension);
+			}		
+				
+		return saveFile;
+	}
+
+	//게시판 이미지 삭제
+	public void boardFileDelete(String goodsCode, MultipartHttpServletRequest mpReq) {
+		String[] fileName = mpReq.getParameterValues("deleteBoardImage");
+		String filePath = path + "BOARD" + File.separator;
+		for(String str : fileName) {
+			File delFile = new File(filePath + str);
+			if(delFile.exists()) {
+				delFile.delete();
+			}
+		}
+		
+	}
+	
+	//게시판 삭제
+	public void boardDelete(int boardNum) {
+		File delFile = new File(path + "BOARD"+ File.separator + boardNum);
+		if(delFile.exists()) {
+			delFile.delete();
+		}
+	}
+
 }
 

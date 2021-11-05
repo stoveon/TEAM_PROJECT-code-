@@ -2,22 +2,20 @@ package home.inside.board.service;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.MultipartRequest;
 
 import home.inside.board.repository.IBoardDao;
 import home.inside.board.repository.IBoardImageDao;
 import home.inside.board.repository.IBoardRefDao;
 import home.inside.board.util.ArticleMgrCommand;
-import home.inside.board.util.BoardFileUtil;
 import home.inside.board.util.PageSearchCommand;
 import home.inside.board.vo.BoardImageVo;
 import home.inside.board.vo.BoardRefVo;
 import home.inside.board.vo.BoardVo;
+import home.inside.common.util.FileUtils;
 
 @Service
 public class BoardServiceImpl implements IBoardService {
@@ -27,12 +25,12 @@ public class BoardServiceImpl implements IBoardService {
 	private IBoardImageDao imageDao;
 	@Autowired
 	private IBoardRefDao refDao;
-//	@Autowired
-//	private BoardFileUtil util;
+	@Autowired
+	private FileUtils util;
 
 	@Override
 	public void insertBoard(ArticleMgrCommand artCmd, MultipartHttpServletRequest mpReq) throws Exception {
-		// 이미지 등록 관련 내용 추가 필요
+		HashMap<String, Object> hsmima = util.boardFileUpload(mpReq);
 		HashMap<String, Object> hsm = new HashMap<String, Object>();
 		hsm.put("boardCode", artCmd.getBoardCode());
 		hsm.put("nickname", artCmd.getWriter());

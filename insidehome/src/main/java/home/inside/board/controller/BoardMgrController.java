@@ -35,7 +35,7 @@ public class BoardMgrController {
 		 * 정보게시판 > boardCode가 info면서 (notify가 notice인 공지글 + notify가 no인 회원글)
 		 * 익명게시판 > boardCode가 who면서 (notify가 notice인 공지글 + notify가 no인 회원글)
 		 */
-		return "/manager/board/registForm";
+		return "manager/board/registForm";
 	}
 
 	// 공지 작성 요청
@@ -47,7 +47,7 @@ public class BoardMgrController {
 	// 공지 수정 폼 요청
 	@RequestMapping(value = "/updateForm.do")
 	public String updateNoticeForm(int num, Model model, HttpSession session) throws Exception {
-		return "/manager/board/updateForm";
+		return "manager/board/updateForm";
 	}
 
 	// 공지 수정 요청
@@ -65,13 +65,13 @@ public class BoardMgrController {
 	// 게시글( + 공지) 상세조회 요청
 	@RequestMapping(value = "/read.do")
 	public String readArticleView(int boardNum, Model model) throws Exception {
-		return "/manager/board/detail";
+		return "manager/board/detail";
 	}
 
 	// 게시판 목록조회 요청
 	@RequestMapping(value = "/list.do")
 	public String listArticleView(String notify, PageSearchCommand psCmd, Model model) throws Exception {
 		// 이거빼고해요
-		return "/manager/board/list";
+		return "manager/board/list";
 	}
 }

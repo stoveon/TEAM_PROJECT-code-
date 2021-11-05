@@ -4,16 +4,61 @@
 
 
 <%@include file="/WEB-INF/views/user/main/userHeader.jsp"%>
-
-
 <div class="body-info">
 	<div class="info-detail">
 		<h1 class="info-title">회원 글수정</h1>
 	</div>
 	<hr>
 	<div class="info-inner">
-		
+	<form name="boardForm" method="post" enctype="multipart/form-data">
+		<table>
+			<thead>
+				<tr>
+					<td>게시판 선택</td>
+					<td>
+						<select name="boardCode">
+							<option value="info" <c:if text="${board.boardCode eq 'info'}" >selected="selected"</c:if>>정보 게시판</option>
+							<option value="who"<c:if text="${board.boardCode eq 'who'}" >selected="selected"</c:if>>익명 게시판</option>
+						</select>
+					</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td><input type="text" name="title"/>${board.title}</td>
+				</tr>
+				<tr>
+					<td>
+						<textarea name="content" cols="100" rows="10">${board.content}</textarea>
+					</td>
+				</tr>
+				<tr>
+					<td>
+					<div id="fileBox">
+					<c:if test="${!empty boardImages}">
+						<c:forEach items="${boardImages}" var="fileName">
+						<c:set var="saveFile" value="${fileName.imgPath}" />
+						<p><input type="checkbox" name="deleteBoardImage" value="${fileName.saveName}" />
+						<a href="<c:url value="/display?${saveFile}" />" target="_blank">
+						<c:out value="${fileName.originName}" /></a></p>
+						</c:forEach>
+					</c:if>
+						<input type="file" name="plusBoardImage" accept=".jpg,.jpeg,.png,.gif" />
+					<input id="addBtn" type="button" value="추가" onClick="add_updateFile();">
+					</div>
+					</td>
+				</tr>
+				<tr>
+					<td><input type="submit" value="등록" /></td>
+					<td><input type="button" value="취소" onclick="<c:url value="/inside/main.do" />" /></td>
+				</tr>
+			</tbody>
+		</table>
+		</form>
 	</div>
 </div>
-
+<script type="text/javascript" src="<c:url value="/resources/js/boardjs.js" />"></script>
+<script>
+	document.getElementById("addBtn").addEventListener("click", add_updateFile);
+</script>
 <%@include file="/WEB-INF/views/user/main/userFooter.jsp"%>
