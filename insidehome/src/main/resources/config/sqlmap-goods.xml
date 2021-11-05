@@ -21,13 +21,9 @@
 		update GOODS set HEART=#{heart} where GOODSCODE=#{goodsCode}
 	</update>
 	
-	<delete id="deleteGoods" parameterType="String">
-		delete from GOODS where GOODSCODE=#{goodsCode}
-	</delete>
-	
 	<select id="editGoodsList" resultType="HashMap">
 		select GD.GOODSCODE GOODSCODE,GD.GOODSNAME GOODSNAME,GD.REGDATE REGDATE,GD.HEART HEART, 
-		GD.STOCK STOCK,nvl(SA.TOTALCNT,0) TOTALCNT from GOODS GD left outer join
+		GD.STOCK STOCK,nvl(SA.TOTALCNT,0) TOTALCNT from (select * from GOODS where heart != 'DEL') GD left outer join
      		(select GOODSCODE, count(GOODSCODE) TOTALCNT from GOODS_SALES group by GOODSCODE) SA
     	on GD.GOODSCODE = SA.GOODSCODE 
     	order by GD.HEART desc, GD.REGDATE desc
@@ -35,7 +31,7 @@
 	
 	<select id="selectGoodsList" parameterType="HashMap" resultType="HashMap">
 	select GD.GOODSCODE ,GD.GOODSNAME ,GD.REGDATE ,GD.HEART , GD.PRICE, nvl(FI.SAVENAME, null) SAVENAME 
-    	from GOODS GD left outer join
+    	from (select * from GOODS where heart != 'DEL') GD left outer join
     		 (select IMAGE.GOODSCODE , IMAGE.SAVENAME from GOODS_IMAGE IMAGE,
     					(select GOODSCODE, min(NUM) MINI from GOODS_IMAGE group by GOODSCODE) IMSI
    			 where IMAGE.NUM = IMSI.MINI) FI
@@ -66,7 +62,7 @@
 	<select id="selectMainLatest" resultType="HashMap">
 		select GD.GOODSCODE ,GD.GOODSNAME , GD.PRICE, nvl(FI.SAVENAME, null) SAVENAME 
     	from (select ROWNUM, GOODSCODE, GOODSNAME, REGDATE, HEART, PRICE 
-    		  from (select * from GOODS order by REGDATE desc) 
+    		  from (select * from GOODS where HEART !='DEL' order by REGDATE desc) 
     		  where ROWNUM <![CDATA[<=]]> 10) GD left outer join
     		 (select IMAGE.GOODSCODE , IMAGE.SAVENAME from GOODS_IMAGE IMAGE,
     					(select GOODSCODE, min(NUM) MINI from GOODS_IMAGE group by GOODSCODE) IMSI

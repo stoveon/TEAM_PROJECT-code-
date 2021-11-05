@@ -20,7 +20,7 @@
 	<select id="salesOrderList" resultType="HashMap">
 		select SA.NUM, SA.ORDERDATE, SA.GOODSCODE, GD.GOODSNAME, SA.PRICE, SA.NICKNAME, SA.SENDSTATE
 		from GOODS_SALES SA, GOODS GD 
-		where SA.GOODSCODE = GD.GOODSCODE
+		where SA.GOODSCODE = GD.GOODSCODE and SA.SENDSTATE != 'END'
 		order by SA.SENDSTATE desc, SA.ORDERDATE desc, SA.SENDDATE desc
 	</select>
 	
@@ -32,21 +32,22 @@
 	</select>
 	
 	<update id="updateOrderState" parameterType="HashMap">
-	<if test='state.equals("YET")'>
-		update GOODS_SALES set SENDSTATE=#{state}, SENDDATE=null where NUM=#{num}
-	</if>
-	<if test='state.equals("ING")'>
-		update GOODS_SALES set SENDSTATE=#{state}, SENDDATE=sysdate where NUM=#{num}
-	</if>
+		update GOODS_SALES set 
+		<if test='state.equals("YET")'>
+			SENDSTATE=#{state}, SENDDATE=null where NUM=#{num}
+		</if>
+		<if test='state.equals("ING")'>
+			SENDSTATE=#{state}, SENDDATE=sysdate where NUM=#{num}
+		</if>
 	</update>
 	
 	<update id="autoSendUpdate" parameterType="String">
-	update GOODS_SALES set SENDSTATE='END' where GOODSCODE=#{GOODSCODE}
+		update GOODS_SALES set SENDSTATE='END' where GOODSCODE=#{GOODSCODE}
 	</update>
 	
 	<select id="autoSendUPdateList" resultType="String">
-	select GOODSCODE from GOODS_SALES where 
-	TO_CHAR(SENDDATE + (interval '7' DAY), 'YYYYMMDD') = TO_CHAR(sysdate, 'YYYYMMDD')
+		select GOODSCODE from GOODS_SALES where 
+		TO_CHAR(SENDDATE + (interval '7' DAY), 'YYYYMMDD') = TO_CHAR(sysdate, 'YYYYMMDD')
 	</select>
 	
 </mapper>

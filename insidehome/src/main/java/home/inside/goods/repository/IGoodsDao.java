@@ -12,8 +12,6 @@ public interface IGoodsDao {
 	public void update(GoodsVo goodsVo) throws Exception;
 	//추천상품 등록 or 해제
 	public void updateHeart(HashMap<String, String> hm) throws Exception;
-	//상품 삭제
-	public void deleteGoods(String goodsCode) throws Exception;
 	//관리자 상세 페이지 출력
 	public List<HashMap<String, Object>> editSelectAll() throws Exception;
 	//전체 상품 정보 출력

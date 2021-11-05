@@ -33,6 +33,7 @@
 	<context:component-scan base-package="home.inside.board.repository"/>
 	<context:component-scan base-package="home.inside.board.service"/>
 	<context:component-scan base-package="home.inside.board.controller"/>
+	<context:component-scan base-package="home.inside.board.util"/>
 	<context:component-scan base-package="home.inside.goods.vo"/>
 	<context:component-scan base-package="home.inside.goods.repository"/>
 	<context:component-scan base-package="home.inside.goods.service"/>

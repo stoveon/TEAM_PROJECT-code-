@@ -44,7 +44,10 @@ function removeCheck(){
 			<tbody>
 				<c:forEach items="${goodsList}" var="goodsOne" >
 					<tr style="text-align: center;">
-						<td><input type="checkbox" name="selectGoods" value="${goodsOne.GOODSCODE}&${goodsOne.HEART}"/></td>
+						
+						<td>
+							<input type="checkbox" name="selectGoods" value="${goodsOne.GOODSCODE}&${goodsOne.HEART}"/>
+						</td>
 						<td>
 							<c:if test="${goodsOne.HEART eq 'yes'}">
 								<c:set var="heart" value="SELECT" />
@@ -52,8 +55,9 @@ function removeCheck(){
 							<c:if test="${goodsOne.HEART eq 'no'}">
 								<c:set var="heart" value="" />
 							</c:if>
-							<c:out value="${heart}" />
+						<c:out value="${heart}" />
 						</td>
+
 						<td style="text-align: left; padding-left: 2%;"><a href="<c:url value="/manager/goods/updateGoods.do/${goodsOne.GOODSCODE}" />">
 						<c:out value="${goodsOne.GOODSNAME}"/></a></td>
 						<td>

@@ -94,7 +94,10 @@ public class GoodsManagerServiceImpl implements IGoodsManagerService {
 	public void deleteGoods(String[] selectGoods) throws Exception {
 		for (String str : selectGoods) {
 			util.goodsDelete(str);
-			goodsDao.deleteGoods(str);
+			HashMap<String, String> hm = new HashMap<String, String>();
+			hm.put("goodsCode", str);
+			hm.put("heart", "DEL");
+			goodsDao.updateHeart(hm);
 			goodsImageDao.deleteGoodsImage(str);
 		}
 	}

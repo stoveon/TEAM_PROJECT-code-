@@ -2,3 +2,25 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="boardImageDao">
+	<insert id="insertArticleImage" parameterType="boardImageVo">
+		insert BOARD_IMAGE(NUM, BOARDNUM, ORIGINNAME, SAVENAME, FILETYPE)
+		values(BOARD_IMAGE_SEQ.nextval, #{boardNum}, #{originName}, #{saveName}, #{fileType})
+		<selectKey resultType="Integer" keyProperty="NUM">
+			select NVL(max(NUM),0) from BOARD_IMAGE
+		</selectKey>
+	</insert>
+	<delete id="deleteArticleImage" parameterType="Integer">
+		delete BOARD_IMAGE where NUM=#{num}
+	</delete>
+	
+	
+	<delete id="deleteAllArticleImage" parameterType="Integer">
+		delete BOARD_IMAGE where BOARDNUM=#{boardNum}
+	</delete>
+	<select id="selectListArticleImage" parameterType="Integer"  resultType="boardImageVo">
+		select * from BOARD_IMAGE
+		where BOARDNUM=#{boardNum} order by NUM
+	</select>
+</mapper>

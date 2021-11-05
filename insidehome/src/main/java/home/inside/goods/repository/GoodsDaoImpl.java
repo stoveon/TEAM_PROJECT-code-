@@ -30,11 +30,6 @@ public class GoodsDaoImpl implements IGoodsDao {
 	}
 
 	@Override
-	public void deleteGoods(String goodsCode) throws Exception {
-		sqlSessionTemplate.delete("deleteGoods", goodsCode);
-	}
-
-	@Override
 	public List<HashMap<String, Object>> editSelectAll() throws Exception {
 		return sqlSessionTemplate.selectList("editGoodsList");
 	}

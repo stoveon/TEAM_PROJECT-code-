@@ -42,9 +42,6 @@
 							<c:when test="${orderOne.SENDSTATE eq 'ING'}">
 								<button class="fit-size2" class="sendReturn" type="submit" value="<c:out value="${orderOne.NUM}" />" onclick="return sendCHK();">발송취소</button>
 							</c:when>
-							<c:when test="${orderOne.SENDSTATE eq 'END'}">
-								<c:out value="배송완료" />
-							</c:when>
 						</c:choose>
 					</td>
 				</tr>

@@ -21,7 +21,6 @@
 		<typeAlias alias="boardVo" type="home.inside.board.vo.BoardVo"/>
 		<typeAlias alias="boardImageVo" type="home.inside.board.vo.BoardImageVo"/>
 		<typeAlias alias="boardRefVo" type="home.inside.board.vo.BoardRefVo"/>
-		<typeAlias alias="boardTermVo" type="home.inside.board.vo.BoardTermVo"/>
 		<typeAlias alias="pointVo" type="home.inside.common.vo.PointVo"/>
 		<typeAlias alias="questionVo" type="home.inside.supporter.vo.QuestionVo"/>
 		<typeAlias alias="warningVo" type="home.inside.supporter.vo.WarningVo"/>
