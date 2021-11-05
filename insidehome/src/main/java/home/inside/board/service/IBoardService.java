@@ -20,6 +20,9 @@ public interface IBoardService {
 	// 게시글 삭제 + 이미지전체삭제 + 댓글전체삭제 (dao, image, ref)
 	public void deleteBoard(int num) throws Exception;
 	
+	//이미지 실제 파일은 없는데 테이블에서는 존재할 경우
+	public void deleteNotExistImage(String saveName) throws Exception;
+	
 	
 	// 게시글 상세조회(dao)
 	public BoardVo readBoard(int num) throws Exception;

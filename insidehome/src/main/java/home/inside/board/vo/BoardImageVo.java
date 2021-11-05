@@ -36,6 +36,10 @@ public class BoardImageVo {
 	public void setFileType(String fileType) {
 		this.fileType = fileType;
 	}
-
+	@Override
+	public String toString() {
+		return "BoardImageVo [num=" + num + ", boardNum=" + boardNum + ", originName=" + originName + ", saveName="
+				+ saveName + ", fileType=" + fileType + "]";
+	}
 	
 }

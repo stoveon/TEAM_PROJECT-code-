@@ -166,4 +166,9 @@ public class BoardServiceImpl implements IBoardService {
 			return false;
 		}
 	}
+
+	@Override
+	public void deleteNotExistImage(String saveName) throws Exception {
+		imageDao.deleteNotExistImage(saveName);
+	}
 }

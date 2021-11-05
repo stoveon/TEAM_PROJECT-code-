@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-
 <%@include file="/WEB-INF/views/user/main/userHeader.jsp"%>
 <div class="body-info">
 	<div class="info-detail">
@@ -17,29 +16,28 @@
 					<td>게시판 선택</td>
 					<td>
 						<select name="boardCode">
-							<option value="info" <c:if text="${board.boardCode eq 'info'}" >selected="selected"</c:if>>정보 게시판</option>
-							<option value="who"<c:if text="${board.boardCode eq 'who'}" >selected="selected"</c:if>>익명 게시판</option>
+							<option value="info" <c:if test="${board.boardCode eq 'info'}" >selected="selected"</c:if>>정보 게시판</option>
+							<option value="who"<c:if test="${board.boardCode eq 'who'}" >selected="selected"</c:if>>익명 게시판</option>
 						</select>
 					</td>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td><input type="text" name="title"/>${board.title}</td>
+					<td colspan="2"><input type="text" name="title"/ value="${board.title}"></td>
 				</tr>
 				<tr>
-					<td>
+					<td colspan="2">
 						<textarea name="content" cols="100" rows="10">${board.content}</textarea>
 					</td>
 				</tr>
 				<tr>
-					<td>
-					<div id="fileBox">
+					<td colspan="2">
+					<div id="boardFileBox">
 					<c:if test="${!empty boardImages}">
 						<c:forEach items="${boardImages}" var="fileName">
-						<c:set var="saveFile" value="${fileName.imgPath}" />
-						<p><input type="checkbox" name="deleteBoardImage" value="${fileName.saveName}" />
-						<a href="<c:url value="/display?${saveFile}" />" target="_blank">
+						<p><input type="checkbox" name="deleteBoardImage" value="${fileName.originName}" />
+						<a href="<c:url value="/boardDis?saveName=${fileName.saveName}" />" target="_blank">
 						<c:out value="${fileName.originName}" /></a></p>
 						</c:forEach>
 					</c:if>

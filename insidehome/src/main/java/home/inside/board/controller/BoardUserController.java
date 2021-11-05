@@ -1,5 +1,7 @@
 package home.inside.board.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,17 +15,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import home.inside.board.service.IBoardService;
 import home.inside.board.util.ArticleMgrCommand;
+import home.inside.board.vo.BoardImageVo;
 import home.inside.board.vo.BoardVo;
 import home.inside.member.service.IMemberInfoService;
-import home.inside.member.vo.MemberInfoDto;
 
 @Controller
 @RequestMapping("/user/board")
 public class BoardUserController {
 	@Autowired
 	private IBoardService ser;
-	@Autowired
-	private IMemberInfoService infoSer;
 
 	// 회원 글 작성 폼 요청
 	@RequestMapping(value = "/registForm.do")
@@ -53,19 +53,25 @@ public class BoardUserController {
 //		if(!(nickname.equals(board.getWriter()))) {
 //			return "redirect:/board/list.do";			
 //		}
+		List<BoardImageVo> boardImages = ser.selectListImage(num);
+		for(BoardImageVo v : boardImages) {
+			System.out.println(v.toString());
+		}
 		model.addAttribute("board", board);
-		return "user/board/updateFrom";
+		model.addAttribute("boardImages", boardImages);
+		return "user/board/updateForm";
 	}
 
 	// 회원 글 수정 요청
-	@RequestMapping(value = "/update.do/{num}", method = RequestMethod.POST)
-	public String updateArticleSubmit(@PathVariable(value="num")int num, ArticleMgrCommand artCmd, MultipartHttpServletRequest mpReq) throws Exception {
+	@RequestMapping(value = "/update.do", method = RequestMethod.POST)
+	public String updateArticleSubmit(ArticleMgrCommand artCmd, MultipartHttpServletRequest mpReq) throws Exception {
 		/* artCmd에 null 이 있으면 안됨 
 		 * null 이 있으면 수정 거절하고 글 수정폼으로 리턴
 		 * artCmd 에 null이 없으면 글 수정 요청 후 상세페이지 redirect */
 		if(artCmd.getBoardCode() == null || artCmd.getNum() == 0 || artCmd.getWriter() == null) {
 			return "redirect:/user/board/read.do";			
 		}
+		System.out.println("up post");
 		ser.updateBoard(artCmd, mpReq);
 		return "redirect:/user/board/read.do";
 	}

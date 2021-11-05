@@ -33,4 +33,9 @@ public class BoardImageDaoImpl implements IBoardImageDao {
 		return sqlSessionTemplate.selectList("selectListArticleImage", num);
 	}
 
+	@Override
+	public void deleteNotExistImage(String saveName) throws Exception {
+		sqlSessionTemplate.delete("deleteNotExistImage", saveName);
+	}
+
 }

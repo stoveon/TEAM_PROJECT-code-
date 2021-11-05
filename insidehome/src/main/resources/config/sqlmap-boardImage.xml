@@ -30,4 +30,8 @@
 		select * from BOARD_IMAGE
 		where BOARDNUM=#{boardNum} order by NUM
 	</select>
+	
+	<delete id="deleteNotExistImage" parameterType="String">
+		delete BOARD_IMAGE where SAVENAME=#{saveName}
+	</delete>
 </mapper>
