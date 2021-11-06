@@ -43,19 +43,42 @@ function boardCheckForm(){
 }
 
 function warnClick(){
+	let boardNum = event.target.value;
 	if(confirm("해당 게시글을 신고하시겠습니까?") == true){
-		alert("신고가 되었습니다.");
-		return window.location.href = getContextPath()+'/user/inside/main.do';
+		return window.location.href = getContextPath()+'/user/warning/insertForm.do?boardNum='+boardNum;
 	}else{
+		event.preventDefault();
+		return false;
+	}
+}
+	
+function heartClick(){
+	let boardNum = event.target.value;
+	if(confirm("해당 게시글을 추천하시겠습니까?") == true){
+		alert("추천이 되었습니다.");
+		return window.location.href = getContextPath()+'/user/board/updateHit.do/'+boardNum;
+	}else{
+		event.preventDefault();		
 		return false;
 	}
 }
 		
-/*function sendCHK(){
-	let salesNum = event.target.value;
-	if(confirm("발송을  취소하시겠습니까?") == true){
-		return document.orderForm.action=getContextPath()+'/manager/main/order.do?state=YET&num='+salesNum;
-}else{
+function editCHK(){
+	let boardNum = event.target.value;
+	if(confirm("게시글을  수정 하시겠습니까?") == true){
+		return window.location.href=getContextPath()+'/user/board/updateForm.do/'+boardNum;
+	}else{
+		event.preventDefault();	
 	return false;
 	}
-}*/
+}
+
+function delCHK(){
+	let boardNum = event.target.value;
+	if(confirm("게시글을 삭제 하시겠습니까?") == true){
+		return window.location.href=getContextPath()+'/user/board/delete.do?boardNum='+boardNum;
+	}else{
+		event.preventDefault();	
+	return false;
+	}
+}

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -53,6 +54,9 @@ public class BoardUserController {
 //		if(!(nickname.equals(board.getWriter()))) {
 //			return "redirect:/board/list.do";			
 //		}
+		if(num == 0) {
+			return "redirect:/board/list.do";			
+		}
 		List<BoardImageVo> boardImages = ser.selectListImage(num);
 		for(BoardImageVo v : boardImages) {
 			System.out.println(v.toString());
@@ -68,12 +72,8 @@ public class BoardUserController {
 		/* artCmd에 null 이 있으면 안됨 
 		 * null 이 있으면 수정 거절하고 글 수정폼으로 리턴
 		 * artCmd 에 null이 없으면 글 수정 요청 후 상세페이지 redirect */
-		if(artCmd.getBoardCode() == null || artCmd.getNum() == 0 || artCmd.getWriter() == null) {
-			return "redirect:/user/board/read.do";			
-		}
-		System.out.println("up post");
 		ser.updateBoard(artCmd, mpReq);
-		return "redirect:/user/board/read.do";
+		return "redirect:/user/board/read.do?boardNum="+artCmd.getNum();
 	}
 
 	// 회원 글 삭제요청
@@ -83,7 +83,7 @@ public class BoardUserController {
 		String nickname = (String) session.getAttribute("loginInside");
 		BoardVo board = ser.readBoard(boardNum);
 		if(nickname.equals(board.getWriter())) {
-			ser.deleteBoard(boardNum);
+			ser.deleteBoard(boardNum, "no");
 		}
 		return "redirect:/board/list.do";
 	}
@@ -94,13 +94,26 @@ public class BoardUserController {
 		/* 게시글 내용
 		 * 게시글 이미지목록
 		 * 게시글 댓글목록  첨부*/
+		BoardVo board = ser.readBoard(boardNum);
+		List<BoardImageVo> boardImages = ser.selectListImage(boardNum);
+		ser.updateHit(boardNum);
+		model.addAttribute("board", board);
+		model.addAttribute("boardImages", boardImages);
 		return "user/board/detail";
 	}
 
 	// 게시글 추천요청
-	@RequestMapping(value = "/updateHit.do", method = RequestMethod.POST)
-	public String updateHitSubmit(int boardNum, HttpSession session , RedirectAttributes rttr) throws Exception { 
-		BoardVo board = ser.readBoard(boardNum);
-		return "redirect:/user/board/read.do";
+	@RequestMapping(value = "/updateHit.do/${boardNum}")
+	public String updateHitSubmit(@PathVariable(value="boardNum") int boardNum, HttpSession session, RedirectAttributes rttr, Model model) throws Exception { 
+		String nickname = (String) session.getAttribute("loginInside");
+		model.addAttribute("boardNum", boardNum);
+		if(nickname.equals(ser.readBoard(boardNum).getWriter())){
+			rttr.addFlashAttribute("heartNo", "fail");
+			System.out.println("fail " + boardNum);
+			return "forword:/user/board/read.do";
+		}
+			ser.updateHeart(boardNum);
+			System.out.println("serddd " + boardNum);
+		return "forword:/user/board/read.do";
 	}
 }

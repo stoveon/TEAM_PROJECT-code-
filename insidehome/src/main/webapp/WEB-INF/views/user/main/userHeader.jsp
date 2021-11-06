@@ -25,7 +25,7 @@
 		<ul class="head-list">
 			<li class="head-info-label"><a class="head-info-label" href="<c:url value="#"/>">고객센터</a></li>
 			<c:if test="${loginInside != null}">
-				<li class="head-info-label"><a class="head-info-label" href="<c:url value="/user/mypage/main.do"/>">${loginInside }</a></li>
+				<li class="head-info-label"><a class="head-info-label" href="<c:url value="/user/mypage/main.do"/>">[ ${loginInside }MYPAGE ]</a></li>
 				<li class="head-info-label"><a class="head-info-label" href="<c:url value="/member/logout.do"/>">로그아웃</a></li>				
 			</c:if>
 			<c:if test="${loginInside == null }">
@@ -43,9 +43,9 @@
 	</div>
 	<div class="head-service-area">
 		<ul class="service-list">
-			<li class="service-info-label"><a class="service-info-label" href="<c:url value="#"/>">정보게시판</a></li>
-			<li class="service-info-label"><a class="service-info-label" href="<c:url value="#"/>">익명게시판</a></li>
-			<li class="service-info-label"><a class="service-info-label" href="<c:url value="#"/>">공지사항</a></li>
+			<li class="service-info-label"><a class="service-info-label" href="<c:url value="/board/list.do?boardCode=info"/>">정보게시판</a></li>
+			<li class="service-info-label"><a class="service-info-label" href="<c:url value="/board/list.do?boardCode=who"/>">익명게시판</a></li>
+			<li class="service-info-label"><a class="service-info-label" href="<c:url value="/board/list.do?notify=notice"/>">공지사항</a></li>
 			<li class="service-info-label"><a class="service-info-label" href="<c:url value="/goods/list.do"/>">포인트몰</a></li>
 			<li class="service-info-label"><a class="service-info-label" href="<c:url value="/inside/checkForm.do"/>">출석체크</a></li>			
 			<li class="service-info-label"><a href="<c:url value="#"/>">

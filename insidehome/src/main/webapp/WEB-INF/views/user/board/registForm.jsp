@@ -9,7 +9,7 @@
 	<hr>
 	<div class="info-inner">
 	<form name="boardForm" action="<c:url value="/user/board/regist.do"/>" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="writer" value="${artCmd.writer}" />
+		<input type="hidden" name="writer" value="sdf" />
 		<input type="hidden" name="notify" value="${artCmd.notify}" />
 		<table>
 			<thead>

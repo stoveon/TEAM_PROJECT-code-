@@ -9,7 +9,10 @@
 	</div>
 	<hr>
 	<div class="info-inner">
-	<form name="boardForm" action="<c:url value="/user/board/update.do/${board.num}"/>" method="post" enctype="multipart/form-data">
+	<form name="boardForm" action="<c:url value="/user/board/update.do"/>" method="post" enctype="multipart/form-data">
+	<input type="hidden" name="num" value="${board.num}" />
+	<input type="hidden" name="notify" value="${board.notify}" />
+	<input type="hidden" name="writer" value="${board.writer}" />
 		<table>
 			<thead>
 				<tr>
@@ -36,7 +39,7 @@
 					<div id="boardFileBox">
 					<c:if test="${!empty boardImages}">
 						<c:forEach items="${boardImages}" var="fileName">
-						<p><input type="checkbox" name="deleteBoardImage" value="${fileName.originName}" />
+						<p><input type="checkbox" name="deleteBoardImage" value="${fileName.saveName}" />
 						<a href="<c:url value="/boardDis?saveName=${fileName.saveName}" />" target="_blank">
 						<c:out value="${fileName.originName}" /></a></p>
 						</c:forEach>

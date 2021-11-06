@@ -38,10 +38,12 @@ public class BoardServiceImpl implements IBoardService {
 		hsm.put("content", artCmd.getContent());
 		hsm.put("notify", artCmd.getNotify());
 		dao.insertArticle(hsm);
-		List<BoardImageVo> boarImaList = util.boardFileUpload(mpReq);
-		if(boarImaList.size() > 0) {
-			for(BoardImageVo imageVo : boarImaList) {
-				imageDao.insertArticleImage(imageVo);				
+		if(mpReq != null) {
+			List<BoardImageVo> boarImaList = util.boardFileUpload(mpReq);
+			if(boarImaList.size() > 0) {
+				for(BoardImageVo imageVo : boarImaList) {
+					imageDao.insertArticleImage(imageVo);				
+				}
 			}
 		}
 	}
@@ -53,119 +55,142 @@ public class BoardServiceImpl implements IBoardService {
 		hsm.put("title", artCmd.getTitle());
 		hsm.put("content", artCmd.getContent());
 		hsm.put("boardCode", artCmd.getBoardCode());
-		hsm.put("num", artCmd.getNum());
 		dao.updateArticle(hsm);
 		String notify = artCmd.getNotify();
 		if (notify != null && !notify.equals("no")) {
 			hsm.put("notify", notify);
 			dao.changeNotify(hsm);
 		}
-		List<BoardImageVo> boarImaList = util.boardFileEdit(mpReq);
-		if(boarImaList.size() > 0) {
-			for(BoardImageVo imageVo : boarImaList) {
-				imageDao.insertArticleImage(imageVo);				
+		if(mpReq != null) {
+			List<BoardImageVo> boarImaList = util.boardFileEdit(mpReq);
+			if(boarImaList.size() > 0) {
+				for(BoardImageVo imageVo : boarImaList) {
+					imageVo.setBoardNum(artCmd.getNum());
+					imageDao.insertArticleImage(imageVo);				
+				}
+			}
+			String[] deleteFile = util.boardFileDelete(mpReq);
+			if(deleteFile!= null) {
+				for(String str: deleteFile) {
+					imageDao.deleteNotExistImage(str);
+				}
 			}
 		}
-		String[] deleteFile = util.boardFileDelete(mpReq);
-		if(deleteFile.length > 0) {
-		
-		}
 	}
 
-	@Override
-	public void deleteBoard(int num) throws Exception {
-		dao.deleteArticle(num);
-		imageDao.deleteAllArticleImage(num);
-		refDao.deleteAllRef(num);
-	}
+	   @Override
+	   public void deleteBoard(int num, String notify) throws Exception {
+	      dao.deleteArticle(num);
+	      if(notify!=null && notify.equals("no")) {
+	         imageDao.deleteAllArticleImage(num);
+	         refDao.deleteAllRef(num);
+	      }
+	   }
 
-	@Override
-	public BoardVo readBoard(int num) throws Exception {
-		return dao.readArticle(num);
-	}
 
-	@Override
-	public List<BoardImageVo> selectListImage(int boardNum) throws Exception {
-		return imageDao.selectListArticleImage(boardNum);
-	}
+	   @Override
+	   public BoardVo readBoard(int num) throws Exception {
+	      return dao.readArticle(num);
+	   }
 
-	@Override
-	public List<BoardRefVo> selectListRef(int boardNum) throws Exception {
-		return refDao.selectListRef(boardNum);
-	}
+	   @Override
+	   public List<BoardImageVo> selectListImage(int boardNum) throws Exception {
+	      return imageDao.selectListArticleImage(boardNum);
+	   }
 
-	@Override
-	public List<HashMap<String, Object>> selectSubList(String type) throws Exception {
-		return dao.selectSubList(type);
-	}
+	   @Override
+	   public List<BoardRefVo> selectListRef(int boardNum) throws Exception {
+	      return refDao.selectListRef(boardNum);
+	   }
 
-	@Override
-	public void updateHit(int num) throws Exception {
-		dao.updateHit(num);
-	}
+	   @Override
+	   public List<HashMap<String, Object>> selectSubList(String type) throws Exception {
+	      return dao.selectSubList(type);
+	   }
 
-	@Override
-	public void updateHeart(int num) throws Exception {
-		dao.updateHeart(num);
-	}
+	   @Override
+	   public void updateHit(int num) throws Exception {
+	      dao.updateHit(num);
+	   }
 
-	@Override
-	public List<HashMap<String, Object>> boardList(PageSearchCommand searchCmd) throws Exception {
-		HashMap<String, Object> hsm = new HashMap<String, Object>();
-		hsm.put("boardCode", searchCmd.getBoardCode());
-		hsm.put("startNum", searchCmd.getStartNum());
-		hsm.put("endNum", searchCmd.getEndNum());
-		String word = searchCmd.getWord();
-		if (word == null || word.trim().isEmpty()) {
-			return dao.selectListBoard(hsm);
-		} else {
-			hsm.put("type", searchCmd.getType());
-			hsm.put("word", searchCmd.getWord());
-			return dao.findListBoard(hsm);
-		}
-	}
+	   @Override
+	   public void updateHeart(int num) throws Exception {
+	      dao.updateHeart(num);
+	   }
 
-	@Override
-	public List<HashMap<String, Object>> boardNotifyList(String boardCode) throws Exception {
-		return dao.selectListNotify(boardCode);
-	}
+	   @Override
+	   public List<HashMap<String, Object>> boardList(String notify, PageSearchCommand searchCmd) throws Exception {
+	      HashMap<String, Object> hsm = new HashMap<String, Object>();
+	      hsm.put("boardCode", searchCmd.getBoardCode());
+	      hsm.put("startNum", searchCmd.getStartNum());
+	      hsm.put("endNum", searchCmd.getEndNum());
+	      String word = searchCmd.getWord();
+	      if(notify!=null) {
+	         hsm.put("notify", notify);
+	      }else {
+	         hsm.put("notify", "no");
+	      }
+	      
+	      if (word == null || word.trim().isEmpty()) {
+	         return dao.selectListBoard(hsm);
+	      } else {
+	         hsm.put("type", searchCmd.getType());
+	         hsm.put("word", searchCmd.getWord());
+	         return dao.findListBoard(hsm);
+	      }
+	   }
 
-	@Override
-	public void insertRef(int boardNum, String nickname, String content) throws Exception {
-		HashMap<String, Object> hsm = new HashMap<String, Object>();
-		hsm.put("boardNum", boardNum);
-		hsm.put("nickname", nickname);
-		hsm.put("content", content);
-		refDao.insertRef(hsm);
-	}
+	   @Override
+	   public List<HashMap<String, Object>> boardNotifyList(String boardCode) throws Exception {
+	      return dao.selectListNotify(boardCode);
+	   }
 
-	@Override
-	public void updateRef(int num, String content) throws Exception {
-		HashMap<String, Object> hsm = new HashMap<String, Object>();
-		hsm.put("num", num);
-		hsm.put("content", content);
-		refDao.updateRef(hsm);
-	}
+	   @Override
+	   public void insertRef(int boardNum, String nickname, String content) throws Exception {
+	      HashMap<String, Object> hsm = new HashMap<String, Object>();
+	      hsm.put("boardNum", boardNum);
+	      hsm.put("nickname", nickname);
+	      hsm.put("content", content);
+	      refDao.insertRef(hsm);
+	   }
 
-	@Override
-	public void deleteRef(int num) throws Exception {
-		refDao.deleteRef(num);
-	}
+	   @Override
+	   public void updateRef(int num, String content) throws Exception {
+	      HashMap<String, Object> hsm = new HashMap<String, Object>();
+	      hsm.put("num", num);
+	      hsm.put("content", content);
+	      refDao.updateRef(hsm);
+	   }
 
-	@Override
-	public List<HashMap<String, Object>> selectMyArticleList(String nickname) throws Exception {
-		return dao.selectBoardWhenMember(nickname);
-	}
+	   @Override
+	   public void deleteRef(int num) throws Exception {
+	      refDao.deleteRef(num);
+	   }
 
-	@Override
-	public boolean userIsEqualsToWriter(int num, String nickname) throws Exception {
-		String writer = dao.articleWriterCheck(num);
-		if(writer!=null && nickname.equals(writer)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+	   @Override
+	   public List<HashMap<String, Object>> selectMyArticleList(String nickname) throws Exception {
+	      return dao.selectBoardWhenMember(nickname);
+	   }
+
+	   @Override
+	   public boolean userIsEqualsToWriter(int num, String nickname) throws Exception {
+	      String writer = dao.articleWriterCheck(num);
+	      if (writer != null && nickname.equals(writer)) {
+	         return true;
+	      } else {
+	         return false;
+	      }
+	   }
+	   
+	   @Override
+	   public Integer boardListSize(String boardCode, String notify) throws Exception {
+	      if(notify!=null) {
+	         return dao.notifySize();
+	      }else {
+	         return dao.boardSize(boardCode);
+	      }
+	   }
+
 
 	@Override
 	public void deleteNotExistImage(String saveName) throws Exception {

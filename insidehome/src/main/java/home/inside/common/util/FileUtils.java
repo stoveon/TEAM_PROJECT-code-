@@ -37,6 +37,7 @@ public class FileUtils {
 		
 		for(MultipartFile mf : fileList) {
 			String tmpName =  goodsCode + "_" + mf.getOriginalFilename();
+			tmpName = tmpName.replaceAll(" ", "");
 			try {
 				File file = new File(filePath + File.separator + tmpName);
 				file = rename(file);
@@ -79,7 +80,8 @@ public class FileUtils {
 		List<String> saveNames = new ArrayList<String>();
 		
 		for(MultipartFile mf : fileList) {
-			String tmpName = goodsCode + "_" + mf.getOriginalFilename();			
+			String tmpName = goodsCode + "_" + mf.getOriginalFilename();		
+			tmpName = tmpName.replaceAll(" ", "");		
 			try {
 				File file = new File(filePath + File.separator + tmpName);
 				file = rename(file);
@@ -163,6 +165,7 @@ public class FileUtils {
 		for(MultipartFile mf : fileList) {
 			if(!(mf.getOriginalFilename().equals("") || mf.getOriginalFilename() == null)) {
 				String originName = mf.getOriginalFilename();
+				originName = originName.replaceAll(" ", "");
 				String extension = FilenameUtils.getExtension(originName);
 				String saveName =  uuid + "_" + originName;
 				
@@ -209,6 +212,7 @@ public class FileUtils {
 		for(MultipartFile mf : fileList) {
 			if(!(mf.getOriginalFilename().equals("") || mf.getOriginalFilename() == null)) {
 				String originName = mf.getOriginalFilename();
+				originName = originName.replaceAll(" ", "");
 				String extension = FilenameUtils.getExtension(originName);
 				String saveName =  uuid + "_" + originName;
 				
@@ -242,7 +246,7 @@ public class FileUtils {
 	//게시판 이미지 수정시 삭제
 	public String[] boardFileDelete(MultipartHttpServletRequest mpReq) {
 		String[] fileName = mpReq.getParameterValues("deleteBoardImage");
-		if(fileName.length > 0) {
+		if(fileName != null) {
 			String filePath = path + "BOARD" + File.separator;
 			for(String str : fileName) {
 				File delFile = new File(filePath + str);

@@ -11,75 +11,84 @@ import home.inside.board.vo.BoardVo;
 
 @Repository
 public class BoardDaoImpl implements IBoardDao {
-	@Autowired
-	SqlSessionTemplate sqlSessionTemplate;
-	
-	@Override
-	public void insertArticle(HashMap<String, Object> hsm) throws Exception {
-		sqlSessionTemplate.insert("insertArticle", hsm);
-	}
+   @Autowired
+   SqlSessionTemplate sqlSessionTemplate;
 
-	@Override
-	public BoardVo readArticle(int num) throws Exception {
-		return sqlSessionTemplate.selectOne("readArticle", num);
-	}
+   @Override
+   public void insertArticle(HashMap<String, Object> hsm) throws Exception {
+      sqlSessionTemplate.insert("insertArticle", hsm);
+   }
 
-	@Override
-	public void updateArticle(HashMap<String, Object> hsm) throws Exception {
-		sqlSessionTemplate.update("updateArticle",hsm);
-	}
+   @Override
+   public BoardVo readArticle(int num) throws Exception {
+      return sqlSessionTemplate.selectOne("readArticle", num);
+   }
 
-	@Override
-	public void deleteArticle(int num) throws Exception {
-		sqlSessionTemplate.delete("deleteArticle", num);
-	}
+   @Override
+   public void updateArticle(HashMap<String, Object> hsm) throws Exception {
+      sqlSessionTemplate.update("updateArticle", hsm);
+   }
 
-	@Override
-	public void updateHit(int num) throws Exception {
-		sqlSessionTemplate.update("updateHit",num);
+   @Override
+   public void deleteArticle(int num) throws Exception {
+      sqlSessionTemplate.delete("deleteArticle", num);
+   }
 
-	}
+   @Override
+   public void updateHit(int num) throws Exception {
+      sqlSessionTemplate.update("updateHit", num);
 
-	@Override
-	public void updateHeart(int num) throws Exception {
-		sqlSessionTemplate.update("updateHeart",num);
+   }
 
-	}
-	
-	@Override
-	public void changeNotify(HashMap<String, Object> hsm) throws Exception {
-		sqlSessionTemplate.update("changeBoardCode", hsm);
-	}
+   @Override
+   public void updateHeart(int num) throws Exception {
+      sqlSessionTemplate.update("updateHeart", num);
 
-	@Override
-	public List<HashMap<String, Object>> selectListNotify(String boardCode) throws Exception {
-		return sqlSessionTemplate.selectList("selectListNotify", boardCode);
-	}
+   }
 
-	@Override
-	public List<HashMap<String, Object>> selectListBoard(HashMap<String, Object> hsm) throws Exception {
-		return sqlSessionTemplate.selectList("selectListBoard", hsm);
-	}
+   @Override
+   public void changeNotify(HashMap<String, Object> hsm) throws Exception {
+      sqlSessionTemplate.update("changeBoardCode", hsm);
+   }
 
-	@Override
-	public List<HashMap<String, Object>> findListBoard(HashMap<String, Object> hsm) throws Exception {
-		return sqlSessionTemplate.selectList("findListBoard", hsm);
-	}
+   @Override
+   public List<HashMap<String, Object>> selectListNotify(String boardCode) throws Exception {
+      return sqlSessionTemplate.selectList("selectListNotify", boardCode);
+   }
 
-	@Override
-	public List<HashMap<String, Object>> selectSubList(String type) throws Exception {
-		return sqlSessionTemplate.selectList("selectSubList", type);
-	}
+   @Override
+   public List<HashMap<String, Object>> selectListBoard(HashMap<String, Object> hsm) throws Exception {
+      return sqlSessionTemplate.selectList("selectListBoard", hsm);
+   }
 
-	@Override
-	public List<HashMap<String, Object>> selectBoardWhenMember(String nickname) throws Exception {
-		return sqlSessionTemplate.selectList("selectBoardWhenMember", nickname);
-	}
+   @Override
+   public List<HashMap<String, Object>> findListBoard(HashMap<String, Object> hsm) throws Exception {
+      return sqlSessionTemplate.selectList("findListBoard", hsm);
+   }
 
-	@Override
-	public String articleWriterCheck(int num) throws Exception {
-		return sqlSessionTemplate.selectOne("articleWriterCheck", num);
-	}
+   @Override
+   public List<HashMap<String, Object>> selectSubList(String type) throws Exception {
+      return sqlSessionTemplate.selectList("selectSubList", type);
+   }
 
+   @Override
+   public List<HashMap<String, Object>> selectBoardWhenMember(String nickname) throws Exception {
+      return sqlSessionTemplate.selectList("selectBoardWhenMember", nickname);
+   }
+
+   @Override
+   public String articleWriterCheck(int num) throws Exception {
+      return sqlSessionTemplate.selectOne("articleWriterCheck", num);
+   }
+
+   @Override
+   public Integer boardSize(String boardCode) throws Exception {
+      return sqlSessionTemplate.selectOne("boardSize", boardCode);
+   }
+
+   @Override
+   public Integer notifySize() throws Exception {
+      return sqlSessionTemplate.selectOne("notifySize");
+   }
 
 }
