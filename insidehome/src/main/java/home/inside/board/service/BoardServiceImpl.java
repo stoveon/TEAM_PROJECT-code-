@@ -82,6 +82,14 @@ public class BoardServiceImpl implements IBoardService {
 	   public void deleteBoard(int num, String notify) throws Exception {
 	      dao.deleteArticle(num);
 	      if(notify!=null && notify.equals("no")) {
+	         List<BoardImageVo> dbFile = imageDao.selectListArticleImage(num);
+	         System.out.println("==="+dbFile.size());
+	         if(dbFile.size() > 0) {
+	        	 for(BoardImageVo vo : dbFile) {
+	        		 System.out.println(vo.getSaveName());
+	        		 util.boardDelete(vo.getSaveName());
+	        	 }
+	         }
 	         imageDao.deleteAllArticleImage(num);
 	         refDao.deleteAllRef(num);
 	      }

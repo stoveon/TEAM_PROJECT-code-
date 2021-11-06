@@ -76,7 +76,7 @@ function editCHK(){
 function delCHK(){
 	let boardNum = event.target.value;
 	if(confirm("게시글을 삭제 하시겠습니까?") == true){
-		return window.location.href=getContextPath()+'/user/board/delete.do?boardNum='+boardNum;
+		return window.location.href=getContextPath()+'/user/board/delete.do/'+boardNum;
 	}else{
 		event.preventDefault();	
 	return false;

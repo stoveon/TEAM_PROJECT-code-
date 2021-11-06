@@ -34,16 +34,16 @@
 				<tr>
 					<c:choose>
 						<c:when test="${board.boardCode eq 'info'}">
-						<td><c:out value="${board.write}"/></td>
+						<td><c:out value="${board.writer}"/></td>
 						</c:when>
 						<c:otherwise>
 							<td></td>
 						</c:otherwise>
 					</c:choose>
-					<c:if test="${sessionScope.loginInside eq board.writer}" >
+<%-- 					<c:if test="${sessionScope.loginInside eq board.writer}" > --%>
 					<td><button id="boardedit" value="${board.num}" >[수정]</button></td>
 					<td><button id="boarddel" value="${board.num}" >[삭제]</button></td>
-					</c:if>
+<%-- 					</c:if> --%>
 				</tr>
 			</thead>
 			<tbody>

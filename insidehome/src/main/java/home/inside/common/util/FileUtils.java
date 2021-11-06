@@ -234,7 +234,6 @@ public class FileUtils {
 				vo.setOriginName(originName);
 				vo.setSaveName(saveName);
 				vo.setFileType(extension);
-				System.out.println("util: " + originName + " : " + saveName + " : " + extension);
 				boardImageList.add(vo);
 			}else {
 				boardImageList.clear();			
@@ -259,8 +258,9 @@ public class FileUtils {
 	}
 	
 	//게시판 삭제
-	public void boardDelete(int boardNum) {
-		File delFile = new File(path + "BOARD"+ File.separator + boardNum);
+	public void boardDelete(String saveName) {
+		System.out.println(": "+saveName);
+		File delFile = new File(path + "BOARD"+ File.separator + saveName);
 		if(delFile.exists()) {
 			delFile.delete();
 		}
