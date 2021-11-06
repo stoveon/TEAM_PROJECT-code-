@@ -34,7 +34,7 @@
 				<tr>
 					<c:choose>
 						<c:when test="${board.boardCode eq 'info'}">
-						<td><c:out value="${board.writer}"/></td>
+						<td><c:out value="${board.writer}" /></td>
 						</c:when>
 						<c:otherwise>
 							<td></td>
@@ -87,12 +87,59 @@
 			<button id="heartbtn" value="${board.num}">[추천]</button>
 		</c:if>
 	</div>
-	<hr>
+<hr>
 	<div>
-	<form name="refForm">
-	<input type="text" name="content" placeholder="댓글 입력"/> <button id="refbtn">등록</button>
-	<input type="hidden" name="" value="${board.num}"/>
+	<form name="ref-Form" method="post">
+		<textarea id="content" name="content" cols="100" rows="3" placeholder="댓글 입력"></textarea>
+		<button id="refbtn">등록</button>
+		<input type="hidden" name="boardNum" value="${board.num}"/>
+		<input type="hidden" name="writer" value="rrr"/>
+		<input type="hidden" id="bowriter" value="qqq"/>
 	</form>
+	<c:if test="${boardRefs != null}" >
+	<div>
+<hr>
+	<div class="ref-detail">
+		Comments&nbsp;&nbsp;${fn:length(boardRefs)}
+	</div>
+	<div class="ref-list">
+		<c:forEach items="${boardRefs}" var="oneRef">
+		<div>
+			<form name="com-Form" method="post">
+				<table>
+					<caption>
+	<%-- 					<c:choose>
+								<c:when test="${sessionScope.loginInside eq oneRef.writer }"> --%>
+								<button type="submit" class="editRef" >수정</button>
+								<button type="submit" class="delRef" >삭제</button>
+	<%-- 						</c:when> --%>
+	<%-- 						<c:when test="${sessionScope.loginInside ne oneRef.writer }"> --%>
+								<button class="cmtbtn">댓글 작성</button>
+	<%-- 						</c:when>
+						</c:choose> --%>
+					</caption>
+					<thead>
+						<tr>
+							<td>${oneRef.writer}</td>
+							<td>
+							<fmt:formatDate var="regdate" value="${oneRef.regdate}" pattern="yyyy-MM-dd"/>
+							<fmt:formatDate var="moddate" value="${oneRef.moddate}" pattern="yyyy-MM-dd"/>
+								등록일&nbsp;${regdate}&nbsp;|&nbsp;수정일&nbsp;${moddate}
+							</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td colspan="3"><textarea id="content" name="content" cols="100" rows="5" disabled="disabled">${oneRef.content}</textarea></td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
+		</div>
+		</c:forEach>
+	</div>
+	</div>
+	</c:if>
 	</div>
 </div>
 <script type="text/javascript" src="<c:url value="/resources/js/boardscript.js" />"></script>
@@ -101,6 +148,9 @@
 	document.getElementById("heartbtn").addEventListener("click", heartClick);
 	document.getElementById("boardedit").addEventListener("click", editCHK);
 	document.getElementById("boarddel").addEventListener("click", delCHK);
+	document.getElementById("refbtn").addEventListener("click", refCHK);
+	document.getElementById("editRef").addEventListener("click", editRef);
+	document.getElementById("delRef").addEventListener("click", delRef);
 	
 	var result = "<c:out value="${heartNo}"/>";
 	if(result == 'fail'){

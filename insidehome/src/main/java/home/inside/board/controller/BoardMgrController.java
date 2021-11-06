@@ -1,5 +1,5 @@
 package home.inside.board.controller;
-// 윤선이 화이팅
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;

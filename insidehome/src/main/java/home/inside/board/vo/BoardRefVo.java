@@ -59,6 +59,10 @@ public class BoardRefVo {
 	public void setRefNum(int refNum) {
 		this.refNum = refNum;
 	}
-
+	@Override
+	public String toString() {
+		return "BoardRefVo [num=" + num + ", boardNum=" + boardNum + ", writer=" + writer + ", content=" + content
+				+ ", regdate=" + regdate + ", moddate=" + moddate + ", depth=" + depth + ", refNum=" + refNum + "]";
+	}
 	
 }

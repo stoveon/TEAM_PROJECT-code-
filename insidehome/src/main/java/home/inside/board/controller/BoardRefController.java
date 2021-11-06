@@ -1,7 +1,4 @@
 package home.inside.board.controller;
-// 아마도 지은이 (JSP)
-// 윤선이 코드 살릴 수 있으면 살리고 웬만하면 새로짜
-
 
 import javax.servlet.http.HttpSession;
 
@@ -26,6 +23,8 @@ public class BoardRefController {
 	@RequestMapping(value = "/regist.do", method = RequestMethod.POST)
 	public String insertRefSubmit(int boardNum, int num, String content, HttpSession session) throws Exception {
 		String nickname = (String) session.getAttribute("loginInside");
+		System.out.println(boardNum+ nickname+ content);
+		ser.insertRef(boardNum, nickname, content);
 		return "redirect:/user/board/read.do";
 	}
 

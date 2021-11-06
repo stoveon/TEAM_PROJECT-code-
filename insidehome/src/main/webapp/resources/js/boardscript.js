@@ -18,6 +18,13 @@ const add_upFile = () => {
 	box.appendChild(newP);
 }
 
+const add_refPlus = () => {
+	const box = document.getElementById('boardFileBox');
+	const newP = document.createElement('p');
+	newP.innerHTML = "<input type='file' name='plusBoardImage' accept='.jpg,.jpeg,.png,.gif' />";
+	box.appendChild(newP);
+}
+
 function boardCheckForm(){
 	if(document.boardForm.title.value == "" || document.boardForm.content.value == ""){
 		if(document.boardForm.title.value == ""){
@@ -82,3 +89,45 @@ function delCHK(){
 	return false;
 	}
 }
+
+function refCHK(){
+	let session = sessionStorage.getItem("loginInside");
+	let writer = document.getElementById("bowriter").value;
+	if(session == writer){
+		alert("작성자는 댓글을 작성할 수 없습니다.");
+		event.preventDefault();	
+		return false;
+	}else{
+		if(document.ref-Form.content.value == ""){
+			if(document.boardForm.content.value == ""){
+				alert("댓글을 입력해주세요.");
+				document.ref-Form.content.focus();
+				event.preventDefault();
+				return false;
+			}
+		}else{
+			if(confirm("댓글을 등록하시겠습니까?") == true){
+				return true;
+			}else{
+				event.preventDefault();
+				return false;
+			}
+		}
+	}
+}
+
+function editRef(){
+	let edit = document.getElementById("editRef");
+	edit.disabled = false;
+}
+
+/*function delRef(){
+	if(confirm("댓글을 삭제 하시겠습니까?") == true){
+		let form = event.target.
+		document.com-Form = getContextPath()+'/user/ref/regist.do';
+		return true;
+	}else{
+		event.preventDefault();	
+	return false;
+	}
+}*/
