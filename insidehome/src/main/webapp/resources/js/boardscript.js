@@ -19,7 +19,7 @@ const add_upFile = () => {
 }
 
 const add_refPlus = () => {
-	const box = document.getElementById('boardFileBox');
+	const box = document.querySelector('#com-Form');
 	const newP = document.createElement('p');
 	newP.innerHTML = "<input type='file' name='plusBoardImage' accept='.jpg,.jpeg,.png,.gif' />";
 	box.appendChild(newP);
@@ -116,18 +116,17 @@ function refCHK(){
 	}
 }
 
-function editRef(){
-	let edit = document.getElementById("editRef");
-	edit.disabled = false;
+const reply = () => {
+    const box = document.getElementById("reply");
+    box.innerHTML = "<textarea rows='3' style='width: 90%; resize: none;' name='content'></textarea> <input type='button' value='저장' onclick='btn(this)'>";
 }
 
-/*function delRef(){
-	if(confirm("댓글을 삭제 하시겠습니까?") == true){
-		let form = event.target.
-		document.com-Form = getContextPath()+'/user/ref/regist.do';
-		return true;
-	}else{
-		event.preventDefault();	
-	return false;
+	
+	const add_reply = () => {
+		let renum = event.target.value;
+		var name = 'add_reply'+renum;
+		alert(name);
+	    const box = document.getElementById(name);
+	    box.innerHTML = "<textarea rows='3' style='width: 90%; resize: none;' name='content'></textarea> <input type='button' value='저장' onclick='btn(this)'>";
+	    
 	}
-}*/

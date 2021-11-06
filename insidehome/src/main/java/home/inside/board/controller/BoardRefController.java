@@ -23,20 +23,24 @@ public class BoardRefController {
 	@RequestMapping(value = "/regist.do", method = RequestMethod.POST)
 	public String insertRefSubmit(int boardNum, int num, String content, HttpSession session) throws Exception {
 		String nickname = (String) session.getAttribute("loginInside");
-		System.out.println(boardNum+ nickname+ content);
-		ser.insertRef(boardNum, nickname, content);
+		if(nickname != null) {
+			System.out.println(boardNum+ nickname+ content);
+			ser.insertRef(boardNum, nickname, content);
+		}
 		return "redirect:/user/board/read.do";
 	}
 
 	// 댓글수정 요청
 	@RequestMapping(value = "/update.do", method = RequestMethod.POST)
 	public String updateRefSubmit(int boardNum, int num, String content) throws Exception {
+		
 		return "redirect:/user/board/read.do";
 	}
 
 	// 댓글삭제 요청
 	@RequestMapping(value = "/delete.do", method = RequestMethod.POST)
-	public String deleteRefSubmit(int boardNum, int num) throws Exception {
+	public String deleteRefSubmit(int num) throws Exception {
+		ser.deleteRef(num);
 		return "redirect:/user/board/read.do";
 	}
 

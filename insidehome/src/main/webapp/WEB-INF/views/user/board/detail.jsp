@@ -88,8 +88,8 @@
 		</c:if>
 	</div>
 <hr>
-	<div>
-	<form name="ref-Form" method="post">
+<div>
+<%--	<form name="ref-Form" method="post">
 		<textarea id="content" name="content" cols="100" rows="3" placeholder="댓글 입력"></textarea>
 		<button id="refbtn">등록</button>
 		<input type="hidden" name="boardNum" value="${board.num}"/>
@@ -106,33 +106,33 @@
 		<c:forEach items="${boardRefs}" var="oneRef">
 		<div>
 			<form name="com-Form" method="post">
-				<table>
-					<caption>
-	<%-- 					<c:choose>
-								<c:when test="${sessionScope.loginInside eq oneRef.writer }"> --%>
-								<button type="submit" class="editRef" >수정</button>
-								<button type="submit" class="delRef" >삭제</button>
-	<%-- 						</c:when> --%>
-	<%-- 						<c:when test="${sessionScope.loginInside ne oneRef.writer }"> --%>
-								<button class="cmtbtn">댓글 작성</button>
-	<%-- 						</c:when>
-						</c:choose> --%>
-					</caption>
-					<thead>
-						<tr>
-							<td>${oneRef.writer}</td>
-							<td>
-							<fmt:formatDate var="regdate" value="${oneRef.regdate}" pattern="yyyy-MM-dd"/>
-							<fmt:formatDate var="moddate" value="${oneRef.moddate}" pattern="yyyy-MM-dd"/>
-								등록일&nbsp;${regdate}&nbsp;|&nbsp;수정일&nbsp;${moddate}
-							</td>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td colspan="3"><textarea id="content" name="content" cols="100" rows="5" disabled="disabled">${oneRef.content}</textarea></td>
-						</tr>
-					</tbody>
+			<table>
+				<caption>
+					<c:choose>
+							<c:when test="${sessionScope.loginInside eq oneRef.writer }">
+							<button type="submit" class="editRef" >수정</button>
+							<button type="submit" class="delRef" >삭제</button>
+						</c:when>
+						<c:when test="${sessionScope.loginInside ne oneRef.writer }">
+							<button class="cmtbtn">댓글 작성</button>
+						</c:when>
+					</c:choose>
+				</caption>
+				<thead>
+					<tr>
+						<td>${oneRef.writer}</td>
+						<td>
+						<fmt:formatDate var="regdate" value="${oneRef.regdate}" pattern="yyyy-MM-dd"/>
+						<fmt:formatDate var="moddate" value="${oneRef.moddate}" pattern="yyyy-MM-dd"/>
+							등록일&nbsp;${regdate}&nbsp;|&nbsp;수정일&nbsp;${moddate}
+						</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td colspan="3"><textarea id="content" name="content" cols="100" rows="5" disabled="disabled">${oneRef.content}</textarea></td>
+					</tr>
+				</tbody>
 				</table>
 			</form>
 		</div>
@@ -140,21 +140,86 @@
 	</div>
 	</div>
 	</c:if>
+	</div> --%>
+		
+	<div style="padding-left: 0%;">
+		<div>
+			작성자 : ${sessionScope.loginInside} <button id="comentbtn">입력</button>
+		</div>
+<hr>
+		<form action="writeRef.board" id="insert" method="post">
+			<input type="hidden" name="bNum" value="${board.num }" />
+			<input type="hidden" name="writer" value="${board.writer }" />
+			<div id="reply"></div>
+		</form>
+	</div>
+	<div class="ref-detail">
+		Comments&nbsp;&nbsp;${fn:length(boardRefs)}
+	</div>
+		<c:forEach var="oneRef" items="${boardRefs}">
+			<div style="background: #F6F5F5; padding-left: ${2*oneRef.depth}%; border-bottom: solid 1px black;">
+			<table>
+				<caption>
+					<c:choose>
+					<c:when test="${sessionScope.loginInside eq oneRef.writer}">		
+						<form method="post">
+							<button type="submit" onclick="form.action= '<c:url value="/user/ref/update.do" />'">수정</button>
+							<button type="submit" onclick="form.action= '<c:url value="/user/ref/delete.do" />'">삭제</button>
+							<input type="hidden" name="boardNum" value="${board.num}" />
+							<input type="hidden" name="num" value="${oneRef.num}" />
+						</form>
+					</c:when>
+					<c:when test="${sessionScope.loginInside ne oneRef.writer}">
+						<button id="refbtn" value="${oneRef.num}" >답글달기</button>
+					</c:when>
+					</c:choose>
+				</caption>
+				<thead>
+					<tr>
+						<td>작성자: ${oneRef.writer}</td>
+						<td>
+						<fmt:formatDate var="regdate" value="${oneRef.regdate}" pattern="yyyy-MM-dd"/>
+							등록일&nbsp;${regdate}<c:if test="${oneRef.moddate != null}"><fmt:formatDate var="moddate" value="${oneRef.moddate}" pattern="yyyy-MM-dd"/>&nbsp;|&nbsp;수정일&nbsp;${moddate}</c:if>
+						</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td colspan="2">${fn:replace(oneRef.content, replaceChar, "<br/>")}</td>
+					</tr>
+				</tbody>
+			</table>
+				<form action="<c:url value="/user/ref/register.do" />" id="insert" method="post">
+					<input type="hidden" name="boardNum" value="${oneRef.boardNum }" />
+					<input type="hidden" name="writer" value="${oneRef.writer }" />
+					<input type="hidden" name="refNum" value="${oneRef.refNum}" />
+					<div id="add_reply${oneRef.num}"></div>
+				</form>
+			</div>
+			</c:forEach>
 	</div>
 </div>
 <script type="text/javascript" src="<c:url value="/resources/js/boardscript.js" />"></script>
 <script type="text/javascript">
-	document.getElementById("warnbtn").addEventListener("click", warnClick);
-	document.getElementById("heartbtn").addEventListener("click", heartClick);
-	document.getElementById("boardedit").addEventListener("click", editCHK);
-	document.getElementById("boarddel").addEventListener("click", delCHK);
-	document.getElementById("refbtn").addEventListener("click", refCHK);
-	document.getElementById("editRef").addEventListener("click", editRef);
-	document.getElementById("delRef").addEventListener("click", delRef);
-	
+window.onload = function(){
+	document.getElementById('warnbtn').addEventListener("click", warnClick);
+	document.getElementById('heartbtn').addEventListener("click", heartClick);
+	document.getElementById('boardedit').addEventListener("click", editCHK);
+	document.getElementById('boarddel').addEventListener("click", delCHK);
+	document.getElementById('comentbtn').addEventListener("click", reply);
+	document.getElementById('refbtn').addEventListener("click", add_reply);
+/* 	document.querySelector('#refbtn').addEventListener("click", refCHK);
+	document.querySelector('#editRef').addEventListener("click", editRef);
+	document.querySelector('#delRef').addEventListener("click", delRef); */
+
 	var result = "<c:out value="${heartNo}"/>";
 	if(result == 'fail'){
 		alert('추천하실 수 없습니다.');
 	}
+	
+	const btn = (obj) => {
+		   document.getElementById('insert').submit();
+		}
+}	
 </script>
 <%@include file="/WEB-INF/views/user/main/userFooter.jsp"%>
