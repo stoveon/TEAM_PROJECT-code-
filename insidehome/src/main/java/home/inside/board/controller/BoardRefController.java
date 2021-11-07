@@ -33,7 +33,7 @@ public class BoardRefController {
 	// 댓글수정 요청
 	@RequestMapping(value = "/update.do", method = RequestMethod.POST)
 	public String updateRefSubmit(int boardNum, int num, String content) throws Exception {
-		
+		ser.updateRef(num, content);
 		return "redirect:/user/board/read.do";
 	}
 
