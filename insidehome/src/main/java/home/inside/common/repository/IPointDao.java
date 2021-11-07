@@ -18,9 +18,6 @@ public interface IPointDao {
 	// 최근 30일 포인트 변동내역 확인
 	public List<HashMap<String, Object>> selectPointList(String nickname) throws Exception;
 	
-	// 이달의 출석일자 확인
-	public List<Date> selectCheckMonth(String nickname) throws Exception;
-	
 	// 회원탈퇴 시 포인트내용 삭제
 	public void deletePoint(String nickname) throws Exception;
 }

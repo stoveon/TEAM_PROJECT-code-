@@ -21,7 +21,7 @@
 		<table>
 			<caption>
 				<form:form action="list.do" commandName="memberList" class="info-search">
-					<input class="searchText"  type="text" name="nickname" placeholder="회원 닉네임 검색" value="${nickname }">
+					<input class="searchText" type="text" name="nickname" placeholder="회원 닉네임 검색" value="${nickname }">
 					<input type="hidden" value="${type}" name="type">
 					<input type="submit" value="검색">
 				</form:form>

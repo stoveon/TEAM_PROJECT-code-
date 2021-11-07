@@ -4,12 +4,11 @@
 <%@include file="/WEB-INF/views/user/main/userHeader.jsp"%>
 <div class="body-info">
 	<div class="info-detail">
-		<h1 class="info-title">이메일 찾기</h1>
-		<p class="info-title-sub">
-			안전한 비밀번호로 내 정보를 보호하세요!
-			* 다른 아이디/사이트에서 사용한 적이 없는 비밀번호가 안전하답니다!
-			* 이전에 사용한 적 없는 비밀번호가 안전합니다.
-		</p>
+		<h1 class="info-title">비밀번호 변경하기</h1>
+		<br>
+		<p style="padding-left: 5%;"> 안전한 비밀번호로 내 정보를 보호하세요! </p>
+		<p style="padding-left: 5%;"> * 다른 아이디/사이트에서 사용한 적이 없는 비밀번호가 안전하답니다! </p>
+		<p style="padding-left: 5%;"> * 이전에 사용한 적 없는 비밀번호가 안전합니다. </p>
 		<hr>
 		<form:form action="changePw.do" commandName="editCmd">
 			<table>

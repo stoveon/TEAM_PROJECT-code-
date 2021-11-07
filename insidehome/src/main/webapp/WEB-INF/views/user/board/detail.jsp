@@ -4,7 +4,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@include file="/WEB-INF/views/user/main/userHeader.jsp"%>
-
+<% pageContext.setAttribute("replaceChar", "\n"); %>
 <div class="body-info">
 	<div class="info-detail">
 		<h1 class="info-title">회원 글상세</h1>
@@ -14,11 +14,14 @@
 		<div>
 			<c:choose>
 				<c:when test="${board.boardCode eq 'info'}">
-				[ 정보 게시판 ]&nbsp;
+				[ 정보게시판 ]&nbsp;
 				</c:when>
 				<c:when test="${board.boardCode eq 'who'}">
-				[ 익명 게시판 ]&nbsp;
+				[ 익명게시판 ]&nbsp;
 				</c:when>
+				<c:otherwise>
+				[ 공지게시판 ]
+				</c:otherwise>
 			</c:choose>
 			&nbsp;${board.title}
 		</div>
@@ -88,10 +91,58 @@
 		</c:if>
 	</div>
 <hr>
-<div>
-
+	<form name="ref-Form" method="post" action="<c:url value="/user/ref/regist.do" />">
+		<textarea name="content" cols="100" rows="3" placeholder="댓글 입력"></textarea>
+		<button id="refbtn">등록</button>
+		<input type="hidden" name="boardNum" value="${board.num}"/>
+	</form>
+<c:if test="${boardRefs ne null}">
+	<div>
+	<div class="ref-detail">
+			Comments&nbsp;&nbsp;${fn:length(boardRefs)}
+		</div>
+			<c:forEach var="oneRef" items="${boardRefs}">
+				<div style="background: #F6F5F5; padding-left: ${2*oneRef.depth}%; border-bottom: solid 1px black;">
+				<table>
+					<caption>
+						<c:if test="${sessionScope.loginInside ne oneRef.writer}">
+							<button onclick="form.action= '<c:url value="/user/ref/update.do" />'">수정</button>
+							<button onclick="return redelCHK(${oneRef.num+='&boardNum='+=board.num})">삭제</button>
+ 						</c:if> 
+						<c:if test="${sessionScope.loginInside ne oneRef.writer}">
+							<button id="refbtn" value="${oneRef.num}" >답글달기</button>
+						</c:if>
+					</caption>
+					<thead>
+						<tr>
+							<td>작성자: ${oneRef.writer}</td>
+							<td>
+								<fmt:formatDate var="regdate" value="${oneRef.regdate}" pattern="yyyy-MM-dd"/>
+									등록일&nbsp;${regdate}
+								<c:if test="${oneRef.moddate != null}">
+									<fmt:formatDate var="moddate" value="${oneRef.moddate}" pattern="yyyy-MM-dd"/>
+									&nbsp;|&nbsp;수정일&nbsp;${moddate}
+								</c:if>
+							</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td colspan="2">${fn:replace(oneRef.content, replaceChar, "<br/>")}</td>
+						</tr>
+					</tbody>
+				</table>
+					<form action="<c:url value="/user/ref/register.do" />" id="insert" method="post">
+						<input type="hidden" name="boardNum" value="${oneRef.boardNum }" />
+						<input type="hidden" name="nickname" value="${oneRef.writer }" />
+						<input type="hidden" name="refNum" value="${oneRef.refNum}" />
+						<div id="add_reply${oneRef.num}"></div>
+					</form>
+				</div>
+				</c:forEach>
+		</div>
 	</div>
-</div>
+</c:if>
 <script type="text/javascript" src="<c:url value="/resources/js/boardscript.js" />"></script>
 <script type="text/javascript">
 
@@ -107,11 +158,26 @@
 	var bdel = document.querySelector('#boarddel');
 	bdel.addEventListener("click", delCHK);
 
+	
 var result = "<c:out value="${heartNo}"/>";
 if(result == 'fail'){
 	alert('추천하실 수 없습니다.');
 }
-	
+
+/* function editRef(){
+	edit.disabled = false;
+} */
+/* let edit = document.getElementById("refbtn");
+ref = edit.addEventListener("click", function(){
+	const reply = () => {
+		let renum = event.target.value;
+		var name = 'add_reply'+renum;
+		alert(name);
+	    const box = document.getElementById("reply");
+	    box.innerHTML = "<textarea rows='3' style='width: 90%; resize: none;' name='content'></textarea> <input type='submit' value='저장'>";
+	}
+}
+	 */
 /* const btn = (obj) => {
 	   document.getElementById('insert').submit();
 	}

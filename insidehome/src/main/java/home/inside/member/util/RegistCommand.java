@@ -1,7 +1,9 @@
 package home.inside.member.util;
 
 public class RegistCommand {
-	private String email;
+	// private String email;
+	private String emailPart1;
+	private String emailPart2;
 	private String nickname;
 	private String password;
 	private String passwordCheck;
@@ -15,15 +17,20 @@ public class RegistCommand {
 	private String addrSub;
 	private String agree;
 
-	public RegistCommand() {
+	public String getEmailPart1() {
+		return emailPart1;
 	}
 
-	public String getEmail() {
-		return email;
+	public void setEmailPart1(String emailPart1) {
+		this.emailPart1 = emailPart1;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public String getEmailPart2() {
+		return emailPart2;
+	}
+
+	public void setEmailPart2(String emailPart2) {
+		this.emailPart2 = emailPart2;
 	}
 
 	public String getNickname() {
@@ -113,11 +120,11 @@ public class RegistCommand {
 	public void setAddrSub(String addrSub) {
 		this.addrSub = addrSub;
 	}
-	
+
 	public String getAgree() {
 		return agree;
 	}
-	
+
 	public void setAgree(String agree) {
 		this.agree = agree;
 	}
@@ -132,11 +139,12 @@ public class RegistCommand {
 
 	@Override
 	public String toString() {
-		return "RegistCommand [email=" + email + ", nickname=" + nickname + ", password=" + password
-				+ ", passwordCheck=" + passwordCheck + ", name=" + name + ", phone1=" + phone1 + ", phone2=" + phone2
-				+ ", gender=" + gender + ", storedate=" + storedate + ", addrNum=" + addrNum + ", addr=" + addr
-				+ ", addrSub=" + addrSub + ", agree=" + agree + "]";
+		return "RegistCommand [emailPart1=" + emailPart1 + ", emailPart2=" + emailPart2 + ", nickname=" + nickname
+				+ ", password=" + password + ", passwordCheck=" + passwordCheck + ", name=" + name + ", phone1="
+				+ phone1 + ", phone2=" + phone2 + ", gender=" + gender + ", storedate=" + storedate + ", addrNum="
+				+ addrNum + ", addr=" + addr + ", addrSub=" + addrSub + ", agree=" + agree + "]";
 	}
+
 	
-	
+
 }

@@ -8,9 +8,9 @@
 	</div>
 	<div class="foot-area">
 		<ul class="foot-list">
-			<li class="foot-info-label"><a class="foot-info-label" href="<c:url value="#"/>">소개</a></li>
+			<li class="foot-info-label"><a class="foot-info-label" href="<c:url value="/inside/intro.do"/>">소개</a></li>
 			<li class="foot-info-label"><a class="foot-info-label" href="<c:url value="#"/>">고객센터</a></li>
-			<li class="foot-info-label"><a class="foot-info-label" href="<c:url value="#"/>">찾아오는 길</a></li>
+			<li class="foot-info-label"><a class="foot-info-label" href="<c:url value="/inside/map.do"/>">찾아오는 길</a></li>
 		</ul>
 		<ul class="foot-list">						
 			<li class="foot-label">주소: 서울특별시 종로구 묘동 돈화문로 26 4F</li>

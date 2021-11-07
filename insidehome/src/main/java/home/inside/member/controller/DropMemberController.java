@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import home.inside.common.service.IPointService;
+import home.inside.goods.service.IGoodsService;
 import home.inside.member.service.ILoginService;
 import home.inside.member.service.IMemberInfoService;
 import home.inside.member.vo.MemberDropVo;
@@ -27,11 +28,14 @@ public class DropMemberController {
 	private IPointService pointSer;
 	@Autowired
 	private BCryptPasswordEncoder pwdEncoder;
-	// prvate IBoardService boardSer;
-	// prvate IQuestionService questionSer;
-	// prvate IWarnService warnSer;
-	// prvate IGoodsService goodsSer;
-	// prvate ITalkService talkSer;
+	@Autowired 
+	private IGoodsService goodsSer;
+	
+	
+	// private IBoardService boardSer;
+	// private IQuestionService questionSer;
+	// private IWarnService warnSer;
+	// private ITalkService talkSer;
 
 	@RequestMapping(value = "/info/dropForm.do")
 	public String dropMemberForm() throws Exception {
@@ -56,6 +60,8 @@ public class DropMemberController {
 				Integer warn = Integer.parseInt(String.valueOf(info.get("WARNCOUNT")));
 				MemberDropVo dropVo = new MemberDropVo(email, nickname, warn);
 				infoSer.dropMember(dropVo);
+				pointSer.deletePoint(nickname);
+				goodsSer.deleteGoodsSales(nickname);
 				return "redirect:/member/logout.do";
 			}
 			return "redirect:/user/mypage/info/dropForm.do";

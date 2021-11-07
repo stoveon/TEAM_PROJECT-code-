@@ -50,4 +50,5 @@ public class ArticleMgrCommand {
 				+ ", content=" + content + ", notify=" + notify + "]";
 	}
 	
+	
 }

@@ -7,7 +7,7 @@
    <insert id="insertArticle" parameterType="HashMap">
       insert into BOARD(NUM, BOARDCODE, WRITER, TITLE, CONTENT, NOTIFY)
       values (BOARD_SEQ.nextval, #{boardCode}, #{nickname}, #{title}, #{content}, #{notify})
-      <selectKey resultType="Integer" keyProperty="num">
+      <selectKey resultType="Integer" keyProperty="NUM">
          select NVL(max(NUM),0) from BOARD
       </selectKey>
    </insert>

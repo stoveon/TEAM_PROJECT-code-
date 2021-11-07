@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import home.inside.board.service.IBoardService;
 import home.inside.common.service.IPointService;
 import home.inside.goods.service.IGoodsService;
 import home.inside.member.service.ILoginService;
@@ -32,13 +33,14 @@ public class MemberInfoController {
 	private IMemberInfoService infoSer;
 	@Autowired
 	private IPointService pointSer;
-	// private IBoardDetailService boardSer;
 	@Autowired
 	private IGoodsService goodsSer;
 	// private IQuestionService qaSer;
 	@Autowired
 	private BCryptPasswordEncoder pwdEncoder;
-
+	@Autowired
+	private IBoardService boardSer;
+	
 	@RequestMapping(value = "/main.do")
 	public String mypage(String viewPage, String str, Model model, HttpSession session) throws Exception {
 		viewPage = (viewPage == null) ? "board" : viewPage;
@@ -47,10 +49,8 @@ public class MemberInfoController {
 		model.addAttribute("orderCount", goodsSer.nicknameOrderCount(nickname));
 		model.addAttribute("qaCount", 3);
 		model.addAttribute("viewPage", viewPage);
-		if (viewPage.equals("board")) {
-			model.addAttribute("articleList", new ArrayList<HashMap<String, Object>>());
-			// boardSer.searchNickname(nickname, str)
-		}
+		model.addAttribute("checkIn",pointSer.selectCheck(nickname));
+		model.addAttribute("articleList", boardSer.selectMyArticleList(nickname));
 		if (viewPage.equals("point")) {
 			model.addAttribute("pointList", pointSer.selectList(nickname));
 		}

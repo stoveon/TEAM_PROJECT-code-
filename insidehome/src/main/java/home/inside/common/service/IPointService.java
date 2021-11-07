@@ -14,9 +14,7 @@ public interface IPointService {
 	// 최근 30일 포인트 변동내역 확인
 	public List<HashMap<String, Object>> selectList(String nickname) throws Exception;
 
-	// 이번달 출석일자 확인
-	public List<Date> selectMonth(String nickname) throws Exception;
-
 	// 회원 탈퇴 시 내용 삭제
 	public void deletePoint(String nickname) throws Exception;
+	
 }

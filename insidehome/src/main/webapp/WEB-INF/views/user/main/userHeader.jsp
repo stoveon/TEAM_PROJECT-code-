@@ -3,7 +3,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
-<% Object loginChk = request.getAttribute("loginInside"); %>
 
 <!DOCTYPE html>
 <html>
@@ -25,7 +24,12 @@
 		<ul class="head-list">
 			<li class="head-info-label"><a class="head-info-label" href="<c:url value="#"/>">고객센터</a></li>
 			<c:if test="${loginInside != null}">
-				<li class="head-info-label"><a class="head-info-label" href="<c:url value="/user/mypage/main.do"/>">[ ${loginInside }MYPAGE ]</a></li>
+				<c:if test="${mgrInside !=null}">
+					<li class="head-info-label"><a class="head-info-label" href="<c:url value="/manager/inside/main.do"/>">[ 관리자페이지 이동 ]</a></li>
+				</c:if>
+				<c:if test="${mgrInside ==null}">
+					<li class="head-info-label"><a class="head-info-label" href="<c:url value="/user/mypage/main.do"/>">[ ${loginInside}_MYPAGE ]</a></li>
+				</c:if>
 				<li class="head-info-label"><a class="head-info-label" href="<c:url value="/member/logout.do"/>">로그아웃</a></li>				
 			</c:if>
 			<c:if test="${loginInside == null }">
@@ -45,12 +49,9 @@
 		<ul class="service-list">
 			<li class="service-info-label"><a class="service-info-label" href="<c:url value="/board/list.do?boardCode=info"/>">정보게시판</a></li>
 			<li class="service-info-label"><a class="service-info-label" href="<c:url value="/board/list.do?boardCode=who"/>">익명게시판</a></li>
-			<li class="service-info-label"><a class="service-info-label" href="<c:url value="/board/list.do?notify=notice"/>">공지사항</a></li>
+			<li class="service-info-label"><a class="service-info-label" href="<c:url value="/board/list.do?boardCode=notice"/>">공지사항</a></li>
 			<li class="service-info-label"><a class="service-info-label" href="<c:url value="/goods/list.do"/>">포인트몰</a></li>
-			<li class="service-info-label"><a class="service-info-label" href="<c:url value="/inside/checkForm.do"/>">출석체크</a></li>			
-			<li class="service-info-label"><a href="<c:url value="#"/>">
-				<img class="talk_btn" src="<c:url value="/resources/img/btn_assatalk.png"/>">
-				</a></li>			
+			<li class="service-info-label"><a class="service-info-label" href="<c:url value="/inside/intro.do"/>">소개글</a></li>					
 		</ul>
 	</div>
 </header>

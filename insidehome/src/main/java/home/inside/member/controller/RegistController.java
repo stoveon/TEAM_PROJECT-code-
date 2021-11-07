@@ -33,7 +33,8 @@ public class RegistController {
 		if (errors.hasErrors()) {
 			return "user/member/registForm";
 		}
-		if (regSer.emailCheck(regCmd.getEmail()) > 0) {
+		String email = regCmd.getEmailPart1()+"@"+regCmd.getEmailPart2();
+		if (regSer.emailCheck(email) > 0) {
 			errors.rejectValue("email", "overlap");
 			return "user/member/registForm";
 		}

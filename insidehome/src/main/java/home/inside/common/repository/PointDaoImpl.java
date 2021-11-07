@@ -32,11 +32,6 @@ public class PointDaoImpl implements IPointDao {
 	}
 
 	@Override
-	public List<Date> selectCheckMonth(String nickname) throws Exception {
-		return sqlSessionTemplate.selectList("selectCheckMonth", nickname);
-	}
-
-	@Override
 	public void deletePoint(String nickname) throws Exception {
 		sqlSessionTemplate.delete("deletePoint", nickname);
 	}

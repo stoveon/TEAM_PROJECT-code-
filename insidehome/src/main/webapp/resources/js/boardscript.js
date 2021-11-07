@@ -90,6 +90,17 @@ function delCHK(){
 	}
 }
 
+function redelCHK(numboa){
+	console.log(numboa);
+	if(confirm("댓글을 삭제 하시겠습니까?") == true){
+		window.location.href=getContextPath()+'/user/ref/delete.do?num='+numboa;
+
+	}else{
+		event.preventDefault();	
+	return false;
+	}
+}
+
 function refCHK(){
 	let session = sessionStorage.getItem("loginInside");
 	let writer = document.getElementById("bowriter").value;

@@ -5,8 +5,8 @@
 
 <mapper namespace="boardRefDao">
 	<insert id="insertRef" parameterType="HashMap">
-		insert BOARD_REF(NUM, BOARDNUM, WRITER, CONTENT) 
-		values (BOARD_REF_SEQ.nextval, #{boardNum}, #{writer}, #{content});
+		insert into BOARD_REF(NUM, BOARDNUM, WRITER, CONTENT) 
+		values (BOARD_REF_SEQ.nextval, #{boardNum}, #{writer}, #{content})
 		<selectKey resultType="Integer" keyProperty="NUM">
 			select NVL(max(NUM),0) from BOARD_REF
 		</selectKey>

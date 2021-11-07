@@ -10,16 +10,12 @@ import org.springframework.validation.Validator;
 import home.inside.member.service.IRegistService;
 
 public class RegistCommandValidator implements Validator {
-	private static final String emailRegExp = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-			+ "[_A-Za-z0-9-]+(\\.[_A-Za-z0-9]+)*(\\.[_A-Za-z]{2,})$";
 	private static final String passwordRegExp = "((?=.*[a-z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,})";
 	private static final String phoneRegExp = "^(\\(?\\+?[0-9]*\\)?)?[0-9_\\- \\(\\)]*$";
-	private Pattern emailPattern;
 	private Pattern pwPattern;
 	private Pattern phonePattern;
 
 	public RegistCommandValidator() {
-		emailPattern = Pattern.compile(emailRegExp);
 		pwPattern = Pattern.compile(passwordRegExp);
 		phonePattern = Pattern.compile(phoneRegExp);
 	}
@@ -35,14 +31,12 @@ public class RegistCommandValidator implements Validator {
 		if (regCmd.getAgree() == null || regCmd.getAgree().trim().isEmpty()) {
 			errors.rejectValue("agree", "bad");
 		}
-		if (regCmd.getEmail() == null || regCmd.getEmail().trim().isEmpty()) {
-			errors.rejectValue("email", "required");
-		} else {
-			Matcher matcher = emailPattern.matcher(regCmd.getEmail());
-			if (!matcher.matches()) {
-				errors.rejectValue("email", "bad");
-			}
-		}
+		if (regCmd.getEmailPart1() == null || regCmd.getEmailPart1().trim().isEmpty()) {
+			errors.rejectValue("emailPart1", "required");
+		}		
+		if (regCmd.getEmailPart2() == null || regCmd.getEmailPart2().trim().isEmpty()) {
+			errors.rejectValue("emailPart2", "required");
+		}		
 		if (regCmd.getNickname() == null || regCmd.getNickname().trim().isEmpty()) {
 			errors.rejectValue("nickname", "required");
 		} else {
@@ -64,7 +58,7 @@ public class RegistCommandValidator implements Validator {
 		}
 		ValidationUtils.rejectIfEmpty(errors, "name", "required");
 		ValidationUtils.rejectIfEmpty(errors, "phone1", "required");
-		if(regCmd.getPhone2()==null || regCmd.getPhone2().trim().isEmpty()) {
+		if (regCmd.getPhone2() == null || regCmd.getPhone2().trim().isEmpty()) {
 			errors.rejectValue("phone2", "required");
 		} else {
 			Matcher matcher = phonePattern.matcher(regCmd.getPhone2());

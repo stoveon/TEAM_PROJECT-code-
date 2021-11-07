@@ -27,7 +27,7 @@ public class RegistServiceImpl implements IRegistService {
 	@Override
 	public void registMember(RegistCommand regCmd) throws Exception {
 		HashMap<String , Object> mainInfo = new HashMap<String, Object>();
-		mainInfo.put("email", regCmd.getEmail());
+		mainInfo.put("email", regCmd.getEmailPart1()+"@"+regCmd.getEmailPart2());
 		mainInfo.put("nickname", regCmd.getNickname());
 		mainInfo.put("password", regCmd.getPassword());
 		mainDao.insertMainInfo(mainInfo);
