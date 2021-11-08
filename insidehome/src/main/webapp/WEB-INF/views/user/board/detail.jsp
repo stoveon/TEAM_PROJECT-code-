@@ -108,10 +108,9 @@
 				<input type="hidden" name="boardNum" value="${board.num}" />
 				<table>
 					<caption>
-							<input type="submit" value="저장" />
-							<button type="button" onclick="return btnActive(${oneRef.num})">수정</button>
+							<input id="sabtn${oneRef.num}" type="submit" value="저장" disabled/>
+							<button id="edbtn${oneRef.num}" type="button" onclick="return btnActive(${oneRef.num})">수정</button>
 							<button type="button" onclick="return redelCHK()" value="${oneRef.num+='&boardNum='+=board.num}">삭제</button>
-							<button id="refbtn${oneRef.num}" value="${oneRef.num}" >답글달기</button>
 					</caption>
 					<thead>
 						<tr>

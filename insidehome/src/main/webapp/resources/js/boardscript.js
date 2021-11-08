@@ -132,10 +132,16 @@ function refCHK(){
 }
 
 function btnActive(num)  {
-	 const refNum = 'refcon'+num;
-	  const target = document.getElementById(refNum);
-	  target.disabled = false;
-	}
+	const refNum = 'refcon'+num;
+	const target = document.getElementById(refNum);
+	target.disabled = false;
+	const safNum = 'sabtn'+num;
+	const target1 = document.getElementById(safNum);
+	target1.disabled = false;
+	const edfNum = 'edbtn'+num;
+	const target2 = document.getElementById(edfNum);
+	target2.disabled = true;
+}
 
 const reply = () => {
     const box = document.getElementById("reply");

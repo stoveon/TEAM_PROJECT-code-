@@ -48,7 +48,7 @@
 	</select>
 	
 	<select id="selectGoodsOne" parameterType="String" resultType="goodsVo">
-		select GOODSCODE, GOODSNAME, CONTENT, PRICE from GOODS where GOODSCODE=#{goodsCode}
+		select GOODSCODE, GOODSNAME, CONTENT, STOCK PRICE from GOODS where GOODSCODE=#{goodsCode}
 	</select>
 	
 	<select id="insertCheck" parameterType="String" resultType="Integer">
