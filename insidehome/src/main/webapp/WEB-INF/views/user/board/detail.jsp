@@ -103,15 +103,15 @@
 		</div>
 			<c:forEach var="oneRef" items="${boardRefs}">
 				<div style="background: #F6F5F5; padding-left: ${2*oneRef.depth}%; border-bottom: solid 1px black;">
+				<form action="<c:url value="/user/ref/update.do" />" method="post">
+				<input type="hidden" name="num" value="${oneRef.num}" />
+				<input type="hidden" name="boardNum" value="${board.num}" />
 				<table>
 					<caption>
-						<c:if test="${sessionScope.loginInside ne oneRef.writer}">
-							<button onclick="form.action= '<c:url value="/user/ref/update.do" />'">수정</button>
-							<button onclick="return redelCHK(${oneRef.num+='&boardNum='+=board.num})">삭제</button>
- 						</c:if> 
-						<c:if test="${sessionScope.loginInside ne oneRef.writer}">
-							<button id="refbtn" value="${oneRef.num}" >답글달기</button>
-						</c:if>
+							<input type="submit" value="저장" />
+							<button type="button" onclick="return btnActive(${oneRef.num})">수정</button>
+							<button type="button" onclick="return redelCHK()" value="${oneRef.num+='&boardNum='+=board.num}">삭제</button>
+							<button id="refbtn${oneRef.num}" value="${oneRef.num}" >답글달기</button>
 					</caption>
 					<thead>
 						<tr>
@@ -128,10 +128,11 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td colspan="2">${fn:replace(oneRef.content, replaceChar, "<br/>")}</td>
+							<td colspan="2"><textarea id="refcon${oneRef.num}" name="content" cols="100" rows="3" disabled>${fn:replace(oneRef.content, replaceChar, "<br/>")}</textarea></td>
 						</tr>
 					</tbody>
 				</table>
+				</form>
 					<form action="<c:url value="/user/ref/register.do" />" id="insert" method="post">
 						<input type="hidden" name="boardNum" value="${oneRef.boardNum }" />
 						<input type="hidden" name="nickname" value="${oneRef.writer }" />
@@ -163,6 +164,7 @@ var result = "<c:out value="${heartNo}"/>";
 if(result == 'fail'){
 	alert('추천하실 수 없습니다.');
 }
+
 
 /* function editRef(){
 	edit.disabled = false;

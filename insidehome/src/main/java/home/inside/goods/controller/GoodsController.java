@@ -59,9 +59,11 @@ public class GoodsController {
 
 	// 회원정보 확인 및 포인트관련 추가
 	@RequestMapping(value = "/user/goods/order.do/{goodsCode}", method = RequestMethod.GET)
-	public String orderGoodsForm(@PathVariable String goodsCode, Model model, HttpSession session, RedirectAttributes rttr ) throws Exception {
+	public String orderGoodsForm(@PathVariable String goodsCode, Model model, HttpSession session, RedirectAttributes rttr) throws Exception {
 		String nickname = (String) session.getAttribute("loginInside");
-
+		if(nickname == null || nickname.trim() == "") {
+			return "redirect:user/goods/detail.do/"+goodsCode;
+		}
 		HashMap<String, Object> orderInfo = goodsUserService.orderGoodsInfo(goodsCode);
 		HashMap<String, String> goodsImage = (HashMap<String, String>) orderInfo.get("goodsImage");
 		GoodsVo goods = (GoodsVo) orderInfo.get("goods");

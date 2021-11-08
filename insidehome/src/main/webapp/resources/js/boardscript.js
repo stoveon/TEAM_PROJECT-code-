@@ -90,10 +90,22 @@ function delCHK(){
 	}
 }
 
-function redelCHK(numboa){
-	console.log(numboa);
+function reeditCHK(){
+	let boardNum = event.target.value;
+		console.log(boardNum);
+	if(confirm("댓글을 수정 하시겠습니까?") == true){
+		return window.location.href=getContextPath()+'/user/board/delete.do/'+boardNum;
+	}else{
+		event.preventDefault();	
+	return false;
+	}
+}
+
+function redelCHK(){
+	var rbn = event.target.value;
+	console.log(rbn);
 	if(confirm("댓글을 삭제 하시겠습니까?") == true){
-		window.location.href=getContextPath()+'/user/ref/delete.do?num='+numboa;
+		window.location.href=getContextPath()+'/user/ref/delete.do?num='+rbn;
 
 	}else{
 		event.preventDefault();	
@@ -102,30 +114,28 @@ function redelCHK(numboa){
 }
 
 function refCHK(){
-	let session = sessionStorage.getItem("loginInside");
-	let writer = document.getElementById("bowriter").value;
-	if(session == writer){
-		alert("작성자는 댓글을 작성할 수 없습니다.");
-		event.preventDefault();	
-		return false;
+	if(document.ref-Form.content.value == ""){
+		if(document.boardForm.content.value == ""){
+			alert("댓글을 입력해주세요.");
+			document.ref-Form.content.focus();
+			event.preventDefault();
+			return false;
+		}
 	}else{
-		if(document.ref-Form.content.value == ""){
-			if(document.boardForm.content.value == ""){
-				alert("댓글을 입력해주세요.");
-				document.ref-Form.content.focus();
-				event.preventDefault();
-				return false;
-			}
+		if(confirm("댓글을 등록하시겠습니까?") == true){
+			return true;
 		}else{
-			if(confirm("댓글을 등록하시겠습니까?") == true){
-				return true;
-			}else{
-				event.preventDefault();
-				return false;
-			}
+			event.preventDefault();
+			return false;
 		}
 	}
 }
+
+function btnActive(num)  {
+	 const refNum = 'refcon'+num;
+	  const target = document.getElementById(refNum);
+	  target.disabled = false;
+	}
 
 const reply = () => {
     const box = document.getElementById("reply");
