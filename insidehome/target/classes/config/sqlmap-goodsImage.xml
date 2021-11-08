@@ -3,7 +3,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="goodsImageVo">
+<mapper namespace="goodsImageDao">
 	<insert id="insertGoodsImage" parameterType="goodsImageVo">
 		insert into GOODS_IMAGE(NUM, GOODSCODE, SAVENAME) values(GOODS_IMAGE_SEQ.nextval, #{goodsCode}, #{saveName})
 	</insert>

@@ -2,6 +2,10 @@ package home.inside.supporter.vo;
 
 import java.util.Date;
 
+/**
+ * @author HOME
+ *
+ */
 public class WarningVo {
 	private int num ;
 	private String nickname ;
@@ -44,6 +48,11 @@ public class WarningVo {
 	}
 	public void setWarntime(Date warntime) {
 		this.warntime = warntime;
+	}
+	@Override
+	public String toString() {
+		return "WarningVo [num=" + num + ", nickname=" + nickname + ", boardNum=" + boardNum + ", warnType=" + warnType
+				+ ", warnWhy=" + warnWhy + ", warntime=" + warntime + "]";
 	}
 
 	

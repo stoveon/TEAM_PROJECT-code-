@@ -57,8 +57,8 @@
 				<value>classpath*:config/sqlmap-boardRef.xml</value>
 			<!--
  				<value>classpath*:config/sqlmap-question.xml</value>
+ 				-->
 				<value>classpath*:config/sqlmap-warning.xml</value>
-				-->
 			</list>
 		</property>
 	</bean>

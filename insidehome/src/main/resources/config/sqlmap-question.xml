@@ -4,37 +4,39 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="questionDao">
+
 	<insert id="questioninsert" parameterType="QuestionVo">
-		INSERT INTO QUESTION(NUM, ASKTYPE, NICKNAME, TITLE, CONTENT)
-		VALUES (QUESTION_SEQ.nextval, #{ASKTYPE}, #{NICKNAME}, #{TITLE}, #{CONTENT})
-	</insert>
-	
+		insert into question (num, askType, nickname, title, content, answer, askdate, answerdate)
+		values(question_seq.nextval, #{askType}, #{nickname}, #{title}, #{content}, null, sysdate, null)
+	</insert> 
+
 	<update id="questionupdate" parameterType="QuestionVo">
-		UPDATE QUESTION SET 
-		      TITLE = #{TITLE},
-		      CONTENT = #{CONTENT},
-		      ANSWER = #{ANSWER},
-		      ANSWERDATE = SYSDATE
-		      WHERE NUM = #{NUM}
+		update question set 
+		      title = #{title},
+		      content = #{content},
+		      answer = #{answer},
+		      answerdate = sysdate
+		      where num = #{num}
 	</update>
-	
-	<select id="questionselectall" parameterType="java.util.HashMap" resultType="java.util.HashMap">
-		SELECT * FROM QUESTION 
-		<if test="nickname==null">
-			where ASKTYPE=#{ASKTYPE} order by TITLE desc
-		</if>
-		<if test="nickname!=null">
-			where NICKNAME=#{nickname} order by ASKDATE desc
-			
-		</if>
+	<select id="questionselectall" parameterType="HashMap" resultType="QuestionVo">
+		select * from question 
+		<if test='nickname.equals("manager")'>
+         where ASKTYPE = #{askType} order by title desc
+      </if>
+      <if test='askType.equals("customer")'>
+         where nickname = #{nickname} order by askType desc
+      </if>
 	</select>
-	
-	<select id="questionselectone" parameterType="int" resultType="QuestionVo">
-		SELECT NUM, ASKTYPE, NICKNAME, TITLE, CONTENT, ANSWER, ASKDATE, ANSWERDATE
-		FROM QUESTION WHERE NUM = #{NUM}
+
+	<select id="questionselectone" parameterType="Integer"
+		resultType="QuestionVo">
+		select NUM, ASKTYPE, NICKNAME, TITLE, CONTENT, ANSWER,
+		ASKDATE, ANSWERDATE 
+		from QUESTION where NUM = #{num}
 	</select>
-	
-	<delete id="questiondeletequestion" parameterType="string">
-		DELETE FROM QUESTION WHERE NICKNAME = #{NICKNAME}
-    </delete>
+
+	<delete id="questiondeletequestion" parameterType="String">
+		delete from 
+		QUESTION where NICKNAME = #{nickname}
+	</delete>
     </mapper>

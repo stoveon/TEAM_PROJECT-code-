@@ -31,7 +31,7 @@
 			<thead>
 			<tr>
 				<td align="left" style="padding: 1% 5% 1% 5%;" bgcolor="#E8F6EF">
-					${boardname } &nbsp;${board.title}
+					${boardname} &nbsp;${board.title}
 				</td>
 			</tr>
 			</thead>
@@ -63,7 +63,11 @@
 
 						<c:if test="${boardName ne '공지사항'}">
 							<c:if test="${loginInside ne board.writer }">
-								<a onclick="location.href='<c:url value="#"/>'">[신고]</a>
+									<form name="warnForm">
+										<input type="hidden" id="warnName" name="warnName" value="${board.writer}" />
+										<input type="hidden" id="warnNum" name="warnNum" value="${board.num}" />
+									</form>
+								<a id="warnbtn" onclick="warnClick(${board.num});">[신고]</a>
 								<a onclick="location.href='<c:url value="/user/board/updateHeart.do/${board.num}"/>'">[추천]</a>
 							</c:if>
 						</c:if>
@@ -186,13 +190,14 @@
 	
 	var bdel = document.querySelector('#boarddel');
 	bdel.addEventListener("click", delCHK);
-
+	
+	var warnCHK = document.querySelector('#warnbtn');
+	warnCHK.addEventListener("click", warnClick);
 	
 var result = "<c:out value="${heartNo}"/>";
 if(result == 'fail'){
 	alert('추천하실 수 없습니다.');
 }
-
 
 /* function editRef(){
 	edit.disabled = false;

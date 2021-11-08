@@ -5,17 +5,25 @@
 
 <mapper namespace="warningDao">
 
-	<insert id="insert" parameterType="home.inside.supporter.vo.WarningVo">
-		INSERT INTO WARNING(NUM, NICKNAME, BOARDNUM, WARNTYPE, WARNWHY, WARNTIME)
-		VALUES (WARNING_SEQ.nextval, #{NICKNAME}, #{BOARDNUM}, #{WARNTYPE},
-		#{WARNWHY}, SYSDATE)
+	<insert id="warningInsert" parameterType="warningVo">
+		insert into WARNING values(WARNING_SEQ.nextval, #{nickname}, #{boardNum}, #{warnType}, #{warnWhy}, sysdate)
 	</insert>
 
-	<select id="selectcount" parameterType="string" resultType="int">
-		select count(*) from WARNING where NICKNAME=#{nickname}
+	<select id="warningCount" parameterType="String" resultType="Integer">
+		select count(*) from WARNING where NICKNAME = #{nickname}
 	</select>
  
- 	<delete id="delete" parameterType="string">
-		DELETE FROM WARNING WHERE NICKNAME = #{NICKNAME}
+ 	<delete id="warningDelete" parameterType="String">
+		delete from WARNING where NICKNAME = #{nickname}
 	</delete>
+	
+	<select id="warningSelectAll" resultType="HashMap">
+		select a.NICKNAME, a.BOARDNUM, a.WARNTYPE, a.WARNWHY, a.WARNTIME, b.TITLE
+			from (
+				(select NICKNAME, BOARDNUM, WARNTYPE, WARNWHY, WARNTIME from WARNING) a 
+					left join 
+				(select NUM, TITLE from BOARD) b 
+					on a.BOARDNUM = b.NUM)			
+			order by a.WARNTYPE asc, a.WARNTIME desc
+	</select>
 </mapper>

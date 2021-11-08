@@ -49,10 +49,12 @@ function boardCheckForm(){
    }
 }
 
-function warnClick(){
-   let boardNum = event.target.value;
+function warnClick(num){
    if(confirm("해당 게시글을 신고하시겠습니까?") == true){
-      return window.location.href = getContextPath()+'/user/warning/insertForm.do?boardNum='+boardNum;
+		console.log(num);
+		var url = getContextPath()+'/user/warning/insertForm.do?num='+num;
+		var status = "toolbar=no,directories=no,scrollbars=no,resizable=no,status=no,menubar=no,width=700, height=600, top=0,left=20";
+			window.open(url, "신고 페이지", status);
    }else{
       event.preventDefault();
       return false;

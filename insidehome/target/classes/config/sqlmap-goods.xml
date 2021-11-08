@@ -4,7 +4,7 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 
-<mapper namespace="goodsVo">
+<mapper namespace="goodsDao">
    
    <insert id="insertGoods" parameterType="goodsVo">
       insert into GOODS(NUM, GOODSCODE, GOODSNAME, CONTENT, PRICE, HEART, STOCK) 

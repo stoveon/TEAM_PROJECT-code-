@@ -11,6 +11,7 @@ public class QuestionVo {
 	private String answer ;
 	private Date askdate ;
 	private Date answerdate ;
+	
 	public int getNum() {
 		return num;
 	}
@@ -58,6 +59,12 @@ public class QuestionVo {
 	}
 	public void setAnswerdate(Date answerdate) {
 		this.answerdate = answerdate;
+	}
+	@Override
+	public String toString() {
+		return "QuestionVo [num=" + num + ", askType=" + askType + ", nickname=" + nickname + ", title=" + title
+				+ ", content=" + content + ", answer=" + answer + ", askdate=" + askdate + ", answerdate=" + answerdate
+				+ "]";
 	}
 
 	
