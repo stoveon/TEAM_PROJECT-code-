@@ -4,54 +4,73 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@include file="/WEB-INF/views/user/main/userHeader.jsp"%>
-<% pageContext.setAttribute("replaceChar", "\n"); %>
+<% pageContext.setAttribute("replaceChar", "\n");%>
 <div class="body-info">
+	<c:choose>
+		<c:when test="${board.boardCode eq 'info' and board.notify eq 'no'}">
+			<c:set var="boardName" value="정보게시판"/>
+		</c:when>
+		<c:when test="${board.boardCode eq 'who' and board.notify eq 'no'}">
+			<c:set var="boardName" value="익명게시판"/>
+		</c:when>
+		<c:otherwise>
+			<c:set var="boardName" value="공지사항"/>
+		</c:otherwise>
+	</c:choose>
+	
+	
 	<div class="info-detail">
-		<h1 class="info-title">회원 글상세</h1>
+		<h1 class="info-title">${boardName }</h1>
 	</div>
 	<hr>
 	<div class="info-inner">
 		<div>
-			<c:choose>
-				<c:when test="${board.boardCode eq 'info'}">
-				[ 정보게시판 ]&nbsp;
-				</c:when>
-				<c:when test="${board.boardCode eq 'who'}">
-				[ 익명게시판 ]&nbsp;
-				</c:when>
-				<c:otherwise>
-				[ 공지게시판 ]
-				</c:otherwise>
-			</c:choose>
-			&nbsp;${board.title}
+			
 		</div>
 		<table>
-			<caption>
-				<fmt:formatDate var="regdate" value="${board.regdate}" pattern="yyyy-MM-dd"/>
-				<fmt:formatDate var="moddate" value="${board.moddate}" pattern="yyyy-MM-dd"/>
-				작성일 <c:out value="${regdate}"/> <c:if test="${board.moddate != null}" >&nbsp;|&nbsp; 수정일 <c:out value="${moddate}"/></c:if><br>
-				조회수 <c:out value="${board.hit}"/> &nbsp;|&nbsp; 추천수 <c:out value="${board.heart}"/>
-			</caption>
 			<thead>
-				테이블 머리입니당
-				<tr>
-					<c:choose>
-						<c:when test="${board.boardCode eq 'info'}">
-						<td><c:out value="${board.writer}" /></td>
-						</c:when>
-						<c:otherwise>
-							<td></td>
-						</c:otherwise>
-					</c:choose>
-<%-- 					<c:if test="${sessionScope.loginInside eq board.writer}" > --%>
-					<td><button id="boardedit" value="${board.num}" >[수정]</button></td>
-					<td><button id="boarddel" value="${board.num}" >[삭제]</button></td>
-<%-- 					</c:if> --%>
-				</tr>
+			<tr>
+				<td align="left" style="padding: 1% 5% 1% 5%;" bgcolor="#E8F6EF">
+					${boardname } &nbsp;${board.title}
+				</td>
+			</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td colspan="3">${board.content}</td>
+					<td align="right"  style="padding: 1% 5% 1% 5%;">
+						<fmt:formatDate var="regdate" value="${board.regdate}" pattern="yyyy-MM-dd"/>
+						<fmt:formatDate var="moddate" value="${board.moddate}" pattern="yyyy-MM-dd"/>
+						작성일 <c:out value="${regdate}"/> 
+						<c:if test="${board.moddate != null}" >&nbsp;|&nbsp; 수정일 <c:out value="${moddate}"/></c:if><br>
+						<c:if test="${board.boardCode eq 'info' and board.notify eq 'no'}">
+							[ ${board.writer} ] &nbsp;|&nbsp; 
+						</c:if> 
+						<c:if test="${board.notify ne 'no'}">
+							[관리자] &nbsp;|&nbsp; 
+						</c:if> 
+						조회수 <c:out value="${board.hit}"/>
+						<c:if test="${boardName ne '공지사항'}">
+							 &nbsp;|&nbsp; 추천수 <c:out value="${board.heart}"/>
+						</c:if>
+					</td>
+				</tr>
+				<tr>
+					<td align="right"  style="padding: 1% 5% 1% 5%;">
+						<c:if test="${loginInside eq board.writer }">
+							<a onclick="location.href='<c:url value="/user/board/updateForm.do/${board.num}"/>'">[수정]</a>
+							<a onclick="location.href='<c:url value="/user/board/delete.do/${board.num}"/>'">[삭제]</a>
+						</c:if>
+
+						<c:if test="${boardName ne '공지사항'}">
+							<c:if test="${loginInside ne board.writer }">
+								<a onclick="location.href='<c:url value="#"/>'">[신고]</a>
+								<a onclick="location.href='<c:url value="/user/board/updateHeart.do/${board.num}"/>'">[추천]</a>
+							</c:if>
+						</c:if>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" align="left"  style="padding: 1% 5% 1% 5%;">${fn:replace(board.content, replaceChar, "<br/>")}</td>
 				</tr>
 				<tr>
 					<c:if test="${fn:length(boardImages) == null}">
@@ -60,89 +79,99 @@
 							<c:set var="imagePath" value="/resources/img/noGoods.gif" />		
 						</c:when>
 					</c:choose>
-						<td colspan="3"><img id="bnimg" src="<c:url value="${imagePath}" />"></td>
+						<td colspan="2"><img id="bnimg" src="<c:url value="${imagePath}" />"></td>
 					</c:if>
 					
 					<c:if test="${fn:length(boardImages) > 0}">
 						<c:forEach items="${boardImages}" var="imageOne" varStatus="status">
-						<c:if test="${status.index != 0 and status.index %3 == 0}" >
-						<tr></tr>
-						</c:if>
-							<td><img class="byimg" src="<c:url value="/boardDis?saveName=${imageOne.saveName}" />"></td>
+						<tr>
+							<td colspan="2">
+								<img style="width: 100px; height: 100px; display: inline-block; " class="byimg" src="<c:url value="/boardDis?saveName=${imageOne.saveName}" />">
+							</td>
+						</tr>
 						</c:forEach>
 					</c:if>
 				</tr>
 			</tbody>
 		</table>
 	</div>
-	<div>
-		<c:choose>
-			<c:when test="${board.boardCode eq 'info'}">
+	<div style="text-align: right;">
+		<c:if test="${board.boardCode eq 'info' and (board.notify ne 'yes')}">
 			<c:set var="boardList" value="/board/list.do?boardCode=info" />
-			</c:when>
-			<c:when test="${board.boardCode eq 'who'}">
-			<c:set var="boardList" value="/board/list.do?boardCode=who" />
-			</c:when>
-		</c:choose>
-		<button onclick="location.href='<c:url value="${boardList}" />'">목록</button>
-		<c:if test="${sessionScope.loginInside ne board.writer}" >
-			<button id="warnbtn" value="${board.num}">[신고]</button>
-			<button id="heartbtn" value="${board.num}">[추천]</button>
 		</c:if>
+		<c:if  test="${board.boardCode eq 'who' and board.notify ne 'yes'}">
+			<c:set var="boardList" value="/board/list.do?boardCode=who" />
+		</c:if>
+		<c:if test="${boardCheck eq 'notice' and boardCode ne 'notice'}">
+			<c:set var="boardList" value="/board/list.do?boardCode=notice" />
+		</c:if>
+		<hr>
+			<button style="padding: 1% 30px 1% 30px; margin-right: 5%;" onclick="location.href='<c:url value="${boardList}" />'">
+				목&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;록
+			</button>
 	</div>
-<hr>
-	<form name="ref-Form" method="post" action="<c:url value="/user/ref/regist.do" />">
-		<textarea name="content" cols="100" rows="3" placeholder="댓글 입력"></textarea>
-		<button id="refbtn">등록</button>
+<c:if test="${boardName ne '공지사항'}">
+	<form style="text-align: right;" name="ref-Form" method="post" action="<c:url value="/user/ref/regist.do" />">
+		<textarea style="resize: none; margin: 0 5% 0 0;" 
+			class="guideContent" name="content" cols="100" rows="3" placeholder="댓글 입력" required="required"></textarea>
+		<button style="padding: 1% 30px 1% 30px; margin-right: 5%;"  id="refbtn">등록</button>
 		<input type="hidden" name="boardNum" value="${board.num}"/>
 	</form>
-<c:if test="${boardRefs ne null}">
-	<div>
-	<div class="ref-detail">
-			Comments&nbsp;&nbsp;${fn:length(boardRefs)}
-		</div>
-			<c:forEach var="oneRef" items="${boardRefs}">
-				<div style="background: #F6F5F5; padding-left: ${2*oneRef.depth}%; border-bottom: solid 1px black;">
-				<form action="<c:url value="/user/ref/update.do" />" method="post">
-				<input type="hidden" name="num" value="${oneRef.num}" />
-				<input type="hidden" name="boardNum" value="${board.num}" />
-				<table>
-					<caption>
-							<input id="sabtn${oneRef.num}" type="submit" value="저장" disabled/>
-							<button id="edbtn${oneRef.num}" type="button" onclick="return btnActive(${oneRef.num})">수정</button>
-							<button type="button" onclick="return redelCHK()" value="${oneRef.num+='&boardNum='+=board.num}">삭제</button>
-					</caption>
-					<thead>
-						<tr>
-							<td>작성자: ${oneRef.writer}</td>
-							<td>
-								<fmt:formatDate var="regdate" value="${oneRef.regdate}" pattern="yyyy-MM-dd"/>
-									등록일&nbsp;${regdate}
-								<c:if test="${oneRef.moddate != null}">
-									<fmt:formatDate var="moddate" value="${oneRef.moddate}" pattern="yyyy-MM-dd"/>
-									&nbsp;|&nbsp;수정일&nbsp;${moddate}
+	
+		<c:if test="${boardRefs ne null}">
+			<div>
+				<div style="margin: 0 5% 0 5%;  border-top: solid 1px #D5D5D5; padding-top: 2%;">
+					Comments&nbsp;&nbsp;${fn:length(boardRefs)}
+				</div>
+				<c:forEach var="oneRef" items="${boardRefs}">
+					<div style="margin: 0 5% 0 2%; padding-left: ${2*oneRef.depth}%;">
+					<form action="<c:url value="/user/ref/update.do" />" method="post">
+						<input type="hidden" name="num" value="${oneRef.num}" />
+						<input type="hidden" name="boardNum" value="${board.num}" />
+						<table>
+							<caption>
+								<c:if test="${userName eq oneRef.writer}">
+									<input class="ref-save-btn" id="sabtn${oneRef.num}" type="submit" value="저장" disabled/>
+									<button id="edbtn${oneRef.num}" type="button" onclick="return btnActive(${oneRef.num})">수정</button>
 								</c:if>
-							</td>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td colspan="2"><textarea id="refcon${oneRef.num}" name="content" cols="100" rows="3" disabled>${fn:replace(oneRef.content, replaceChar, "<br/>")}</textarea></td>
-						</tr>
-					</tbody>
-				</table>
-				</form>
+								<c:if test="${userName eq oneRef.writer  or userName eq board.writer }">
+									<button type="button" onclick="return redelCHK()" value="${oneRef.num+='&boardNum='+=board.num}">삭제</button>
+								</c:if>
+							</caption>
+							<thead style="background: #E8F6EF; font-size: 15px; font-family: '24normal';" >
+								<tr>
+									<td align="left" style="padding-left: 2%;">작성자: ${oneRef.writer}</td>
+									<td align="right" style="padding-right: 2%;">
+										<fmt:formatDate var="regdate" value="${oneRef.regdate}" pattern="yyyy-MM-dd"/>
+											등록일&nbsp;${regdate}
+										<c:if test="${oneRef.moddate != null}">
+											<fmt:formatDate var="moddate" value="${oneRef.moddate}" pattern="yyyy-MM-dd"/>
+											&nbsp;|&nbsp;수정일&nbsp;${moddate}
+										</c:if>
+									</td>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td colspan="2">
+										<textarea class="refContent" id="refcon${oneRef.num}" name="content" cols="100" rows="3" disabled>${oneRef.content}</textarea>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</form>
 					<form action="<c:url value="/user/ref/register.do" />" id="insert" method="post">
 						<input type="hidden" name="boardNum" value="${oneRef.boardNum }" />
 						<input type="hidden" name="nickname" value="${oneRef.writer }" />
 						<input type="hidden" name="refNum" value="${oneRef.refNum}" />
 						<div id="add_reply${oneRef.num}"></div>
 					</form>
-				</div>
+					</div>
 				</c:forEach>
-		</div>
-	</div>
-</c:if>
+			</div>
+		</c:if>
+	</c:if>
+</div>
 <script type="text/javascript" src="<c:url value="/resources/js/boardscript.js" />"></script>
 <script type="text/javascript">
 

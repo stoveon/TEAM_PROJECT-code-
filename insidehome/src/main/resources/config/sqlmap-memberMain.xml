@@ -12,11 +12,15 @@
 		select EMAIL, NICKNAME from MEMBER_MAIN where NICKNAME=#{nickname}
 	</select>
 	<select id="selectMainList" resultType="HashMap">
-		select EMAIL, NICKNAME, REGDATE, LOGINTIME from MEMBER_MAIN 
+		select EMAIL, NICKNAME, REGDATE, LOGINTIME 
+        from (select * from MEMBER_MAIN order by regdate desc)
+        <!-- where rownum >=0 and rownum<=20 -->
 	</select>
 	<select id="searchMainList" parameterType="String" resultType="HashMap">
-		select EMAIL, NICKNAME, REGDATE, LOGINTIME from MEMBER_MAIN 
-			where NICKNAME like '%'||#{nickname}||'%'
+		select EMAIL, NICKNAME, REGDATE, LOGINTIME 
+		from (select * from MEMBER_MAIN
+        		where NICKNAME like '%'||#{nickname}||'%' ORDER BY REGDATE DESC)
+		<!-- where rownum>0 and rownum<=20; -->
 	</select>
 	<update id="updatePw" parameterType="HashMap">
 		update MEMBER_MAIN set PASSWORD=#{newPassword} where NICKNAME=#{nickname}

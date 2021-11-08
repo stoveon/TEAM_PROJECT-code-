@@ -2,12 +2,10 @@ package home.inside.board.service;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.multipart.MultipartRequest;
 
 import home.inside.board.repository.IBoardDao;
 import home.inside.board.repository.IBoardImageDao;
@@ -207,6 +205,14 @@ public class BoardServiceImpl implements IBoardService {
 		hsm.put("type", type);
 		hsm.put("word", word);
 		return dao.notifySize(hsm);
+	}
+
+	@Override
+	public HashMap<String, Object> isCheckWriterToUser(int boardNum, int num) throws Exception {
+		HashMap<String, Object> hsm = new HashMap<String, Object>();
+		hsm.put("boardNum", boardNum);
+		hsm.put("num", num);
+		return refDao.isCheckWriterToUser(hsm);
 	}
 
 }

@@ -4,34 +4,35 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="boardImageDao">
-	<insert id="insertArticleImage" parameterType="boardImageVo">
-		insert into BOARD_IMAGE(NUM, BOARDNUM, ORIGINNAME, SAVENAME, FILETYPE)
-		values(BOARD_IMAGE_SEQ.nextval, 
-		<if test="boardNum==0">
-		(select max(NUM) from BOARD),
-		</if>
-		<if test="boardNum!=0">
-		#{boardNum}, 
-		</if>
-		#{originName}, #{saveName}, #{fileType})
-		<selectKey resultType="Integer" keyProperty="num">
-			select NVL(max(NUM),0) from BOARD_IMAGE
-		</selectKey>
-	</insert>
-	<delete id="deleteArticleImage" parameterType="Integer">
-		delete BOARD_IMAGE where NUM=#{num}
-	</delete>
-	
-	
-	<delete id="deleteAllArticleImage" parameterType="Integer">
-		delete BOARD_IMAGE where BOARDNUM=#{boardNum}
-	</delete>
-	<select id="selectListArticleImage" parameterType="Integer"  resultType="boardImageVo">
-		select * from BOARD_IMAGE
-		where BOARDNUM=#{boardNum} order by NUM
-	</select>
-	
-	<delete id="deleteNotExistImage" parameterType="String">
-		delete BOARD_IMAGE where SAVENAME=#{saveName}
-	</delete>
+	 <insert id="insertArticleImage" parameterType="boardImageVo">
+      insert into BOARD_IMAGE(NUM, BOARDNUM, ORIGINNAME, SAVENAME, FILETYPE)
+      values(BOARD_IMAGE_SEQ.nextval, 
+      <if test="boardNum==0">
+      (select max(NUM) from BOARD),
+      </if>
+      <if test="boardNum!=0">
+      #{boardNum}, 
+      </if>
+      #{originName}, #{saveName}, #{fileType})
+      <selectKey resultType="Integer" keyProperty="num">
+         select NVL(max(NUM),0) from BOARD_IMAGE
+      </selectKey>
+   </insert>
+   <delete id="deleteArticleImage" parameterType="Integer">
+      delete BOARD_IMAGE where NUM=#{num}
+   </delete>
+   
+   
+   <delete id="deleteAllArticleImage" parameterType="Integer">
+      delete BOARD_IMAGE where BOARDNUM=#{boardNum}
+   </delete>
+   <select id="selectListArticleImage" parameterType="Integer"  resultType="boardImageVo">
+      select * from BOARD_IMAGE
+      where BOARDNUM=#{num} order by NUM
+   </select>
+   
+   <delete id="deleteNotExistImage" parameterType="String">
+      delete BOARD_IMAGE where SAVENAME=#{saveName}
+   </delete>
+
 </mapper>

@@ -14,7 +14,7 @@
 <body>
 <div class="body-info">
 	<div class="info-detail">
-			<form action="<c:url value="/manager/login.do"/>" method="post">
+			<form action="<c:url value="/mgr/login.do"/>" method="post">
 			<ul class="first-box">
 				<li><img src="<c:url value="/resources/img/inside-logo.png"/>" width="80%"></li>
 			</ul>

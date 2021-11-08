@@ -40,4 +40,9 @@ public class BoardRefDaoImpl implements IBoardRefDao {
 		return sqlSessionTemplate.selectList("selectListRef", boardNum);
 	}
 
+	@Override
+	public HashMap<String, Object> isCheckWriterToUser(HashMap<String, Object> hsm) throws Exception {
+		return sqlSessionTemplate.selectOne("isCheckWriterToUser", hsm);
+	}
+
 }

@@ -18,7 +18,7 @@ public class AuthLoginInterceptor extends HandlerInterceptorAdapter {
 				return true;
 			}
 		}
-		response.sendRedirect(request.getContextPath()+"/main.do");
+		response.sendRedirect(request.getContextPath()+"/inside/main.do");
 		return false;
 	}
 }

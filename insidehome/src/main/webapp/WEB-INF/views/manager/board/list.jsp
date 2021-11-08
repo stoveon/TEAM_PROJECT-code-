@@ -5,7 +5,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@include file="/WEB-INF/views/manager/main/mgrHeader.jsp"%>
 
-
+<div id="top-btn"></div>
 <div class="body-info">
 	<div class="info-detail">
 		<c:choose>
@@ -104,5 +104,10 @@
 				<input type="button" onclick="location.href='list.do?${options}pageNum=${startPage+pageBlock}'" value="▶">
 			</c:if>
 		</c:if>
+	<div style="position: fixed; bottom: 15%; right: 5%;">
+	<a href="#top-btn">
+		<img src="https://img.icons8.com/ultraviolet/50/000000/circled-chevron-up.png"/>
+	</a>
+	</div>
 </div>
 <%@include file="/WEB-INF/views/manager/main/mgrFooter.jsp"%>

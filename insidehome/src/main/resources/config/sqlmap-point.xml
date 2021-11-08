@@ -9,20 +9,15 @@
 		values (point_seq.nextval, #{nickname}, sysdate, #{changePoint}, #{changeWhy})
 	</insert>
 	<select id="selectCheckIn" parameterType="String" resultType="int">
-		select count(CHANGEDATE) 
-		from POINT where CHANGEDATE=sysdate and NICKNAME=#{nickname}
+        select count(CHANGEDATE) from POINT 
+		where to_char(CHANGEDATE, 'YYYYMMDD')=to_char(sysdate, 'YYYYMMDD') and NICKNAME=#{nickname}
+		and CHANGEWHY='check'
 	</select>
 	<select id="selectPointList" parameterType="String" resultType="HashMap">
 		select CHANGEDATE, CHANGEWHY, CHANGEPOINT 
 		from POINT
 		where NICKNAME=#{nickname} and CHANGEDATE<![CDATA[>=]]> sysdate-30
 		order by CHANGEDATE desc
-	</select>
-	<select id="selectCheckMonth" parameterType="String" resultType="date">
-		select CHANGEDATE from POINT 
-			where CHANGEDATE <![CDATA[>=]]> (select add_months(trunc(sysdate, 'mm'),0) from dual) 
-    		and CHANGEDATE <![CDATA[<]]> last_day(sysdate)
-    		and NICKNAME = #{nickname};
 	</select>
 	<delete id="delete" parameterType="String">
 		delete from POINT where NICKAME=#{nickname}

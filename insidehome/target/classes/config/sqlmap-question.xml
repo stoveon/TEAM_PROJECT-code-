@@ -2,3 +2,39 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="questionDao">
+	<insert id="questioninsert" parameterType="QuestionVo">
+		INSERT INTO QUESTION(NUM, ASKTYPE, NICKNAME, TITLE, CONTENT)
+		VALUES (QUESTION_SEQ.nextval, #{ASKTYPE}, #{NICKNAME}, #{TITLE}, #{CONTENT})
+	</insert>
+	
+	<update id="questionupdate" parameterType="QuestionVo">
+		UPDATE QUESTION SET 
+		      TITLE = #{TITLE},
+		      CONTENT = #{CONTENT},
+		      ANSWER = #{ANSWER},
+		      ANSWERDATE = SYSDATE
+		      WHERE NUM = #{NUM}
+	</update>
+	
+	<select id="questionselectall" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		SELECT * FROM QUESTION 
+		<if test="nickname==null">
+			where ASKTYPE=#{ASKTYPE} order by TITLE desc
+		</if>
+		<if test="nickname!=null">
+			where NICKNAME=#{nickname} order by ASKDATE desc
+			
+		</if>
+	</select>
+	
+	<select id="questionselectone" parameterType="int" resultType="QuestionVo">
+		SELECT NUM, ASKTYPE, NICKNAME, TITLE, CONTENT, ANSWER, ASKDATE, ANSWERDATE
+		FROM QUESTION WHERE NUM = #{NUM}
+	</select>
+	
+	<delete id="questiondeletequestion" parameterType="string">
+		DELETE FROM QUESTION WHERE NICKNAME = #{NICKNAME}
+    </delete>
+    </mapper>

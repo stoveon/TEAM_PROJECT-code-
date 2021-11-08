@@ -1,4 +1,4 @@
-function find_addr() {
+ document.getElementById("find-addr").onclick = function find_addr() {
         new daum.Postcode({
             oncomplete: function(data) {
                 var roadAddr = data.roadAddress; // 도로명 주소 변수

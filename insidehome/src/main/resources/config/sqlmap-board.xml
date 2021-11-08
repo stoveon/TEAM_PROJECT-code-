@@ -4,112 +4,150 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="boardDao">
-   <insert id="insertArticle" parameterType="HashMap">
-      insert into BOARD(NUM, BOARDCODE, WRITER, TITLE, CONTENT, NOTIFY)
-      values (BOARD_SEQ.nextval, #{boardCode}, #{nickname}, #{title}, #{content}, #{notify})
-      <selectKey resultType="Integer" keyProperty="NUM">
-         select NVL(max(NUM),0) from BOARD
-      </selectKey>
-   </insert>
-   <select id="readArticle" parameterType="Integer" resultType="boardVo">
-      select * from BOARD where NUM=#{num}
-   </select>
-   <update id="updateArticle" parameterType="HashMap">
-      update BOARD set TITLE=#{title}, CONTENT=#{content}, BOARDCODE=#{boardCode}, MODDATE=sysdate
-      where NUM=#{num}
-   </update>
-   <delete id="deleteArticle" parameterType="Integer">
-      delete BOARD where NUM=#{num}
-   </delete>
-   
-   
-   <update id="updateHit" parameterType="Integer">
-      update BOARD set HIT=HIT+1 where NUM=#{num}
-   </update>
-   <update id="updateHeart" parameterType="Integer">
-      update BOARD set HEART=HEART+1 where NUM=#{num}
-   </update>
-   <update id="changeNotify" parameterType="HashMap">
-      update BOARD set NOTIFY=#{notify} where NUM=#{num}
-   </update>
-   
-   
-   
-   <select id="selectListNotify" parameterType="String" resultType="HashMap">
-      select NUM, WRITER, TITLE, REGDATE, MODDATE, HIT 
-         from (select ROWNUM RNUM, NUM, WRITER, TITLE, REGDATE, MODDATE, HIT 
-            from (select * from BOARD order by REGDATE desc, NUM desc) 
-            where BOARDCODE=#{boardCode} and NOTIFY='notice')
-   </select>
-   <select id="selectListBoard" parameterType="HashMap" resultType="HashMap">
-      select ROWNUM RNUM, NUM, WRITER, TITLE, REGDATE, MODDATE, HIT, HEART, CNT 
-      from (
-          select NUM, WRITER, TITLE, REGDATE, MODDATE, HIT, HEART, CNT 
-          from (
-              (select NUM, WRITER, TITLE, REGDATE, MODDATE, HIT, HEART 
-                  <if test='notify.equals("no")'>
-                  from BOARD where BOARDCODE=#{boardCode} and notify='no') b 
-                 </if>
-                 <if test='!notify.equals("no")'>
-                    from BOARD where notify!='no') b 
-                 </if>
-                  left outer join
-              (select count(BOARDNUM) cnt, BOARDNUM from BOARD_REF group by BOARDNUM) rb
-              on b.NUM=rb.BOARDNUM)
-          order by REGDATE desc, NUM desc
-          )
-      where ROWNUM <![CDATA[>=]]> #{startNum} and ROWNUM <![CDATA[<=]]> #{endNum}
-   </select>
-   <select id="findListBoard" parameterType="HashMap" resultType="HashMap">
-      select ROWNUM RNUM, NUM, WRITER, TITLE, REGDATE, MODDATE, HIT, HEART, CNT 
-      from (
-          select NUM, WRITER, TITLE, REGDATE, MODDATE, HIT, HEART, CNT 
-          from (
-                 (select NUM, WRITER, TITLE, REGDATE, MODDATE, HIT, HEART 
-                 from BOARD where BOARDCODE=#{boardCode} and notify=#{notify}
-                  <if test='type.equals("title")'>
-                  and (TITLE like '%'||#{word}||'%')
-                  </if>
-                  <if test='type.equals("content")'>
-                  and (CONTENT like '%'||#{word}||'%')
-                  </if>
-                  <if test='type.equals("double")'>
-                  and (TITLE like '%'||#{word}||'%' or CONTENT like '%'||#{word}||'%')
-                  </if>
-                 ) b
-                     left outer join
-                 (select count(BOARDNUM) cnt, BOARDNUM from BOARD_REF group by BOARDNUM) rb
-                 on b.NUM=rb.BOARDNUM)
-          order by REGDATE desc, NUM desc
-          )
-      where ROWNUM <![CDATA[>=]]> #{startNum} and ROWNUM <![CDATA[<=]]> #{endNum}
-   </select>
-   <select id="selectSubList" parameterType="String" resultType="HashMap">
-      select NUM, TITLE 
-      from (select NUM, TITLE, HEART, HIT, REGDATE 
-            from BOARD 
-            where REGDATE<![CDATA[>=]]>sysdate-7 and BOARDCODE='info' and NOTIFY='no' 
-            <if test='_parameter==null'>
-            order by HEART desc)
-            </if>
-            <if test='_parameter!=null'>
-            order by HIT desc)
-            </if>
-      where ROWNUM <![CDATA[>=]]> 5
-   </select>
-   <select id="selectBoardWhenMember" parameterType="String" resultType="HashMap">
-      select NUM, BOARDCODE, TITLE, REGDATE from BOARD where WRITER=#{nickname} order by REGDATE desc
-   </select>
-   <select id="articleWriterCheck" parameterType="Integer" resultType="String">
-      select WRITER from BOARD where NUM=#{num}
-   </select>
-   
-   <select id="boardSize" parameterType="String" resultType="Integer">
-      select count(*) from BOARD
-      where BOARDCODE=#{boardCode} and NOTIFY='no'
-   </select>
-   <select id="notifySize" resultType="Integer">
-      select count(*) from BOARD where NOTIFY!='no'
-   </select>
-   
+	<insert id="insertArticle" parameterType="HashMap">
+		insert into BOARD(NUM, BOARDCODE, WRITER, TITLE, CONTENT, NOTIFY)
+		values (BOARD_SEQ.nextval, #{boardCode}, #{nickname}, #{title}, #{content}, #{notify})
+		<selectKey resultType="Integer" keyProperty="num">
+			select NVL(max(num),0) from BOARD
+		</selectKey>
+	</insert>
+	<select id="readArticle" parameterType="Integer" resultType="boardVo">
+		select * from BOARD where NUM=#{num}
+	</select>
+	<update id="updateArticle" parameterType="HashMap">
+		update BOARD set TITLE=#{title}, CONTENT=#{content}, BOARDCODE=#{boardCode}, MODDATE=sysdate
+		where NUM=#{num}
+	</update>
+	<delete id="deleteArticle" parameterType="Integer">
+		delete from BOARD where NUM=#{num}
+	</delete>
+	
+	
+	<update id="updateHit" parameterType="Integer">
+		update BOARD set HIT=HIT+1 where NUM=#{num}
+	</update>
+	<update id="updateHeart" parameterType="Integer">
+		update BOARD set HEART=HEART+1 where NUM=#{num}
+	</update>
+	<update id="changeNotify" parameterType="HashMap">
+		update BOARD set NOTIFY=#{notify} where NUM=#{num}
+	</update>
+	
+	
+	
+	<select id="selectListNotify" parameterType="String" resultType="HashMap">
+		select NUM, WRITER, TITLE, REGDATE, MODDATE, HIT 
+   		from (select ROWNUM RNUM, NUM, WRITER, TITLE, REGDATE, MODDATE, HIT 
+				from (select * from BOARD order by REGDATE desc, NUM desc) 
+				where BOARDCODE=#{boardCode} and NOTIFY='notice')
+	</select>
+	<select id="selectListBoard" parameterType="HashMap" resultType="HashMap">
+		select * from (
+			select  rownum rnum, NUM, WRITER, TITLE, REGDATE, MODDATE, HIT, HEART, CNT
+			from (
+				select NUM, WRITER, TITLE, REGDATE, MODDATE, HIT, HEART, CNT 
+				from (
+    				(select NUM, WRITER, TITLE, REGDATE, MODDATE, HIT, HEART 
+					 	<if test='notify.equals("no")'>
+							from BOARD where BOARDCODE=#{boardCode} and notify='no') b 
+			        	</if>
+			       		<if test='!notify.equals("no")'>
+				   		    from BOARD where notify!='no') b 
+			        	</if>
+        				left outer join
+    				(select count(BOARDNUM) cnt, BOARDNUM 
+    				 from BOARD_REF group by BOARDNUM) rb
+        				on b.NUM=rb.BOARDNUM
+        			)
+				order by regdate desc
+				)
+			) where RNUM <![CDATA[>=]]> #{startNum} and RNUM <![CDATA[<=]]> #{endNum}
+	</select>
+	<select id="findListBoard" parameterType="HashMap" resultType="HashMap">
+		select * from (
+			select  rownum rnum, NUM, WRITER, TITLE, REGDATE, MODDATE, HIT, HEART  
+			from (
+				select NUM, WRITER, TITLE, REGDATE, MODDATE, HIT, HEART 
+				from (
+    				(select NUM, WRITER, TITLE, REGDATE, MODDATE, HIT, HEART 
+						<if test='notify.equals("no")'>
+						from BOARD where BOARDCODE=#{boardCode} and notify='no' 
+				        </if>
+				        <if test='!notify.equals("no")'>
+				        from BOARD where notify!='no' 
+				        </if>
+				        <if test='type.equals("title")'>
+						and (TITLE like '%'||#{word}||'%')
+						</if>
+						<if test='type.equals("content")'>
+						and (CONTENT like '%'||#{word}||'%')
+						</if>
+						<if test='type.equals("double")'>
+						and (TITLE like '%'||#{word}||'%' or CONTENT like '%'||#{word}||'%')
+						</if>
+			        ) b
+			           left outer join
+    				(select count(BOARDNUM) cnt, BOARDNUM 
+    				 from BOARD_REF group by BOARDNUM) rb
+        				on b.NUM=rb.BOARDNUM
+        			)
+				order by regdate desc
+				)
+			) where RNUM <![CDATA[>=]]> #{startNum} and RNUM <![CDATA[<=]]> #{endNum}
+	</select>
+	<select id="selectHitList" resultType="HashMap">
+		select NUM, TITLE 
+		from (select NUM, TITLE, HEART, HIT, REGDATE 
+				from BOARD 
+				where REGDATE<![CDATA[>=]]>sysdate-7 and BOARDCODE='info' and NOTIFY='no' 
+				order by HIT desc)
+		where ROWNUM <![CDATA[<=]]> 5
+	</select>
+	<select id="selectHeartList" resultType="HashMap">
+		select * 
+		from (select a.num, a.title, a.regdate, b.tmp
+        	 from (
+              		(select NUM, TITLE, HEART, HIT, REGDATE from board 
+               		 where  BOARDCODE='info' and NOTIFY='no' and REGDATE<![CDATA[>=]]>sysdate-7) a
+                 			inner join
+               		(select num, sum(heart+hit) tmp from board group by num ) b
+                 			on a.num=b.num
+             	)
+        	 order by b.tmp desc)
+		where ROWNUM <![CDATA[<=]]> 5
+	</select>
+	<select id="selectBoardWhenMember" parameterType="String" resultType="HashMap">
+		select NUM, BOARDCODE, TITLE, REGDATE from BOARD where WRITER=#{nickname} order by REGDATE desc
+	</select>
+	<select id="articleWriterCheck" parameterType="Integer" resultType="String">
+		select WRITER from BOARD where NUM=#{num}
+	</select>
+	
+	<select id="boardSize" parameterType="HashMap" resultType="Integer">
+		select count(*) from BOARD
+		where BOARDCODE=#{boardCode} and NOTIFY='no'
+		 	<if test='type!=null and type.equals("title")'>
+			and (TITLE like '%'||#{word}||'%')
+			</if>
+			<if test='type!=null and type.equals("content")'>
+			and (CONTENT like '%'||#{word}||'%')
+			</if>
+			<if test='type!=null and type.equals("double")'>
+			and (TITLE like '%'||#{word}||'%' or CONTENT like '%'||#{word}||'%')
+			</if>
+	</select>
+	<select id="notifySize" parameterType="HashMap" resultType="Integer">
+		select count(*) from BOARD where NOTIFY!='no' 
+		 	<if test='type!=null and type.equals("title")'>
+			and (TITLE like '%'||#{word}||'%')
+			</if>
+			<if test='type!=null and type.equals("content")'>
+			and (CONTENT like '%'||#{word}||'%')
+			</if>
+			<if test='type!=null and type.equals("double")'>
+			and (TITLE like '%'||#{word}||'%' or CONTENT like '%'||#{word}||'%')
+			</if>
+	</select>
+	
+	
 </mapper>

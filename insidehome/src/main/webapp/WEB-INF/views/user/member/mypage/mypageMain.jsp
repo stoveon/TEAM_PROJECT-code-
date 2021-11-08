@@ -10,7 +10,8 @@
 		<a class="info-title" href="<c:url value="/user/mypage/info/view.do" />">내 정보 관리
 			<img class="explain" title="개인정보 확인" src="<c:url value="/resources/img/icon-infoEdit.png"/>">
 		</a>
-		<c:if test="${checkIn==0}">
+		<fmt:parseNumber var="check" value="${checkIn}" integerOnly="true"/>
+		<c:if test="${check==0}">
 			<a href="<c:url value="/user/inside/check.do"/>">출석하기</a>
 		</c:if>
 	</div>				

@@ -24,7 +24,5 @@
 		<typeAlias alias="pointVo" type="home.inside.common.vo.PointVo"/>
 		<typeAlias alias="questionVo" type="home.inside.supporter.vo.QuestionVo"/>
 		<typeAlias alias="warningVo" type="home.inside.supporter.vo.WarningVo"/>
-		<typeAlias alias="talkVo" type="home.inside.supporter.vo.TalkVo"/>
-		<typeAlias alias="talkKeywordVo" type="home.inside.supporter.vo.TalkKeywordVo"/>
 	</typeAliases>
 </configuration>

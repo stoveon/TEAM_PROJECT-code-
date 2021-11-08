@@ -44,6 +44,7 @@ public class GoodsController {
 		List<HashMap<String, Object>> goodsList = goodsUserService.selectAll(type);
 		model.addAttribute("type", type);
 		model.addAttribute("goodsList", goodsList);
+		model.addAttribute("mainHeart", (goodsUserService.selectMain().get("mainHeart")));
 		return "user/goods/list";
 	}
 
@@ -59,10 +60,10 @@ public class GoodsController {
 
 	// 회원정보 확인 및 포인트관련 추가
 	@RequestMapping(value = "/user/goods/order.do/{goodsCode}", method = RequestMethod.GET)
-	public String orderGoodsForm(@PathVariable String goodsCode, Model model, HttpSession session, RedirectAttributes rttr) throws Exception {
+	public String orderGoodsForm(@PathVariable String goodsCode, Model model, HttpSession session, RedirectAttributes rttr ) throws Exception {
 		String nickname = (String) session.getAttribute("loginInside");
-		if(nickname == null || nickname.trim() == "") {
-			return "redirect:user/goods/detail.do/"+goodsCode;
+		if(nickname==null) {
+			return "redirect:/member/loginForm.do";
 		}
 		HashMap<String, Object> orderInfo = goodsUserService.orderGoodsInfo(goodsCode);
 		HashMap<String, String> goodsImage = (HashMap<String, String>) orderInfo.get("goodsImage");

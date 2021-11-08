@@ -1,5 +1,7 @@
 package home.inside.board.controller;
 
+import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -7,6 +9,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,7 +33,6 @@ public class BoardUserController {
 	private IMemberInfoService memSer;
 	@Autowired
 	private IPointService poSer;
-
 	
 	// 회원 글 작성 폼 요청
 	@RequestMapping(value = "/registForm.do")
@@ -98,14 +100,16 @@ public class BoardUserController {
 
 	// 게시글 상세페이지 요청
 	@RequestMapping(value = "/read.do")
-	public String readArticleSubmit(int boardNum, String read, Model model) throws Exception {
+	public String readArticleSubmit(int boardNum, String read, Model model, HttpSession session, String boardCheck) throws Exception {
+		
+		
 		/* 게시글 내용
 		 * 게시글 이미지목록
 		 * 게시글 댓글목록  첨부*/
-		BoardVo board = ser.readBoard(boardNum);
-		if(board!=null && read==null) {			
+		if(read==null) {			
 			ser.updateHit(boardNum);
 		}
+		BoardVo board = ser.readBoard(boardNum);
 		if(board==null) {
 			return "redirect:/inside/main.do";
 		}
@@ -113,7 +117,11 @@ public class BoardUserController {
 		List<BoardRefVo> boardRefs = ser.selectListRef(boardNum);
 		model.addAttribute("board", board);
 		model.addAttribute("boardImages", boardImages);
-		model.addAttribute("boardRefs", boardRefs);
+		if(boardRefs.size()!=0) {
+			model.addAttribute("boardRefs", boardRefs);
+		}
+		model.addAttribute("userName", (String)session.getAttribute("loginInside"));
+		model.addAttribute("boardCode", "notice");
 		return "user/board/detail";
 	}
 

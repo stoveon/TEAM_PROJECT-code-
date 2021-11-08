@@ -2,3 +2,20 @@
 
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="warningDao">
+
+	<insert id="insert" parameterType="home.inside.supporter.vo.WarningVo">
+		INSERT INTO WARNING(NUM, NICKNAME, BOARDNUM, WARNTYPE, WARNWHY, WARNTIME)
+		VALUES (WARNING_SEQ.nextval, #{NICKNAME}, #{BOARDNUM}, #{WARNTYPE},
+		#{WARNWHY}, SYSDATE)
+	</insert>
+
+	<select id="selectcount" parameterType="string" resultType="int">
+		select count(*) from WARNING where NICKNAME=#{nickname}
+	</select>
+ 
+ 	<delete id="delete" parameterType="string">
+		DELETE FROM WARNING WHERE NICKNAME = #{NICKNAME}
+	</delete>
+</mapper>

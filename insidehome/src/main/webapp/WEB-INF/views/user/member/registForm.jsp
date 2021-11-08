@@ -51,7 +51,7 @@ INSIDE.HOME 서비스 및 제품(이하 '서비스')을 이용해 주셔서 감�
 								<form:option value="nate.com" label="nate.com" />
 								<form:option value="kakao.com" label="kakao.com" />
 								<form:option value="gmail.com" label="gmail.com" />
-								<form:option value="test.com" label="toto.com" />
+								<form:option value="toto.com" label="toto.com" />
 							</form:select></td>
 					</tr>
 					<tr class="reg-need">

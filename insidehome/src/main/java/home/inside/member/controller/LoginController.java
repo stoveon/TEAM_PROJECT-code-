@@ -74,18 +74,25 @@ public class LoginController {
 		if (errors.hasErrors()) {
 			return "user/member/loginForm";
 		}
+		if(cmd.getEmail().split("@")[1].equals("inside.home")) {
+			return "redirect:/mgr/loginForm.do";
+		}
 		boolean pwdChk;
 		String nickname = null;
-		HashMap<String, Object> info = null;
+		HashMap<String, Object> info = infoSer.loginTmpSuccess(cmd.getEmail());
 		if(tmpCookie!=null) {
 			pwdChk = pwdEncoder.matches(cmd.getPassword(), tmpCookie.getValue());	
 		} else {
-			info = infoSer.loginTmpSuccess(cmd.getEmail());
-			pwdChk = pwdEncoder.matches(cmd.getPassword(), (String) info.get("PASSWORD"));
+			if(info !=null) {
+				pwdChk = pwdEncoder.matches(cmd.getPassword(), (String) info.get("PASSWORD"));
+			}else {
+				errors.rejectValue("email", "notmatch");
+				return "user/member/loginForm";
+			}
 		}
 		if(pwdChk) {
 			nickname = (String)info.get("NICKNAME");
-		} else if(!pwdChk || info==null) {
+		} else {
 			errors.rejectValue("email", "notmatch");
 			return "user/member/loginForm";
 		}

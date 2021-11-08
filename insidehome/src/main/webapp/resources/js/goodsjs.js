@@ -58,7 +58,7 @@ const changeMainIma = () => {
 function orderCheck(){
 	if(confirm("구매 하시겠습니까?") == true){
 		let reqUrl = getContextPath()+'/goods/orderPopup/order.do';
-		let pop = window.open(reqUrl, "_blank", "left=300px, top=200px, width=1400px, height=800px");
+		let pop = window.open(reqUrl, "_blank", "left=300px, top=200px, width=400px, height=400px");
 	}else{
 		return false;
 	}

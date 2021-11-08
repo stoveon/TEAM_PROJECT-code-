@@ -20,7 +20,7 @@ public class AuthManagerInterceptor extends HandlerInterceptorAdapter{
 				
 			}
 		}
-		response.sendRedirect(request.getContextPath()+"/mgrLoginForm.do");
+		response.sendRedirect(request.getContextPath()+"/mgr/loginForm.do");
 		return false;
 	}
 }

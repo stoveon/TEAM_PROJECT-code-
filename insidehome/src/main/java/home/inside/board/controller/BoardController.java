@@ -1,5 +1,6 @@
 package home.inside.board.controller;
 
+// 나네....
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,7 @@ public class BoardController {
 	public String readArticleSubmit(int boardNum, Model model) throws Exception {
 		ser.updateHit(boardNum);
 		model.addAttribute("board", ser.readBoard(boardNum));
+		model.addAttribute("boardCheck", "notice");
 		return "/user/board/detail";
 	}
 
@@ -51,6 +53,8 @@ public class BoardController {
 				model.addAttribute("heartList", ser.selectHeartList());
 				model.addAttribute("hitList", ser.selectHitList());
 			}
+		} else if(boardCode.equals("notice")) {
+			model.addAttribute("boardCheck", "notify");
 		}
 		model.addAttribute("boardList", ser.boardList(notify, psCmd));
 		model.addAttribute("psCmd", psCmd);

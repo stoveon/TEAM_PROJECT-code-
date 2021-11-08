@@ -18,4 +18,6 @@ public interface IBoardRefDao {
 	public void deleteAllRef(int boardNum) throws Exception;
 	// 댓글 목록 조회
 	public List<BoardRefVo> selectListRef(int boardNum) throws Exception;		
+	// 댓글작성자와 사용자가 일치하는지 확인
+	public HashMap<String, Object> isCheckWriterToUser(HashMap<String, Object> hsm) throws Exception;
 }

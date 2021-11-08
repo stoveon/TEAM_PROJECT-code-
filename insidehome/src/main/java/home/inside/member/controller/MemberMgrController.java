@@ -56,7 +56,7 @@ public class MemberMgrController {
 		return "manager/main/loginForm";
 	}
 
-	@RequestMapping(value = "/manager/login.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/mgr/login.do", method = RequestMethod.POST)
 	public String mgrLoginSubmit(String email, String password, HttpSession session) throws Exception {
 		if(email==null || email.trim().isEmpty() || password==null || password.trim().isEmpty()) {
 			return "manager/main/loginForm";

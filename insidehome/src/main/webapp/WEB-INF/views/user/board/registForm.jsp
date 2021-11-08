@@ -9,16 +9,21 @@
 	<hr>
 	<div class="info-inner">
 	<form name="boardForm" action="<c:url value="/user/board/regist.do"/>" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="writer" value="sdf" />
-		<input type="hidden" name="notify" value="${artCmd.notify}" />
 		<table>
 			<thead>
 				<tr>
 					<td>게시판 선택</td>
 					<td>
 						<select name="boardCode">
-							<option value="info" selected="selected">정보 게시판</option>
-							<option value="who">익명 게시판</option>
+							<c:if test="${artCmd.boardCode eq 'info' }">
+								<option value="info" selected="selected">정보 게시판</option>
+								<option value="who">익명 게시판</option>
+							</c:if>
+							<c:if test="${artCmd.boardCode eq 'who' }">
+								<option value="info">정보 게시판</option>
+								<option value="who"  selected="selected">익명 게시판</option>
+							</c:if>
+
 						</select>
 					</td>
 				</tr>

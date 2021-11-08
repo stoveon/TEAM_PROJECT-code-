@@ -15,10 +15,15 @@
 		select count(*) from MEMBER_DROP where NICKNAME=#{nickname}
 	</select>
 	<select id="selectDropList" resultType="HashMap">
-		select EMAIL, NICKNAME, WARNCOUNT, DROPDATE from MEMBER_DROP
+		select EMAIL, NICKNAME, WARNCOUNT, DROPDATE
+		from (select * from MEMBER_DROP order by DROPDATE desc)
+        <!-- where rownum >=0 and rownum<=20 -->
 	</select>
 	<select id="searchDropList" parameterType="String" resultType="HashMap">
-		select EMAIL, NICKNAME, WARNCOUNT, DROPDATE from MEMBER_DROP
-			where NICKNAME like '%'||#{nickname}||'%'
+		select EMAIL, NICKNAME, WARNCOUNT, DROPDATE 
+		from (select * from MEMBER_DROP
+        		where NICKNAME like '%'||#{nickname}||'%' ORDER BY DROPDATE DESC)
+		<!-- where rownum>0 and rownum<=20; -->
+
 	</select>
 </mapper>

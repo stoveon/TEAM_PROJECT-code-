@@ -61,4 +61,7 @@ public interface IBoardService {
 	public Integer boardListSize(String boardCode, String type, String word) throws Exception;
 	// 공지글 갯수 조회(dao)
 	public Integer notiListSize(String type, String word) throws Exception;
+	
+	// 댓글작성자와 사용자 일치여부 확인
+	public HashMap<String, Object> isCheckWriterToUser(int boardNum, int num) throws Exception;
 }
