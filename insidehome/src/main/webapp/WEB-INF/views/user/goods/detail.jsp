@@ -3,12 +3,14 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<% pageContext.setAttribute("replaceChar", "\n");%>
 
 <%@include file="/WEB-INF/views/user/main/userHeader.jsp"%>
 <script type="text/javascript"
 	src="<c:url value="/resources/js/goodsjs.js" />"></script>
 
 <div class="body-info">
+	<button style="padding: 5px 30px 5px 30px; font-size: 24px;" onclick="location.href='<c:url value="/goods/list.do"/>'">목록으로 이동</button>
 	<hr>
 	<div class="info-detail" >
 		<div class="detail-img-box">
@@ -51,7 +53,7 @@
 				</p>
 				<br>
 				<p class="detail-goodscontent">
-					<c:out value="${goods.content}" />
+					${fn:replace(goods.content, replaceChar, "<br/>")}
 				</p>
 				<br>
 			</div>

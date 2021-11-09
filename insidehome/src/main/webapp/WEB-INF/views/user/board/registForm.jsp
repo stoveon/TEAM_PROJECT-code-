@@ -12,9 +12,9 @@
 		<table>
 			<thead>
 				<tr>
-					<td>게시판 선택</td>
-					<td>
-						<select name="boardCode">
+					<td style="width: 60%;" bgcolor="#E8F6EF">게시판 선택</td>
+					<td align="left" style="padding: 1% 5% 1% 2%; margin-right: 0;" bgcolor="#E8F6EF">
+						<select name="boardCode" style="width: 100%;" >
 							<c:if test="${artCmd.boardCode eq 'info' }">
 								<option value="info" selected="selected">정보 게시판</option>
 								<option value="who">익명 게시판</option>
@@ -30,24 +30,26 @@
 			</thead>
 			<tbody>
 				<tr>
-					<td colspan="2"><input type="text" name="title" placeholder="제목 입력"/></td>
-				</tr>
-				<tr>
 					<td colspan="2">
-						<textarea name="content" cols="100" rows="10" placeholder="내용 입력"></textarea>
+						<input style="width: 98%;" type="text" name="title" placeholder="제목 입력"/>
 					</td>
 				</tr>
 				<tr>
 					<td colspan="2">
-					<div id="boardFileBox">
+						<textarea style="width: 96%; resize: none; padding: 2%;"  name="content" cols="100" rows="10" placeholder="내용 입력"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td width="50%">
+					<div id="boardFileBox" style="border: none; width: 95%; text-align: left;">
 						<input type="file" name="saveBoardImage" accept=".jpg,.jpeg,.png,.gif" />
-					<input id="addBtnBoard" type="button" value="추가" >
+						<input style="padding: 5px 30px 5px 30px;" id="addBtnBoard" type="button" value="추가" >
 					</div>
 					</td>
-				</tr>
-				<tr>
-					<td><button id="regbtn" type="submit" >등록</button></td>
-					<td><button onclick="location.href='javascript:history.back()'" >취소</button></td>
+					<td width="50%" style="text-align: right;">
+						<button style="padding: 5px 30px 5px 30px;"  id="regbtn" type="submit" >등록</button>
+						<button style="padding: 5px 30px 5px 30px;"  onclick="location.href='javascript:history.back()'" >취소</button>
+					</td>
 				</tr>
 			</tbody>
 		</table>

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import home.inside.board.service.IBoardService;
 import home.inside.board.util.ArticleMgrCommand;
@@ -31,11 +32,12 @@ public class BoardMgrController {
 
 	// 공지 작성 요청
 	@RequestMapping(value = "/regist.do", method = RequestMethod.POST)
-	public String writeNoticeSubmit(ArticleMgrCommand artCmd, HttpSession session) throws Exception {
+	public String writeNoticeSubmit(ArticleMgrCommand artCmd, HttpSession session, RedirectAttributes rttr) throws Exception {
 		String mgrNickname = (String) session.getAttribute("mgrInside");
-		// artCmd.setWriter(mgrNickname);
-		artCmd.setWriter("jin_inside");
+		artCmd.setWriter(mgrNickname);
 		ser.insertBoard(artCmd, null);
+		rttr.addFlashAttribute("boardCode", artCmd.getBoardCode());
+		rttr.addFlashAttribute("notify", artCmd.getNotify());
 		return "redirect:/manager/board/list.do";
 	}
 

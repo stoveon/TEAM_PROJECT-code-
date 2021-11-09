@@ -25,6 +25,8 @@ import home.inside.member.util.ChangePwCommand;
 import home.inside.member.util.ChangePwCommandValidatior;
 import home.inside.member.util.RegistCommand;
 import home.inside.member.vo.MemberInfoDto;
+import home.inside.supporter.service.IQuestionService;
+import home.inside.supporter.service.IWarningService;
 
 @Controller
 @RequestMapping("/user/mypage")
@@ -35,11 +37,14 @@ public class MemberInfoController {
 	private IPointService pointSer;
 	@Autowired
 	private IGoodsService goodsSer;
-	// private IQuestionService qaSer;
 	@Autowired
 	private BCryptPasswordEncoder pwdEncoder;
 	@Autowired
 	private IBoardService boardSer;
+	@Autowired
+	private IWarningService warnSer;
+	@Autowired
+	private IQuestionService qaSer;
 	
 	@RequestMapping(value = "/main.do")
 	public String mypage(String viewPage, String str, Model model, HttpSession session) throws Exception {
@@ -47,7 +52,7 @@ public class MemberInfoController {
 		String nickname = (String) session.getAttribute("loginInside");
 		model.addAttribute("infoCount", infoSer.selectMyCount(nickname));
 		model.addAttribute("orderCount", goodsSer.nicknameOrderCount(nickname));
-		model.addAttribute("qaCount", 3);
+		model.addAttribute("qaCount", qaSer.selectMyAsk(nickname));
 		model.addAttribute("viewPage", viewPage);
 		model.addAttribute("checkIn",pointSer.selectCheck(nickname));
 		model.addAttribute("articleList", boardSer.selectMyArticleList(nickname));

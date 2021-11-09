@@ -25,17 +25,7 @@ public class DropMemberController {
 	@Autowired
 	private IMemberInfoService infoSer;
 	@Autowired
-	private IPointService pointSer;
-	@Autowired
 	private BCryptPasswordEncoder pwdEncoder;
-	@Autowired 
-	private IGoodsService goodsSer;
-	
-	
-	// private IBoardService boardSer;
-	// private IQuestionService questionSer;
-	// private IWarnService warnSer;
-	// private ITalkService talkSer;
 
 	@RequestMapping(value = "/info/dropForm.do")
 	public String dropMemberForm() throws Exception {
@@ -60,8 +50,6 @@ public class DropMemberController {
 				Integer warn = Integer.parseInt(String.valueOf(info.get("WARNCOUNT")));
 				MemberDropVo dropVo = new MemberDropVo(email, nickname, warn);
 				infoSer.dropMember(dropVo);
-				pointSer.deletePoint(nickname);
-				goodsSer.deleteGoodsSales(nickname);
 				return "redirect:/member/logout.do";
 			}
 			return "redirect:/user/mypage/info/dropForm.do";

@@ -22,7 +22,7 @@
 <header class="comm-head-outer">
 	<div class="head-area">
 		<ul class="head-list">
-			<li class="head-info-label"><a class="head-info-label" href="<c:url value="#"/>">고객센터</a></li>
+			<li class="head-info-label"><a class="head-info-label" href="<c:url value="/inside/question.do"/>">고객센터</a></li>
 			<c:if test="${mgrInside !=null}">
 				<li class="head-info-label"><a class="head-info-label" href="<c:url value="/manager/inside/main.do"/>">[ 관리자페이지 이동 ]</a></li>
 			</c:if>
@@ -47,9 +47,9 @@
 	</div>
 	<div class="head-service-area">
 		<ul class="service-list">
-			<li class="service-info-label"><a class="service-info-label" href="<c:url value="/board/list.do?boardCode=info"/>">정보게시판</a></li>
-			<li class="service-info-label"><a class="service-info-label" href="<c:url value="/board/list.do?boardCode=who"/>">익명게시판</a></li>
-			<li class="service-info-label"><a class="service-info-label" href="<c:url value="/board/list.do?boardCode=notice"/>">공지사항</a></li>
+			<li class="service-info-label"><a class="service-info-label" href="<c:url value="/board/list.do?boardName=info"/>">정보게시판</a></li>
+			<li class="service-info-label"><a class="service-info-label" href="<c:url value="/board/list.do?boardName=who"/>">익명게시판</a></li>
+			<li class="service-info-label"><a class="service-info-label" href="<c:url value="/board/list.do?boardName=notice"/>">공지사항</a></li>
 			<li class="service-info-label"><a class="service-info-label" href="<c:url value="/goods/list.do"/>">포인트몰</a></li>
 			<li class="service-info-label"><a class="service-info-label" href="<c:url value="/inside/intro.do"/>">INSIDE</a></li>					
 		</ul>

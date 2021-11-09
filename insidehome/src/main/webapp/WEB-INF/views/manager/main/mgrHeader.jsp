@@ -13,7 +13,7 @@
 <header class="comm-head-outer">
 	<div class="head-area">
 		<ul class="head-list">
-			<li class="head-info-label"><a class="head-info-label" href="<c:url value="/manager/warning/list.do"/>">고객센터</a></li>
+			<li class="head-info-label"><a class="head-info-label" href="<c:url value="/manager/qa/list.do"/>">고객센터</a></li>
 			<li class="head-info-label"><a class="head-info-label" href="<c:url value="/inside/main.do"/>">[ 홈페이지 이동 ]</a></li>				
 			<li class="head-info-label"><a class="head-info-label" href="<c:url value="/member/logout.do"/>">로그아웃</a></li>				
 		</ul>

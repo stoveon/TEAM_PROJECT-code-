@@ -24,3 +24,9 @@ public class AuthManagerInterceptor extends HandlerInterceptorAdapter{
 		return false;
 	}
 }
+
+
+
+
+
+

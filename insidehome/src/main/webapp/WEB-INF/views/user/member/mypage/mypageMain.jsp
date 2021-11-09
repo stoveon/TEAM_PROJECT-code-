@@ -34,7 +34,7 @@
 					<td class="mypage-title-sub"><a class="mypage-title-sub" href="main.do?viewPage=board">${fn:length(articleList)}</a></td>
 					<td class="mypage-title-sub"><a class="mypage-title-sub" href="main.do?viewPage=point">${infoCount.POINT }</a></td>
 					<td class="mypage-title-sub"><a class="mypage-title-sub" href="main.do?viewPage=order">${orderCount}</a></td>
-					<td class="mypage-title-sub"><a class="mypage-title-sub" href="#">${qaCount }</a></td>
+					<td class="mypage-title-sub"><a class="mypage-title-sub" href="<c:url value="/user/ask/list.do"/>">${fn:length(qaCount)}</a></td>
 					<td class="mypage-title-sub2">${infoCount.WARNCOUNT }</td>
 				</tr>
 			</tbody>
@@ -62,11 +62,11 @@
 						<c:forEach items="${articleList}" var="article">
 							<tr>
 								<td class="sub-date"><fmt:formatDate value="${article.REGDATE}" pattern="yyyy-MM-dd" /></td>
-								<td class="sub-type">
+								<td class="sub-detail" style="text-align: center;">
 									<c:if test="${article.BOARDCODE eq 'info'}">[ 정보 ]</c:if>
 									<c:if test="${article.BOARDCODE eq 'who'}">[ 익명 ]</c:if>
 								</td>
-								<td class="sub-detail"><a href="<c:url value='/user/board/read.do?boardNum=${article.NUM}'/>">${article.TITLE}</a></td>
+								<td class="sub-type"><a href="<c:url value='/user/board/read.do?boardNum=${article.NUM}'/>">${article.TITLE}</a></td>
 							</tr>
 						</c:forEach>
 					</c:if>

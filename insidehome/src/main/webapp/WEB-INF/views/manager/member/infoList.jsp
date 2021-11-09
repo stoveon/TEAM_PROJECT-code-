@@ -74,7 +74,7 @@
 				</c:forEach>
 			</tbody>
 		</table>
-		</div>
+	</div>
 	<div style="position: fixed; bottom: 15%; right: 5%;">
 		<a href="#top-btn">
 			<img src="https://img.icons8.com/ultraviolet/50/000000/circled-chevron-up.png"/>

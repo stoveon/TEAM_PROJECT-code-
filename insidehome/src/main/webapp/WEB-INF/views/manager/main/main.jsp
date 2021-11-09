@@ -5,6 +5,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
 <%@include file="/WEB-INF/views/manager/main/mgrHeader.jsp"%>
+<div id="top-btn"></div>
 
 <div class="body-info">
    <div class="info-detail">
@@ -50,6 +51,11 @@
       </table>
    </form>
    </div>
+   <div style="position: fixed; bottom: 15%; right: 5%;">
+		<a href="#top-btn">
+			<img src="https://img.icons8.com/ultraviolet/50/000000/circled-chevron-up.png"/>
+		</a>
+	</div>
 </div>
 
 <script type="text/javascript" src="<c:url value="/resources/js/goodsjs.js" />"></script>

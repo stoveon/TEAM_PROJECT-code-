@@ -33,7 +33,7 @@ public class BoardUserController {
 	private IMemberInfoService memSer;
 	@Autowired
 	private IPointService poSer;
-	
+
 	// 회원 글 작성 폼 요청
 	@RequestMapping(value = "/registForm.do")
 	public String registArticleForm(ArticleMgrCommand artCmd, Model model) throws Exception {
@@ -43,29 +43,31 @@ public class BoardUserController {
 
 	// 회원 글 작성 요청
 	@RequestMapping(value = "/regist.do", method = RequestMethod.POST)
-	public String registArticleSubmit(ArticleMgrCommand artCmd, MultipartHttpServletRequest mpReq, HttpSession session) throws Exception {
- 		String nickname = (String) session.getAttribute("loginInside");
+	public String registArticleSubmit(ArticleMgrCommand artCmd, MultipartHttpServletRequest mpReq, HttpSession session)
+			throws Exception {
+		String nickname = (String) session.getAttribute("loginInside");
 		artCmd.setWriter(nickname);
- 		artCmd.setNotify("no");
+		artCmd.setNotify("no");
 		ser.insertBoard(artCmd, mpReq);
 		poSer.insertPoint(nickname, "write", 50);
 		memSer.updateMyCount(artCmd.getWriter(), 50);
-		return "redirect:/board/list.do?boardCode="+artCmd.getBoardCode();
+		return "redirect:/board/list.do?boardCode=" + artCmd.getBoardCode();
 	}
 
 	// 회원 글 수정 폼 요청
 	@RequestMapping(value = "/updateForm.do/{num}")
-	public String updateArticleForm(@PathVariable(value="num")int num, Model model, HttpSession session) throws Exception {
+	public String updateArticleForm(@PathVariable(value = "num") int num, Model model, HttpSession session)
+			throws Exception {
 		BoardVo board = ser.readBoard(num);
 		String nickname = (String) session.getAttribute("loginInside");
-		if(nickname!=null && !nickname.equals(board.getWriter())) {
-			return "redirect:/board/list.do";			
+		if (nickname != null && !nickname.equals(board.getWriter())) {
+			return "redirect:/board/list.do";
 		}
-		if(num == 0) {
-			return "redirect:/board/list.do";			
+		if (num == 0) {
+			return "redirect:/board/list.do";
 		}
 		List<BoardImageVo> boardImages = ser.selectListImage(num);
-		for(BoardImageVo v : boardImages) {
+		for (BoardImageVo v : boardImages) {
 			System.out.println(v.toString());
 		}
 		board.setWriter("123456");
@@ -76,10 +78,12 @@ public class BoardUserController {
 
 	// 회원 글 수정 요청
 	@RequestMapping(value = "/update.do", method = RequestMethod.POST)
-	public String updateArticleSubmit(ArticleMgrCommand artCmd, MultipartHttpServletRequest mpReq, RedirectAttributes rttr) throws Exception {
-		/* artCmd에 null 이 있으면 안됨 
-		 * null 이 있으면 수정 거절하고 글 수정폼으로 리턴
-		 * artCmd 에 null이 없으면 글 수정 요청 후 상세페이지 redirect */
+	public String updateArticleSubmit(ArticleMgrCommand artCmd, MultipartHttpServletRequest mpReq,
+			RedirectAttributes rttr) throws Exception {
+		/*
+		 * artCmd에 null 이 있으면 안됨 null 이 있으면 수정 거절하고 글 수정폼으로 리턴 artCmd 에 null이 없으면 글 수정
+		 * 요청 후 상세페이지 redirect
+		 */
 		ser.updateBoard(artCmd, mpReq);
 		rttr.addAttribute("boardNum", artCmd.getNum());
 		return "redirect:/user/board/read.do";
@@ -87,11 +91,12 @@ public class BoardUserController {
 
 	// 회원 글 삭제요청
 	@RequestMapping(value = "/delete.do/{num}")
-	public String deleteArticleSubmit(@PathVariable(value="num")int num, HttpSession session, RedirectAttributes rttr) throws Exception {
+	public String deleteArticleSubmit(@PathVariable(value = "num") int num, HttpSession session,
+			RedirectAttributes rttr) throws Exception {
 		/* 현재 로그인한 사용자와 글작성자가 일치하는지 확인 */
 		String nickname = (String) session.getAttribute("loginInside");
 		BoardVo board = ser.readBoard(num);
-		if(nickname.equals(board.getWriter())) {
+		if (nickname.equals(board.getWriter())) {
 			ser.deleteBoard(num, "no");
 		}
 		rttr.addAttribute("boardCode", board.getBoardCode());
@@ -100,42 +105,34 @@ public class BoardUserController {
 
 	// 게시글 상세페이지 요청
 	@RequestMapping(value = "/read.do")
-	public String readArticleSubmit(int boardNum, String read, Model model, HttpSession session, String boardCheck) throws Exception {
-		
-		
-		/* 게시글 내용
-		 * 게시글 이미지목록
-		 * 게시글 댓글목록  첨부*/
-		if(read==null) {			
+	public String readArticleSubmit(int boardNum, String read, Model model, HttpSession session, String boardName)
+			throws Exception {
+		if (read == null) {
 			ser.updateHit(boardNum);
 		}
 		BoardVo board = ser.readBoard(boardNum);
-		if(board==null) {
+		if (board == null) {
 			return "redirect:/inside/main.do";
 		}
 		List<BoardImageVo> boardImages = ser.selectListImage(boardNum);
 		List<BoardRefVo> boardRefs = ser.selectListRef(boardNum);
 		model.addAttribute("board", board);
 		model.addAttribute("boardImages", boardImages);
-		if(boardRefs.size()!=0) {
+		if (boardRefs.size() != 0) {
 			model.addAttribute("boardRefs", boardRefs);
 		}
-		model.addAttribute("userName", (String)session.getAttribute("loginInside"));
-		model.addAttribute("boardCode", "notice");
+		model.addAttribute("userName", (String) session.getAttribute("loginInside"));
+		model.addAttribute("boardName", boardName);
 		return "user/board/detail";
 	}
 
 	// 게시글 추천요청
 	@RequestMapping(value = "/updateHeart.do/{num}")
-	public String updateHeartSubmit(@PathVariable(value="num") int num, HttpSession session, RedirectAttributes rttr) throws Exception { 
-		String nickname = (String) session.getAttribute("loginInside");
+	public String updateHeartSubmit(@PathVariable(value = "num") int num, HttpSession session, RedirectAttributes rttr) throws Exception {
 		rttr.addAttribute("boardNum", num);
 		rttr.addAttribute("read", "noHit");
-//		if(nickname.equals(ser.readBoard(num).getWriter())){
-//			rttr.addFlashAttribute("heartNo", "fail");
-//			return "redirect:/user/board/read.do";
-//		}
-			ser.updateHeart(num);
+		ser.updateHeart(num);
+		rttr.addFlashAttribute("boardName", "heart");
 		return "redirect:/user/board/read.do";
 	}
 }

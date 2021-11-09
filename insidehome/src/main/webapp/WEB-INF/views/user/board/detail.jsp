@@ -7,21 +7,16 @@
 <% pageContext.setAttribute("replaceChar", "\n");%>
 <div class="body-info">
 	<c:choose>
-		<c:when test="${board.boardCode eq 'info' and board.notify eq 'no'}">
-			<c:set var="boardName" value="정보게시판"/>
+		<c:when test="${boardName eq 'info'}">
+	    	<c:set var="bName" value="정보게시판"/>  
 		</c:when>
-		<c:when test="${board.boardCode eq 'who' and board.notify eq 'no'}">
-			<c:set var="boardName" value="익명게시판"/>
+		<c:when test="${boardName eq 'who'}">
+	    	<c:set var="bName" value="익명게시판"/>  
 		</c:when>
 		<c:otherwise>
-			<c:set var="boardName" value="공지사항"/>
+	    	<c:set var="bName" value="공지사항"/>  
 		</c:otherwise>
 	</c:choose>
-	
-	
-	<div class="info-detail">
-		<h1 class="info-title">${boardName }</h1>
-	</div>
 	<hr>
 	<div class="info-inner">
 		<div>
@@ -29,9 +24,9 @@
 		</div>
 		<table>
 			<thead>
-			<tr>
-				<td align="left" style="padding: 1% 5% 1% 5%;" bgcolor="#E8F6EF">
-					${boardname} &nbsp;${board.title}
+			<tr bgcolor="#E8F6EF" >
+				<td align="left" style="padding: 1% 5% 1% 5%; margin-right: 0;" bgcolor="#E8F6EF">
+					 TITLE: ${board.title}
 				</td>
 			</tr>
 			</thead>
@@ -49,7 +44,7 @@
 							[관리자] &nbsp;|&nbsp; 
 						</c:if> 
 						조회수 <c:out value="${board.hit}"/>
-						<c:if test="${boardName ne '공지사항'}">
+						<c:if test="${not fn:endsWith(board.writer, 'inside')}">
 							 &nbsp;|&nbsp; 추천수 <c:out value="${board.heart}"/>
 						</c:if>
 					</td>
@@ -60,10 +55,9 @@
 							<a onclick="location.href='<c:url value="/user/board/updateForm.do/${board.num}"/>'">[수정]</a>
 							<a onclick="location.href='<c:url value="/user/board/delete.do/${board.num}"/>'">[삭제]</a>
 						</c:if>
-
-						<c:if test="${boardName ne '공지사항'}">
-							<c:if test="${loginInside ne board.writer }">
-									<form name="warnForm">
+						<c:if test="${board.notify eq 'no' and loginInside ne board.writer}">
+							<c:if test="${not fn:endsWith(board.writer, 'inside')}">
+									<form name="warnForm" style="border: 0px;">
 										<input type="hidden" id="warnName" name="warnName" value="${board.writer}" />
 										<input type="hidden" id="warnNum" name="warnNum" value="${board.num}" />
 									</form>
@@ -71,6 +65,7 @@
 								<a onclick="location.href='<c:url value="/user/board/updateHeart.do/${board.num}"/>'">[추천]</a>
 							</c:if>
 						</c:if>
+						
 					</td>
 				</tr>
 				<tr>
@@ -100,21 +95,12 @@
 		</table>
 	</div>
 	<div style="text-align: right;">
-		<c:if test="${board.boardCode eq 'info' and (board.notify ne 'yes')}">
-			<c:set var="boardList" value="/board/list.do?boardCode=info" />
-		</c:if>
-		<c:if  test="${board.boardCode eq 'who' and board.notify ne 'yes'}">
-			<c:set var="boardList" value="/board/list.do?boardCode=who" />
-		</c:if>
-		<c:if test="${boardCheck eq 'notice' and boardCode ne 'notice'}">
-			<c:set var="boardList" value="/board/list.do?boardCode=notice" />
-		</c:if>
 		<hr>
-			<button style="padding: 1% 30px 1% 30px; margin-right: 5%;" onclick="location.href='<c:url value="${boardList}" />'">
-				목&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;록
-			</button>
+		<button style="padding: 1% 30px 1% 30px; margin-right: 5%;" onclick="location.href='<c:url value="/board/list.do?boardName=${boardName }" />'">
+			목&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;록
+		</button>
 	</div>
-<c:if test="${boardName ne '공지사항'}">
+<c:if test="${board.notify eq 'no'}">
 	<form style="text-align: right;" name="ref-Form" method="post" action="<c:url value="/user/ref/regist.do" />">
 		<textarea style="resize: none; margin: 0 5% 0 0;" 
 			class="guideContent" name="content" cols="100" rows="3" placeholder="댓글 입력" required="required"></textarea>
@@ -190,14 +176,13 @@
 	
 	var bdel = document.querySelector('#boarddel');
 	bdel.addEventListener("click", delCHK);
-	
-	var warnCHK = document.querySelector('#warnbtn');
-	warnCHK.addEventListener("click", warnClick);
+
 	
 var result = "<c:out value="${heartNo}"/>";
 if(result == 'fail'){
 	alert('추천하실 수 없습니다.');
 }
+
 
 /* function editRef(){
 	edit.disabled = false;

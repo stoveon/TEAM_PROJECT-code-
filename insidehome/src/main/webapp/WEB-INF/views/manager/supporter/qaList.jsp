@@ -5,7 +5,7 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
-<%@include file="/WEB-INF/views/user/main/userHeader.jsp"%>
+<%@include file="/WEB-INF/views/manager/main/mgrHeader.jsp"%>
 
 <div id="top-btn"></div>
 <div class="body-info">
@@ -16,11 +16,9 @@
 	<div class="info-inner">
 		<table>
 			<caption>
-				<c:if test="${loginInside !=null }">
-					<input style="width: 10%;" type="button" onclick="location.href='<c:url value="/user/ask/insertForm.do"/>'" value="문의하기">
-					<input style="width: 10%;" type="button" onclick="location.href='<c:url value="/user/ask/list.do"/>'" value="내문의 조회">
-				</c:if>
-				<input type="button" onclick="location.href='<c:url value="/inside/question.do"/>'" value="QA목록조회">
+				<input style="width: 10%;" type="button" onclick="location.href='<c:url value="/manager/qa/insertForm.do"/>'" value="QA등록">
+				<input style="width: 10%;" type="button" onclick="location.href='<c:url value="/manager/ask/list.do"/>'" value="고객문의 관리">
+				<input style="width: 10%;" type="button" onclick="location.href='<c:url value="/manager/warning/list.do"/>'" value="신고관리">
 			</caption>
 			<thead>
 				<tr>
@@ -33,9 +31,13 @@
 				<c:set var="number" value="1"/>
 				<c:forEach items="${qa}" var="info">
 					<tr>
-						<td style="border-bottom: 1px #EAEAEA solid;">${number}</td>
-						<td align="left" style="padding-left: 10px;border-bottom: 1px #EAEAEA solid;">${info.TITLE}</td>
-						<td align="left" style="padding-left: 10px;border-bottom: 1px #EAEAEA solid;">${info.CONTENT}</td>
+						<td>${number}</td>
+						<td>
+							<a href="<c:url value="/manager/qa/updateForm.do?num=${info.NUM}"/>">
+								${info.TITLE}
+							</a>
+						</td>
+						<td>${info.CONTENT}</td>
 					</tr>
 					<c:set var="number" value="${number+1 }"/>
 				</c:forEach>
@@ -51,4 +53,4 @@
 
 
 
-<%@include file="/WEB-INF/views/user/main/userFooter.jsp"%>
+<%@include file="/WEB-INF/views/manager/main/mgrFooter.jsp"%>

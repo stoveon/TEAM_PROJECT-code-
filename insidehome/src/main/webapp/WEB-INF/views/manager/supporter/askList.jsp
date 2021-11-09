@@ -5,37 +5,44 @@
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
-<%@include file="/WEB-INF/views/user/main/userHeader.jsp"%>
+<%@include file="/WEB-INF/views/manager/main/mgrHeader.jsp"%>
+
 
 <div id="top-btn"></div>
 <div class="body-info">
 	<div class="info-detail">
-		<h1 class="info-title">QA관리</h1>
+		<h1 class="info-title">고객문의 관리</h1>
 	</div>
 	<hr>
 	<div class="info-inner">
 		<table>
 			<caption>
-				<c:if test="${loginInside !=null }">
-					<input style="width: 10%;" type="button" onclick="location.href='<c:url value="/user/ask/insertForm.do"/>'" value="문의하기">
-					<input style="width: 10%;" type="button" onclick="location.href='<c:url value="/user/ask/list.do"/>'" value="내문의 조회">
-				</c:if>
-				<input type="button" onclick="location.href='<c:url value="/inside/question.do"/>'" value="QA목록조회">
+				<input style="width: 10%;" type="button" onclick="location.href='<c:url value="/manager/qa/insertForm.do"/>'" value="QA등록">
+				<input style="width: 10%;" type="button" onclick="location.href='<c:url value="/manager/ask/list.do"/>'" value="고객문의 관리">
+				<input style="width: 10%;" type="button" onclick="location.href='<c:url value="/manager/warning/list.do"/>'" value="신고관리">
 			</caption>
 			<thead>
 				<tr>
 					<td class="table-inner"><b>번호</b></td>
 					<td class="table-inner"><b>제목</b></td>
 					<td class="table-inner"><b>내용</b></td>
+					<td class="table-inner"><b>답변여부</b></td>
 				</tr>
 			</thead>
 			<tbody>
 				<c:set var="number" value="1"/>
 				<c:forEach items="${qa}" var="info">
 					<tr>
-						<td style="border-bottom: 1px #EAEAEA solid;">${number}</td>
-						<td align="left" style="padding-left: 10px;border-bottom: 1px #EAEAEA solid;">${info.TITLE}</td>
-						<td align="left" style="padding-left: 10px;border-bottom: 1px #EAEAEA solid;">${info.CONTENT}</td>
+						<td>${number}</td>
+						<td>
+							<a href="<c:url value="/manager/ask/answerForm.do?num=${info.num}"/>">
+								${info.title}
+							</a>
+						</td>
+						<td>${info.content}</td>
+						<td>
+							<c:if test="${info.answerdate !=null}">답변완료</c:if>
+						</td>
 					</tr>
 					<c:set var="number" value="${number+1 }"/>
 				</c:forEach>
@@ -51,4 +58,4 @@
 
 
 
-<%@include file="/WEB-INF/views/user/main/userFooter.jsp"%>
+<%@include file="/WEB-INF/views/manager/main/mgrFooter.jsp"%>

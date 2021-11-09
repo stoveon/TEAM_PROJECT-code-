@@ -12,7 +12,12 @@
       <hr>
       <div class="info-inner">
       <table>
-         <thead>
+         <caption>
+			<input style="width: 10%;" type="button" onclick="location.href='<c:url value="/manager/qa/insertForm.do"/>'" value="QA등록">
+			<input style="width: 10%;" type="button" onclick="location.href='<c:url value="/manager/ask/list.do"/>'" value="고객문의 관리">
+			<input style="width: 10%;" type="button" onclick="location.href='<c:url value="/manager/warning/list.do"/>'" value="신고관리">
+		</caption>
+		<thead>
             <tr>
                <th>No.</th><th>닉네임</th><th>게시글 제목</th><th>신고유형</th><th>신고날짜</th>
             </tr>

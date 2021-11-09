@@ -4,36 +4,16 @@ function getContextPath(){
     return ctxPath;
 }
 
-const add_inFile = () => {
-   const box = document.getElementById('boardFileBox');
-   const newP = document.createElement('p');
-   newP.innerHTML = "<input type='file' name='saveBoardImage' accept='.jpg,.jpeg,.png,.gif' />";
-   box.appendChild(newP);
-}
 
-const add_upFile = () => {
-   const box = document.getElementById('boardFileBox');
-   const newP = document.createElement('p');
-   newP.innerHTML = "<input type='file' name='plusBoardImage' accept='.jpg,.jpeg,.png,.gif' />";
-   box.appendChild(newP);
-}
-
-const add_refPlus = () => {
-   const box = document.querySelector('#com-Form');
-   const newP = document.createElement('p');
-   newP.innerHTML = "<input type='file' name='plusBoardImage' accept='.jpg,.jpeg,.png,.gif' />";
-   box.appendChild(newP);
-}
-
-function boardCheckForm(){
-   if(document.boardForm.title.value == "" || document.boardForm.content.value == ""){
-      if(document.boardForm.title.value == ""){
+function qaCheckForm(){
+   if(document.qaForm.title.value == "" || document.qaForm.content.value == ""){
+      if(document.qaForm.title.value == ""){
          alert("제목이 입력되지 않았습니다.");
          document.boardForm.title.focus();
          event.preventDefault();
          return false;
       }
-      if(document.boardForm.content.value == ""){
+      if(document.qaForm.content.value == ""){
          alert("내용이 입력되지 않았습니다.");
          document.boardForm.content.focus();
          event.preventDefault();
@@ -49,12 +29,12 @@ function boardCheckForm(){
    }
 }
 
-function warnClick(num){
+function warnClick(){
+   let boardNum = event.target.value;
    if(confirm("해당 게시글을 신고하시겠습니까?") == true){
-		var url = getContextPath()+'/user/warning/insertForm.do?num='+num;
-		var status = "toolbar=no,directories=no,scrollbars=no,resizable=no,status=no,menubar=no,width=500, height=500, top=0,left=20";
-			window.open(url, "신고 페이지", status);
+      return window.location.href = getContextPath()+'/user/warning/insertForm.do?boardNum='+boardNum;
    }else{
+      event.preventDefault();
       return false;
    }
 }

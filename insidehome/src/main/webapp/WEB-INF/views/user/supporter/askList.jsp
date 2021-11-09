@@ -7,35 +7,45 @@
 
 <%@include file="/WEB-INF/views/user/main/userHeader.jsp"%>
 
+
 <div id="top-btn"></div>
 <div class="body-info">
 	<div class="info-detail">
-		<h1 class="info-title">QA관리</h1>
+		<h1 class="info-title">문의 목록 확인</h1>
 	</div>
 	<hr>
 	<div class="info-inner">
 		<table>
 			<caption>
 				<c:if test="${loginInside !=null }">
-					<input style="width: 10%;" type="button" onclick="location.href='<c:url value="/user/ask/insertForm.do"/>'" value="문의하기">
-					<input style="width: 10%;" type="button" onclick="location.href='<c:url value="/user/ask/list.do"/>'" value="내문의 조회">
+					<input style="width: 10%;"  type="button" onclick="location.href='<c:url value="/user/ask/insertForm.do"/>'" value="문의하기">
+					<input style="width: 10%;"  type="button" onclick="location.href='<c:url value="/user/ask/list.do"/>'" value="내문의 조회">
 				</c:if>
 				<input type="button" onclick="location.href='<c:url value="/inside/question.do"/>'" value="QA목록조회">
 			</caption>
 			<thead>
 				<tr>
-					<td class="table-inner"><b>번호</b></td>
+					<td class="table-inner"><b>문의일자</b></td>
 					<td class="table-inner"><b>제목</b></td>
 					<td class="table-inner"><b>내용</b></td>
+					<td class="table-inner"><b>답변여부</b></td>
 				</tr>
 			</thead>
 			<tbody>
 				<c:set var="number" value="1"/>
 				<c:forEach items="${qa}" var="info">
 					<tr>
-						<td style="border-bottom: 1px #EAEAEA solid;">${number}</td>
-						<td align="left" style="padding-left: 10px;border-bottom: 1px #EAEAEA solid;">${info.TITLE}</td>
-						<td align="left" style="padding-left: 10px;border-bottom: 1px #EAEAEA solid;">${info.CONTENT}</td>
+						<td>
+		                  	<fmt:formatDate var="time" value="${info.askdate}" pattern="yyyy-MM-dd HH:mm"/>
+							${time}
+						</td>
+						<td>${info.title}</td>
+						<td>${info.content}</td>
+						<td>
+							<c:if test="${info.answerdate !=null}">
+								${info.answer}
+							</c:if>
+						</td>
 					</tr>
 					<c:set var="number" value="${number+1 }"/>
 				</c:forEach>

@@ -16,8 +16,8 @@
 		<table>
 			<thead>
 				<tr>
-					<td>게시판 선택</td>
-					<td>
+					<td style="width: 60%;" bgcolor="#E8F6EF">게시판 선택</td>
+					<td align="left" style="padding: 1% 5% 1% 2%; margin-right: 0;" bgcolor="#E8F6EF">
 						<select name="boardCode">
 							<option value="info" <c:if test="${board.boardCode eq 'info'}" >selected="selected"</c:if>>정보 게시판</option>
 							<option value="who"<c:if test="${board.boardCode eq 'who'}" >selected="selected"</c:if>>익명 게시판</option>
@@ -27,16 +27,16 @@
 			</thead>
 			<tbody>
 				<tr>
-					<td colspan="2"><input type="text" name="title"/ value="${board.title}"></td>
+					<td colspan="2"><input style="width: 98%;" type="text" name="title"/ value="${board.title}"></td>
 				</tr>
 				<tr>
 					<td colspan="2">
-						<textarea name="content" cols="100" rows="10">${board.content}</textarea>
+						<textarea style="width: 96%; resize: none; padding: 2%;"   name="content" cols="100" rows="10">${board.content}</textarea>
 					</td>
 				</tr>
 				<tr>
-					<td colspan="2">
-					<div id="boardFileBox">
+					<td width="50%">
+					<div id="boardFileBox" style="border: none; width: 95%; text-align: left;">
 					<c:if test="${!empty boardImages}">
 						<c:forEach items="${boardImages}" var="fileName">
 						<p><input type="checkbox" name="deleteBoardImage" value="${fileName.saveName}" />
@@ -45,13 +45,13 @@
 						</c:forEach>
 					</c:if>
 						<input type="file" name="plusBoardImage" accept=".jpg,.jpeg,.png,.gif" />
-					<input id="addBtnBoard" type="button" value="추가" >
+						<input style="padding: 5px 30px 5px 30px;" id="addBtnBoard" type="button" value="추가" >
 					</div>
 					</td>
-				</tr>
-				<tr>
-					<td><input id="regbtn" type="submit" value="등록" /></td>
-					<td><input type="button" value="취소" onclick="location.href='javascript:history.back()'" /></td>
+					<td width="50%" style="text-align: right;">
+						<input style="padding: 5px 30px 5px 30px;" id="regbtn" type="submit" value="등록" />
+						<input style="padding: 5px 30px 5px 30px;" type="button" value="취소" onclick="location.href='javascript:history.back()'" />
+					</td>
 				</tr>
 			</tbody>
 		</table>

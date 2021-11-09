@@ -4,39 +4,36 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="questionDao">
-
-	<insert id="questioninsert" parameterType="QuestionVo">
-		insert into question (num, askType, nickname, title, content, answer, askdate, answerdate)
-		values(question_seq.nextval, #{askType}, #{nickname}, #{title}, #{content}, null, sysdate, null)
-	</insert> 
-
-	<update id="questionupdate" parameterType="QuestionVo">
-		update question set 
-		      title = #{title},
-		      content = #{content},
-		      answer = #{answer},
-		      answerdate = sysdate
-		      where num = #{num}
+	<insert id="insertQuestion" parameterType="HashMap">
+		insert into QUESTION (NUM, ASKTYPE, NICKNAME, TITLE, CONTENT)
+		values (QUESTION_SEQ.nextval, #{askType}, #{nickname}, #{title}, #{content})
+	</insert>
+	<update id="updateQuestion" parameterType="HashMap">
+		update QUESTION set ASKTYPE=#{askType}, TITLE=#{title}, CONTENT=#{content} where NUM=#{num}
 	</update>
-	<select id="questionselectall" parameterType="HashMap" resultType="QuestionVo">
-		select * from question 
-		<if test='nickname.equals("manager")'>
-         where ASKTYPE = #{askType} order by title desc
-      </if>
-      <if test='askType.equals("customer")'>
-         where nickname = #{nickname} order by askType desc
-      </if>
-	</select>
-
-	<select id="questionselectone" parameterType="Integer"
-		resultType="QuestionVo">
-		select NUM, ASKTYPE, NICKNAME, TITLE, CONTENT, ANSWER,
-		ASKDATE, ANSWERDATE 
-		from QUESTION where NUM = #{num}
-	</select>
-
-	<delete id="questiondeletequestion" parameterType="String">
-		delete from 
-		QUESTION where NICKNAME = #{nickname}
+	<delete id="deleteQuestion" parameterType="Integer">
+		delete from QUESTION where NUM=#{NUM}
 	</delete>
-    </mapper>
+	<select id="selectQuestion" parameterType="Integer" resultType="HashMap">
+		select * from QUESTION where NUM=#{num}
+	</select>
+	<select id="selectQuestionList" resultType="HashMap">
+		select TITLE, CONTENT, NUM from QUESTION where ASKTYPE!='ask' order by TITLE	
+	</select>
+
+
+
+	<update id="updateAsk" parameterType="HashMap">
+		update QUESTION set ANSWER=#{answer}, ANSWERDATE=sysdate
+		where NUM=#{num}
+	</update>
+	<select id="selectAskDetail" parameterType="Integer" resultType="questionVo">
+		select * from QUESTION where NUM=#{num}
+	</select>
+	<select id="selectMyAsk" parameterType="String" resultType="questionVo">
+		select * from QUESTION where ASKTYPE='ask' and NICKNAME=#{nickname}
+	</select>
+	<select id="selectAskList" resultType="questionVo">
+		select * from QUESTION where ASKTYPE='ask' order by ANSWERDATE desc, NUM
+	</select>
+</mapper>

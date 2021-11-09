@@ -8,18 +8,19 @@
 
 <div class="body-info">
 	<div class="info-detail">
-		<c:choose>
-			<c:when test="${psCmd.boardCode eq 'info'}">
-		    	<c:set var="boardName" value="정보게시판"/>  
-			</c:when>
-			<c:when test="${psCmd.boardCode eq 'who'}">
-		    	<c:set var="boardName" value="익명게시판"/>  
-			</c:when>
-			<c:otherwise>
-		    	<c:set var="boardName" value="공지사항"/>  
-			</c:otherwise>
-		</c:choose>
-			<h1 class="info-title">${boardName }</h1>	
+	<c:set var="tmpCode" value="&boardName=${boardName}"/>
+	<c:choose>
+		<c:when test="${boardName eq 'info'}">
+	    	<c:set var="bName" value="정보게시판"/>  
+		</c:when>
+		<c:when test="${boardName eq 'who'}">
+	    	<c:set var="bName" value="익명게시판"/>  
+		</c:when>
+		<c:otherwise>
+	    	<c:set var="bName" value="공지사항"/>  
+		</c:otherwise>
+	</c:choose>
+			<h1 class="info-title">${bName}</h1>	
    </div>
 	<div class="info-inner">
    <hr>
@@ -87,7 +88,7 @@
 						<tr>
 							<td align="center"><b>[공지]</b></td>
 							<td  width="50%;" align="left" style="padding-left: 40px;">
-								<a href="<c:url value="/board/read/notice.do?boardNum=${noti.NUM}"/>">
+								<a href="<c:url value="/board/read/notice.do?boardNum=${noti.NUM}&boardName=${boardName}"/>">
 									<b>${noti.TITLE}</b>
 								</a>
 							</td>
@@ -104,28 +105,19 @@
 					<tr>
 						<td align="center">${boardNbr}</td>
 						<td  align="left" style="padding-left: 40px;">
-							<c:if test="${boardCheck !=null }">
-								<c:set var="tmpCode" value="&boardCheck=${boardCheck}"></c:set>
+							<c:if test="${bName ne '공지사항' }">
+								<c:set var="reqUrl" value="/user/board/read.do?boardNum=${article.NUM}${tmpCode}"/>
 							</c:if>
-							<c:if test="${boardName ne '공지사항' }">
-								<a href="<c:url value="/user/board/read.do?boardNum=${article.NUM}"/>">
-									${article.TITLE} 
-									[좋아요 ${article.HEART}]
-									<c:if test="${article.CNT ne null}">
-										<b>(${article.CNT })</b>
-									</c:if>
-								</a>
+							<c:if test="${bName eq '공지사항' }">
+								<c:set var="reqUrl" value="/board/read/notice.do?boardNum=${article.NUM}${tmpCode}"/>
 							</c:if>
-							<c:if test="${boardName eq '공지사항' }">
-								<a href="<c:url value="/board/read/notice.do?boardNum=${article.NUM}${tmpCode}"/>">
-									${article.TITLE} 
-									[좋아요 ${article.HEART}]
-									<c:if test="${article.CNT ne null}">
-										<b>(${article.CNT })</b>
-									</c:if>
-								</a>
-							</c:if>
-						
+							<a href="<c:url value="${reqUrl}"/>">
+								${article.TITLE} 
+								[좋아요 ${article.HEART}]
+								<c:if test="${article.CNT ne null}">
+									<b>(${article.CNT })</b>
+								</c:if>
+							</a>
 						</td>
 						<c:if test="${psCmd.boardCode ne 'who' }">
 							<td align="center">${article.WRITER}</td>
@@ -153,10 +145,10 @@
 			</c:if>
 			<c:choose>
 				<c:when test="${psCmd.word!=null}">
-					<c:set var="options" value="boardCode=${psCmd.boardCode}&type=${psCmd.type}&word=${psCmd.word}&"></c:set>
+					<c:set var="options" value="boardName=${psCmd.boardCode}&type=${psCmd.type}&word=${psCmd.word}&"></c:set>
 				</c:when>
 				<c:otherwise>
-					<c:set var="options" value="boardCode=${psCmd.boardCode}&"></c:set>
+					<c:set var="options" value="boardName=${psCmd.boardCode}&"></c:set>
 				</c:otherwise>
 			</c:choose>
 			

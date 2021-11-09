@@ -23,6 +23,6 @@
 		<typeAlias alias="boardRefVo" type="home.inside.board.vo.BoardRefVo"/>
 		<typeAlias alias="pointVo" type="home.inside.common.vo.PointVo"/>
 		<typeAlias alias="questionVo" type="home.inside.supporter.vo.QuestionVo"/>
-		<typeAlias alias="warningVo" type="home.inside.supporter.vo.WarningVo"/>
+		<typeAlias alias="warningVo" type="home.inside.supporter.vo.WarningVo"/>		
 	</typeAliases>
 </configuration>

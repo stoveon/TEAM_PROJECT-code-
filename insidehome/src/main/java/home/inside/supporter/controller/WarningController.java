@@ -26,7 +26,7 @@ public class WarningController {
 	@Autowired
 	IPointService pointService;
 	@Autowired
-	IMemberInfoService imemberInfoService;
+	IMemberInfoService infoService;
 	@Autowired
 	IBoardService boardService;
 
@@ -42,10 +42,14 @@ public class WarningController {
 	public String insertwarningSubmit(WarningVo vo) throws Exception {
 		String nickname = boardService.readBoard(vo.getBoardNum()).getWriter();
 		vo.setNickname(nickname);
-		System.out.println(vo.toString());
 		service.warningInsert(vo);
-		return "redirect:/inside/main.do";
-
+		infoService.updateMyCount(nickname, 0);
+		int warnCount = service.warningCount(nickname);
+		if(warnCount >= 3) {
+			pointService.insertPoint(nickname, "warning", -1000);
+			infoService.updateMyCount(nickname, -1000);
+		}
+		return "user/supporter/warnResultPopup";
 	}
 
 	@RequestMapping(value = "/manager/warning/list.do")

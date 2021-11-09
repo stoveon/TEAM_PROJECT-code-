@@ -4,7 +4,6 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="warningDao">
-
 	<insert id="warningInsert" parameterType="warningVo">
 		insert into WARNING values(WARNING_SEQ.nextval, #{nickname}, #{boardNum}, #{warnType}, #{warnWhy}, sysdate)
 	</insert>
@@ -24,6 +23,6 @@
 					left join 
 				(select NUM, TITLE from BOARD) b 
 					on a.BOARDNUM = b.NUM)			
-			order by a.WARNTYPE asc, a.WARNTIME desc
+			order by a.WARNTIME desc, a.NICKNAME asc, a.WARNTYPE asc
 	</select>
 </mapper>

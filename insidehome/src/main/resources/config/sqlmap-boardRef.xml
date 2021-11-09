@@ -35,4 +35,12 @@
 		        on a.BOARDNUM = b.NUM
 		)
    </select>
+   
+   <insert id="insertDoubleRef" parameterType="HashMap">
+      insert into BOARD_REF(NUM, BOARDNUM, WRITER, CONTENT, DEPTH, REFNUM) 
+      values (BOARD_REF_SEQ.nextval, #{boardNum}, #{writer}, #{content}, #{depth}, #{refNum})
+      <selectKey resultType="Integer" keyProperty="NUM">
+         select NVL(max(NUM),0) from BOARD_REF
+      </selectKey>
+   </insert>
 </mapper>
